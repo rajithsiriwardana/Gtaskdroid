@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package ogto.taskremider;
+package ogto.taskreminder;
 
 public final class R {
     public static final class attr {

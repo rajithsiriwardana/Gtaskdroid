@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:key="@string/pref_category_task_default_key" android:title="@string/pref_category_task_default_title">
+        <EditTextPreference android:key="@string/pref_task_title_key" android:title="@string/pref_task_title_title" android:dialogTitle="@string/pref_task_title_dialog_title" android:summary="@string/pref_task_title_summary" android:dialogMessage="@string/pref_task_title_message"/>        
+    </PreferenceCategory>
+	<PreferenceCategory android:key="@string/pref_category_datetime_key" android:title="@string/pref_category_datetime_title">
+	    <EditTextPreference android:key="@string/pref_default_time_from_now_key" android:title="@string/pref_default_time_from_now_title" android:dialogTitle="@string/pref_default_time_from_now_dialog_title" android:summary="@string/pref_default_time_from_now_summary" android:dialogMessage="@string/pref_default_time_from_now_message"/>
+	</PreferenceCategory>
+</PreferenceScreen>
