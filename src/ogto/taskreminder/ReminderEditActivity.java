@@ -1,4 +1,6 @@
-
+/**
+ * 
+ */
 package ogto.taskreminder;
 
 import java.text.ParseException;
@@ -22,6 +24,10 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+/**
+ * @author rajith
+ *
+ */
 public class ReminderEditActivity extends Activity {
 
 	// 
@@ -33,7 +39,7 @@ public class ReminderEditActivity extends Activity {
 	// 
 	// Date Format 
 	//
-	private static final String DATE_FORMAT = "yyyy-MM-dd"; 
+	private static final String DATE_FORMAT = "MM-dd-yyyy"; 
 	private static final String TIME_FORMAT = "kk:mm";
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd kk:mm:ss";
 	
@@ -41,7 +47,7 @@ public class ReminderEditActivity extends Activity {
     private EditText mNoteText;
     private Button mDateButton;
     private Button mTimeButton;
-    private Button mConfirmButton;
+    private Button mSaveButton;
     private Long mRowId;
     private RemindersDbAdapter mDbHelper;
     private Calendar mCalendar;  
@@ -60,7 +66,7 @@ public class ReminderEditActivity extends Activity {
         mDateButton = (Button) findViewById(R.id.reminder_date);
         mTimeButton = (Button) findViewById(R.id.reminder_time);
       
-        mConfirmButton = (Button) findViewById(R.id.save);
+        mSaveButton = (Button) findViewById(R.id.save);
        
         mRowId = savedInstanceState != null ? savedInstanceState.getLong(RemindersDbAdapter.KEY_ROWID) 
                 							: null;
@@ -152,12 +158,12 @@ public class ReminderEditActivity extends Activity {
 			}
 		}); 
 		
-		mConfirmButton.setOnClickListener(new View.OnClickListener() {
+		mSaveButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View view) {
-        		saveState(); 
-        		setResult(RESULT_OK);        	   
-        		Toast.makeText(ReminderEditActivity.this, getString(R.string.task_saved_message), Toast.LENGTH_SHORT).show();
-        	    finish(); 
+        			saveState(); 
+            		setResult(RESULT_OK);        	   
+            		Toast.makeText(ReminderEditActivity.this, getString(R.string.task_saved_message), Toast.LENGTH_SHORT).show();
+            	    finish();
         	}
           
         });
@@ -237,7 +243,9 @@ public class ReminderEditActivity extends Activity {
     private void saveState() {
         String title = mTitleText.getText().toString();
         String note = mNoteText.getText().toString();
+        
 
+        
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT); 
     	String reminderDateTime = dateTimeFormat.format(mCalendar.getTime());
 

@@ -27,5 +27,6 @@
     <string name="pref_default_time_from_now_summary">Sets the default time for a reminder.</string>
     <string name="pref_default_time_from_now_title">Default Reminder Time</string>
     <string name="menu_settings">Settings</string>
+    <string name="remider_title_empty">Title cannot be left empty</string>
 
 </resources>

@@ -59,6 +59,7 @@ public final class R {
         public static final int pref_task_title_message=0x7f050010;
         public static final int pref_task_title_summary=0x7f050011;
         public static final int pref_task_title_title=0x7f050012;
+        public static final int remider_title_empty=0x7f05001b;
         public static final int save=0x7f050005;
         public static final int task_saved_message=0x7f050009;
         public static final int time=0x7f050003;
