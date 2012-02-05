@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ogto.taskremider"
+    package="ogto.taskOrganizer"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:debuggable="true">
         <activity
-            android:name="ReminderListActivity"
+            android:name="ogto.interactions.ReminderListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ReminderEditActivity" android:label="@string/app_name"></activity>
-        <activity android:name="TaskPreferences" android:label="@string/app_name"></activity>
-        <receiver android:name="OnAlarmReceiver"></receiver>
-        <service android:name="ReminderService"></service>
-        <receiver android:name="OnBootReceiver">
+        <activity android:name="ogto.interactions.ReminderEditActivity" android:label="@string/app_name"></activity>
+        <activity android:name="ogto.interactions.TaskPreferences" android:label="@string/app_name"></activity>
+        <receiver android:name="ogto.integration.OnAlarmReceiver"></receiver>
+        <service android:name="ogto.logic.ReminderService"></service>
+        <receiver android:name="ogto.integration.OnBootReceiver">
             	<intent-filter>
             	    <action android:name="android.intent.action.BOOT_COMPLETED"/>
             	</intent-filter>            

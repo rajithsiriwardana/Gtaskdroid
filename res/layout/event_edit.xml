@@ -56,7 +56,7 @@
     <EditText
         android:id="@+id/location"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView5"
         android:inputType="text" />
@@ -119,34 +119,39 @@
         android:id="@+id/all_day_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/event_start_time"
-        android:layout_alignBottom="@+id/event_start_time"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="14dp"
+        android:layout_below="@+id/textView6"
+        android:layout_marginRight="27dp"
         android:text="@string/all_day" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/all_day_checkbox"
-        android:layout_below="@+id/event_end_time"
-        android:layout_marginTop="17dp"
+        android:layout_alignLeft="@+id/all_day_checkbox"
+        android:layout_below="@+id/textView3"
         android:text="@string/time" />
+
+    <Button
+        android:id="@+id/reminder_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/textView2" />
+
+    <Button
+        android:id="@+id/reminder_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/reminder_date"
+        android:layout_below="@+id/reminder_date" />
 
     <CheckBox
         android:id="@+id/add_reminder_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/textView2"
+        android:layout_below="@+id/event_end_date"
         android:text="@string/add_reminder" />
-
-    <Button
-        android:id="@+id/reminder_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2" />
 
 </RelativeLayout>
