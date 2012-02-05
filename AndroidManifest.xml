@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:debuggable="true">
         <activity
-            android:name="ogto.taskreminder.ReminderListActivity"
+            android:name="ReminderListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ogto.taskreminder.ReminderEditActivity" android:label="@string/app_name"></activity>
-        <activity android:name="ogto.taskreminder.TaskPreferences" android:label="@string/app_name"></activity>
-        <receiver android:name="ogto.taskreminder.OnAlarmReceiver"></receiver>
-        <service android:name="ogto.taskreminder.ReminderService"></service>
-        <receiver android:name="ogto.taskreminder.OnBootReceiver">
+        <activity android:name="ReminderEditActivity" android:label="@string/app_name"></activity>
+        <activity android:name="TaskPreferences" android:label="@string/app_name"></activity>
+        <receiver android:name="OnAlarmReceiver"></receiver>
+        <service android:name="ReminderService"></service>
+        <receiver android:name="OnBootReceiver">
             	<intent-filter>
             	    <action android:name="android.intent.action.BOOT_COMPLETED"/>
             	</intent-filter>            
