@@ -3,7 +3,7 @@
  */
 package ogto.integration;
 
-import ogto.dataaccess.RemindersDbAdapter;
+import ogto.dataaccess.EventsDbAdapter;
 import ogto.logic.ReminderService;
 import ogto.logic.WakeReminderIntentService;
 import android.content.BroadcastReceiver;
@@ -21,10 +21,10 @@ public class OnAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		long rowId=intent.getExtras().getLong(RemindersDbAdapter.KEY_ROWID);
+		long rowId=intent.getExtras().getLong(EventsDbAdapter.KEY_ROWID);
 		WakeReminderIntentService.acquireStaticLock(context);
 		Intent i=new Intent(context, ReminderService.class);
-		i.putExtra(RemindersDbAdapter.KEY_ROWID, rowId);
+		i.putExtra(EventsDbAdapter.KEY_ROWID, rowId);
 		context.startService(i);
 	}
 

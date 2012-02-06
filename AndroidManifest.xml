@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:debuggable="true">
         <activity
-            android:name="ogto.interactions.ReminderListActivity"
+            android:name="ogto.interactions.EventListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ogto.interactions.ReminderEditActivity" android:label="@string/app_name"></activity>
+        <activity android:name="ogto.interactions.EventEditActivity" android:label="@string/app_name"></activity>
         <activity android:name="ogto.interactions.TaskPreferences" android:label="@string/app_name"></activity>
         <receiver android:name="ogto.integration.OnAlarmReceiver"></receiver>
         <service android:name="ogto.logic.ReminderService"></service>

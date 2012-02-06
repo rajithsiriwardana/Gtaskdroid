@@ -7,8 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import ogto.dataaccess.RemindersDbAdapter;
-import ogto.interactions.ReminderEditActivity;
+import ogto.dataaccess.EventsDbAdapter;
+import ogto.interactions.EventEditActivity;
 import ogto.logic.ReminderManager;
 
 import android.content.BroadcastReceiver;
@@ -29,20 +29,20 @@ public class OnBootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		ReminderManager reminderMngr=new ReminderManager(context);
-		RemindersDbAdapter dbHelper=new RemindersDbAdapter(context);
+		EventsDbAdapter dbHelper=new EventsDbAdapter(context);
 		dbHelper.open();
 		Cursor cursor=dbHelper.fetchAllEvents();
 		if (cursor!=null) {
 			cursor.moveToFirst();
-			int rowIdColumnIndex=cursor.getColumnIndex(RemindersDbAdapter.KEY_ROWID);
-			int dateTimeColumnIndex=cursor.getColumnIndex(RemindersDbAdapter.KEY_REMINDER_DATE_TIME);
+			int rowIdColumnIndex=cursor.getColumnIndex(EventsDbAdapter.KEY_ROWID);
+			int dateTimeColumnIndex=cursor.getColumnIndex(EventsDbAdapter.KEY_REMINDER_DATE_TIME);
 			
 			while (cursor.isAfterLast()==false) {
 				
 				Long rowId=cursor.getLong(rowIdColumnIndex);
 				String dateTime=cursor.getString(dateTimeColumnIndex);
 				Calendar calendar=Calendar.getInstance();
-				SimpleDateFormat format=new SimpleDateFormat(ReminderEditActivity.DATE_TIME_FORMAT);
+				SimpleDateFormat format=new SimpleDateFormat(EventEditActivity.DATE_TIME_FORMAT);
 				
 				try {
 					Date date=format.parse(dateTime);

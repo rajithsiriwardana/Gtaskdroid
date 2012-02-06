@@ -5,7 +5,7 @@ package ogto.logic;
 
 import java.util.Calendar;
 
-import ogto.dataaccess.RemindersDbAdapter;
+import ogto.dataaccess.EventsDbAdapter;
 import ogto.integration.OnAlarmReceiver;
 
 import android.app.AlarmManager;
@@ -30,7 +30,7 @@ public class ReminderManager {
 	public void setReminder(long taskId, Calendar when) {
 		
 		Intent intent=new Intent(mContext, OnAlarmReceiver.class);
-		intent.putExtra(RemindersDbAdapter.KEY_ROWID, (long)taskId);
+		intent.putExtra(EventsDbAdapter.KEY_ROWID, (long)taskId);
 		
 		PendingIntent pIntent=PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 		

@@ -3,8 +3,8 @@
  */
 package ogto.logic;
 
-import ogto.dataaccess.RemindersDbAdapter;
-import ogto.interactions.ReminderEditActivity;
+import ogto.dataaccess.EventsDbAdapter;
+import ogto.interactions.EventEditActivity;
 import ogto.taskOrganizer.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -26,11 +26,11 @@ public class ReminderService extends WakeReminderIntentService {
 	 */
 	@Override
 	void doReminderWork(Intent intent) {
-		Long rowId=intent.getExtras().getLong(RemindersDbAdapter.KEY_ROWID);
+		Long rowId=intent.getExtras().getLong(EventsDbAdapter.KEY_ROWID);
 		NotificationManager nMngr=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-		Intent notificationIntent=new Intent(this, ReminderEditActivity.class);
+		Intent notificationIntent=new Intent(this, EventEditActivity.class);
 		
-		notificationIntent.putExtra(RemindersDbAdapter.KEY_ROWID, rowId);
+		notificationIntent.putExtra(EventsDbAdapter.KEY_ROWID, rowId);
 		
 		PendingIntent pIntent=PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 		
