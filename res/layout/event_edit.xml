@@ -39,7 +39,7 @@
     <EditText
         android:id="@+id/note"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView4"
         android:inputType="textMultiLine"
@@ -61,13 +61,6 @@
         android:layout_below="@+id/textView5"
         android:inputType="text" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/location"
-        android:text="@string/duration" />
-
     <Button
         android:id="@+id/save"
         android:layout_width="158dp"
@@ -76,13 +69,47 @@
         android:layout_alignParentLeft="true"
         android:text="@string/save" />
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/location"
+        android:layout_marginTop="29dp"
+        android:text="@string/duration" />
+
+    <CheckBox
+        android:id="@+id/add_reminder_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/location"
+        android:text="@string/add_reminder" />
+
     <Button
         android:id="@+id/event_start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/event_end_date"
-        android:layout_below="@+id/textView6" />
+        android:layout_below="@+id/add_reminder_checkbox" />
+
+    <Button
+        android:id="@+id/event_start_time"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/event_start_date"
+        android:layout_alignBottom="@+id/event_start_date"
+        android:layout_toLeftOf="@+id/add_reminder_checkbox" />
+
+    <Button
+        android:id="@+id/event_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/event_start_date"
+        android:layout_marginTop="17dp"
+        android:layout_toLeftOf="@+id/event_start_time" />
 
     <TextView
         android:id="@+id/textView3"
@@ -92,44 +119,12 @@
         android:layout_below="@+id/event_start_date"
         android:text="@string/duration_to" />
 
-    <Button
-        android:id="@+id/event_end_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/checkBox1"
-        android:layout_below="@+id/textView3" />
-
-    <Button
-        android:id="@+id/event_start_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView3"
-        android:layout_toLeftOf="@+id/Button01"
-        android:layout_toRightOf="@+id/event_start_date" />
-
-    <Button
-        android:id="@+id/event_end_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/event_start_time"
-        android:layout_below="@+id/textView3" />
-
-    <CheckBox
-        android:id="@+id/all_day_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView6"
-        android:layout_marginRight="27dp"
-        android:text="@string/all_day" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/all_day_checkbox"
-        android:layout_below="@+id/textView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/event_start_time"
         android:text="@string/time" />
 
     <Button
@@ -144,14 +139,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/reminder_date"
-        android:layout_below="@+id/reminder_date" />
+        android:layout_below="@+id/textView3" />
 
-    <CheckBox
-        android:id="@+id/add_reminder_checkbox"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/event_end_time"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/event_end_date"
-        android:text="@string/add_reminder" />
+        android:layout_alignBaseline="@+id/event_end_date"
+        android:layout_alignBottom="@+id/event_end_date"
+        android:layout_toLeftOf="@+id/add_reminder_checkbox" />
 
 </RelativeLayout>
