@@ -239,11 +239,11 @@ public class EventEditActivity extends Activity {
 		
 				
 		mSaveButton.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View view) {
+        	public void onClick(View view) {        		
         		saveState(); 
         		setResult(RESULT_OK);        	   
         		Toast.makeText(EventEditActivity.this, getString(R.string.task_saved_message), Toast.LENGTH_SHORT).show();
-        	    finish(); 
+        	    finish();         		
         	}
           
         });
@@ -414,6 +414,8 @@ public class EventEditActivity extends Activity {
     
     private void saveState() {
     	
+    	
+    	
         String title = mTitleText.getText().toString();
         String description = mNoteText.getText().toString();
         String location = mLocationText.getText().toString();
@@ -441,6 +443,9 @@ public class EventEditActivity extends Activity {
         }
        
         new ReminderManager(this).setReminder(mRowId, mCalendar); 
+    	
+
+		
     }
     
 }

@@ -41,8 +41,8 @@ public final class R {
     }
     public static final class layout {
         public static final int event_edit=0x7f030000;
-        public static final int reminder_list=0x7f030001;
-        public static final int reminder_row=0x7f030002;
+        public static final int event_list=0x7f030001;
+        public static final int event_row=0x7f030002;
     }
     public static final class menu {
         public static final int list_menu=0x7f060000;
@@ -55,6 +55,8 @@ public final class R {
         public static final int cancel=0x7f05001a;
         public static final int duration=0x7f05001d;
         public static final int duration_to=0x7f05001e;
+        public static final int event_delete_message=0x7f050021;
+        public static final int event_delete_title=0x7f050020;
         public static final int event_location=0x7f05001f;
         public static final int menu_delete=0x7f050007;
         public static final int menu_insert=0x7f050006;
@@ -81,6 +83,7 @@ public final class R {
         public static final int task_saved_message=0x7f050008;
         public static final int time=0x7f050002;
         public static final int title=0x7f050003;
+        public static final int title_empty=0x7f050022;
     }
     public static final class xml {
         public static final int task_preferences=0x7f040000;

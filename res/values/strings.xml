@@ -32,5 +32,8 @@
     <string name="duration">Duration</string>
     <string name="duration_to">to</string>
     <string name="event_location">Where</string>
+    <string name="event_delete_title">Are you sure?</string>
+    <string name="event_delete_message">Are you sure you want to delete this event?</string>
+    <string name="title_empty">Title must be filled in</string>
 
 </resources>

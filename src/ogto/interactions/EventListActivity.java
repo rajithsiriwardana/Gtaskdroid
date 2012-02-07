@@ -3,7 +3,9 @@ package ogto.interactions;
 
 import ogto.dataaccess.EventsDbAdapter;
 import ogto.taskOrganizer.R;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -27,7 +29,7 @@ public class EventListActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reminder_list);        
+        setContentView(R.layout.event_list);        
         
         mDbHelper=new EventsDbAdapter(this);
         mDbHelper.open();
@@ -49,7 +51,7 @@ public class EventListActivity extends ListActivity {
     	int [] to=new int[]{R.id.text1};
     	
     	//create a simple cursor adaptor and set it to display
-    	SimpleCursorAdapter reminders=new SimpleCursorAdapter(this, R.layout.reminder_row, reMinderCursor,
+    	SimpleCursorAdapter reminders=new SimpleCursorAdapter(this, R.layout.event_row, reMinderCursor,
     			from, to);
     	
     	setListAdapter(reminders);
@@ -84,34 +86,66 @@ public class EventListActivity extends ListActivity {
     	return super.onMenuItemSelected(featureId, item);
     }
     
-  
+  //handling context menu
 
 	@Override
     public void onCreateContextMenu(ContextMenu menu, View v,
     		ContextMenuInfo menuInfo) {
     	
-    	super.onCreateContextMenu(menu, v, menuInfo);
+    	super.onCreateContextMenu(menu, v, menuInfo);   	
     	
     	MenuInflater mi=getMenuInflater();
     	mi.inflate(R.menu.list_menu_item_longpress, menu);
     }
-	
+
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_delete:
-			AdapterContextMenuInfo info=(AdapterContextMenuInfo)item.getMenuInfo();
-			mDbHelper.deleteEvent(info.id);
-			fillData();
+	    	  		
+	    	setEventDeleteDialog(item);	    	
 			return true;
 			
 		}
 		return super.onContextItemSelected(item);
 	}
     
-    
-	   
+	
+	
+	
+	private void setEventDeleteDialog(final MenuItem item) {
+		
+		AlertDialog.Builder builder=
+    			new AlertDialog.Builder(EventListActivity.this);
+    	builder.setMessage(R.string.event_delete_message)
+    	.setTitle(R.string.event_delete_title)
+    	.setCancelable(false)
+    	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				AdapterContextMenuInfo info=(AdapterContextMenuInfo)item.getMenuInfo();
+				mDbHelper.deleteEvent(info.id);
+				fillData();
+				
+			}
+		})
+    	.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+				
+			}
+		});
+    	builder.create().show();
+	} 
+	
+	
+	
+	
+	//list item clicked
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {      //context menu on long click
     	
@@ -122,7 +156,7 @@ public class EventListActivity extends ListActivity {
     	
     }
     
-    
+    //new event creating
     private void createReminder() {
 		Intent intent=new Intent(this, EventEditActivity.class);
 		startActivityForResult(intent, ACTIVITY_CREATE);
