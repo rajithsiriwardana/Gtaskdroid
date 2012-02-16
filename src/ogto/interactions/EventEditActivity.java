@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import ogto.dataaccess.EventsDbAdapter;
-import ogto.logic.ReminderManager;
+import ogto.reminderHandler.ReminderManager;
 import ogto.taskOrganizer.R;
 
 import android.app.Activity;
@@ -331,7 +331,7 @@ public class EventEditActivity extends Activity {
 		// Set the time button text based upon the value from the database
         SimpleDateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT); 
         String timeForButton = timeFormat.format(mCalendar.getTime()); 
-   //     mReminderTimeButton.setText(timeForButton);
+  
         
         if (mCalendarSwitch==0) {
         	timeForButton = timeFormat.format(mEventStartCalendar.getTime());
@@ -419,7 +419,7 @@ public class EventEditActivity extends Activity {
         String title = mTitleText.getText().toString();
         String description = mNoteText.getText().toString();
         String location = mLocationText.getText().toString();
-        //duration of the event
+        
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT); 
     	String eventStartDateTime = dateTimeFormat.format(mEventStartCalendar.getTime());
@@ -442,7 +442,10 @@ public class EventEditActivity extends Activity {
             		eventStartDateTime, eventEndDateTime,isReminderChkBxSelected, reminderDateTime);
         }
        
-        new ReminderManager(this).setReminder(mRowId, mCalendar); 
+        if (mReminderSet) {
+        	new ReminderManager(this).setReminder(mRowId, mReminderCalendar);
+		} 
+         
     	
 
 		
