@@ -41,10 +41,8 @@ public class ReminderService extends WakeReminderIntentService {
 				getString(R.string.notify_new_task_title), getString(R.string.notify_new_task_msg), pIntent);
 		
 		note.defaults |=Notification.DEFAULT_SOUND;
-		note.flags |=Notification.FLAG_AUTO_CANCEL;
+		note.flags |=Notification.FLAG_AUTO_CANCEL;		
 		
-		
-		//since max int value is 2,147,483,647 issue could occur if user enters more than that num of tasks ;-)
 		
 		int id=(int)((long) rowId);
 		nMngr.notify(id, note);

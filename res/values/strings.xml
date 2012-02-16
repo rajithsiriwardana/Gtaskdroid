@@ -10,7 +10,7 @@
     <string name="menu_delete">Delete Reminder</string>
     <string name="task_saved_message">Task Saved</string>
     <string name="notify_new_task_msg">A task need to be reviewed </string>
-    <string name="notify_new_task_title">Task Reminder</string>
+    <string name="notify_new_task_title">OGTO Task Reminder</string>
     <string name="pref_category_task_default_key">task_default_category</string>
     <string name="pref_category_task_default_title">Task Title Default</string>
     <string name="pref_task_title_key">default_reminder_title</string>

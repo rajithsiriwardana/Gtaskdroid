@@ -113,7 +113,7 @@ public class EventListActivity extends ListActivity {
     
 	
 	
-	
+	//deleting an event
 	private void setEventDeleteDialog(final MenuItem item) {
 		
 		AlertDialog.Builder builder=

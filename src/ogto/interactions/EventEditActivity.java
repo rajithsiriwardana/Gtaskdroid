@@ -29,18 +29,26 @@ import android.widget.Toast;
 
 public class EventEditActivity extends Activity {
 
-	// 
-	// Dialog Constants
-	//
+	/* 
+	* Dialog Constants
+	*/
 	private static final int DATE_PICKER_DIALOG = 0;
 	private static final int TIME_PICKER_DIALOG = 1;
-	
-	// 
-	// Date Format 
-	//
+	/*
+	 * calendar constants
+	 */	
+	private static final int UPDATE_ALL_CALENDARS= 0;
+	private static final int UPDATE_EVENT_START_CALENDAR= 1;
+	private static final int UPDATE_EVENT_END_CALENDAR= 2;
+	private static final int UPDATE_REMINDER_CALENDAR= 3;
+	/* 
+	* Date Format 
+	*/
 	private static final String DATE_FORMAT = "yyyy MM dd"; 
 	private static final String TIME_FORMAT = "kk:mm";
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd kk:mm:ss";
+	
+	
 	
 	private EditText mTitleText;
     private EditText mNoteText;
@@ -62,8 +70,14 @@ public class EventEditActivity extends Activity {
     private Calendar mEventEndCalendar;
     private Calendar mReminderCalendar;
     
-    private int mCalendarSwitch;
-    private boolean mReminderSet;    
+    private boolean mReminderSet; 
+    private int mCalendarSwitch;									
+    /*buttons get updated according to the value given here. 0 = update all the button values
+     *  1 = event start dateTime
+     *  2 = event end dateTime
+     *  3 = reminder dateTime
+     */
+       
     
 
     @Override
@@ -106,6 +120,7 @@ public class EventEditActivity extends Activity {
         
 	}
 
+	//setting the value of the RowId
 	private void setRowIdFromIntent() {
 		if (mRowId == null) {
 			Bundle extras = getIntent().getExtras();            
@@ -115,12 +130,14 @@ public class EventEditActivity extends Activity {
 		}
 	}
     
+	//if the activity get paused
     @Override
     protected void onPause() {
         super.onPause();
         mDbHelper.close(); 
     }
     
+    //the activity resumed
     @Override
     protected void onResume() {
         super.onResume();
@@ -128,6 +145,8 @@ public class EventEditActivity extends Activity {
     	setRowIdFromIntent();
 		populateFields();
     }
+    
+    
     
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -140,6 +159,9 @@ public class EventEditActivity extends Activity {
     	return super.onCreateDialog(id);
     }
     
+    
+    
+    //date picker dialog spawning
  	private DatePickerDialog showDatePicker() {
 		
 		
@@ -156,7 +178,7 @@ public class EventEditActivity extends Activity {
 		return datePicker; 
 	}
  	
- 	
+   //time picker dialog spawning
    private TimePickerDialog showTimePicker() {
 		
     	TimePickerDialog timePicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
@@ -172,13 +194,16 @@ public class EventEditActivity extends Activity {
     	return timePicker; 
 	}
  	
+   
+   
+   	//button listeners 
  	private void registerButtonListenersAndSetDefaultText() {
 
 		mEventStartDateButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				mCalendarSwitch=1;
+				mCalendarSwitch=UPDATE_EVENT_START_CALENDAR;
 				showDialog(DATE_PICKER_DIALOG);  
 			}
 		}); 
@@ -188,7 +213,7 @@ public class EventEditActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				mCalendarSwitch=1;
+				mCalendarSwitch=UPDATE_EVENT_START_CALENDAR;
 				showDialog(TIME_PICKER_DIALOG); 
 			}
 		}); 
@@ -197,7 +222,7 @@ public class EventEditActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				mCalendarSwitch=2;
+				mCalendarSwitch=UPDATE_EVENT_END_CALENDAR;
 				showDialog(DATE_PICKER_DIALOG);  
 			}
 		}); 
@@ -207,7 +232,7 @@ public class EventEditActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				mCalendarSwitch=2;
+				mCalendarSwitch=UPDATE_EVENT_END_CALENDAR;
 				showDialog(TIME_PICKER_DIALOG); 
 			}
 		});
@@ -218,7 +243,7 @@ public class EventEditActivity extends Activity {
 			public void onClick(View v) {
 				if(mAddReminderCheckBox.isChecked()){
 					mReminderSet=true;	
-					mCalendarSwitch=3;
+					mCalendarSwitch=UPDATE_REMINDER_CALENDAR;
 					showDialog(DATE_PICKER_DIALOG);
 				}
 			}
@@ -231,7 +256,7 @@ public class EventEditActivity extends Activity {
 			public void onClick(View v) {
 				if(mAddReminderCheckBox.isChecked()){
 					mReminderSet=true;
-					mCalendarSwitch=3;
+					mCalendarSwitch=UPDATE_REMINDER_CALENDAR;
 					showDialog(TIME_PICKER_DIALOG); 
 				}
 			}
@@ -257,7 +282,10 @@ public class EventEditActivity extends Activity {
 			}
 		});
 		
-		  updateDateButtonText(); 
+		/*
+		 * update specific calendar or all the calendars 
+		 */
+		  updateDateButtonText(); 						
 	      updateTimeButtonText();
 	}
    
@@ -266,7 +294,7 @@ public class EventEditActivity extends Activity {
 	
     private void populateFields()  {
   	
-    	mCalendarSwitch=0;
+    	mCalendarSwitch=UPDATE_ALL_CALENDARS;
     	// Only populate the text boxes and change the calendar date
     	// if the row is not null from the database. 
         if (mRowId != null) {
@@ -332,8 +360,9 @@ public class EventEditActivity extends Activity {
         SimpleDateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT); 
         String timeForButton = timeFormat.format(mCalendar.getTime()); 
   
+        switch (mCalendarSwitch) {
         
-        if (mCalendarSwitch==0) {
+		case UPDATE_ALL_CALENDARS:
         	timeForButton = timeFormat.format(mEventStartCalendar.getTime());
         	mEventStartTimeButton.setText(timeForButton);
         	timeForButton = timeFormat.format(mEventEndCalendar.getTime());
@@ -343,22 +372,28 @@ public class EventEditActivity extends Activity {
         		mReminderTimeButton.setText(timeForButton);
 			}else {
 				mReminderTimeButton.setText("");
-			}
-		}else if (mCalendarSwitch==1) {        	
+			}			
+			break;
+			
+		case UPDATE_EVENT_START_CALENDAR:			
         	mEventStartTimeButton.setText(timeForButton);
         	mEventStartCalendar.set(Calendar.HOUR_OF_DAY, mCalendar.get(Calendar.HOUR_OF_DAY));
-        	mEventStartCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE));
-		}else if (mCalendarSwitch==2) {        	
+        	mEventStartCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE));        	
+        	break;
+        	
+		case UPDATE_EVENT_END_CALENDAR:			
         	mEventEndTimeButton.setText(timeForButton);
         	mEventEndCalendar.set(Calendar.HOUR_OF_DAY, mCalendar.get(Calendar.HOUR_OF_DAY));
         	mEventEndCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE));
-		}else if (mCalendarSwitch==3) {        	
+        	break;
+        	
+		case UPDATE_REMINDER_CALENDAR:
         	mReminderTimeButton.setText(timeForButton);
         	mReminderCalendar.set(Calendar.HOUR_OF_DAY, mCalendar.get(Calendar.HOUR_OF_DAY));
         	mReminderCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE));
+        	break;
+        	
 		}
-        
-        
         
 	}
 	
@@ -369,7 +404,11 @@ public class EventEditActivity extends Activity {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT); 
         String dateForButton = dateFormat.format(mCalendar.getTime()); 
      //   mReminderDateButton.setText(dateForButton);
-        if (mCalendarSwitch==0) {
+        
+        
+        switch (mCalendarSwitch) {
+        
+		case UPDATE_ALL_CALENDARS:
         	dateForButton = dateFormat.format(mEventStartCalendar.getTime());
         	mEventStartDateButton.setText(dateForButton);
         	dateForButton = dateFormat.format(mEventEndCalendar.getTime());
@@ -380,27 +419,32 @@ public class EventEditActivity extends Activity {
 			}else {
 				mReminderDateButton.setText("");
 			}
-		}else if (mCalendarSwitch==1) {			 
+			break;
+			
+		case UPDATE_EVENT_START_CALENDAR:
         	mEventStartDateButton.setText(dateForButton);
         	mEventStartCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
         	mEventStartCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
         	mEventStartCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
-        	
-		}else if (mCalendarSwitch==2) {        	 
+			break;
+			
+		case UPDATE_EVENT_END_CALENDAR:
         	mEventEndDateButton.setText(dateForButton);
         	mEventEndCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
         	mEventEndCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
         	mEventEndCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
-        	
-		}else if (mCalendarSwitch==3) {        	 
+			break;
+			
+		case UPDATE_REMINDER_CALENDAR:
         	mReminderDateButton.setText(dateForButton);
         	mReminderCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
         	mReminderCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
         	mReminderCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
-        	
+			break;
+
+
 		}
-		
-		
+        
 		
 	}
     
@@ -411,15 +455,12 @@ public class EventEditActivity extends Activity {
     }
     
 
-    
+    //save the event in database
     private void saveState() {
-    	
-    	
-    	
+    	    	
         String title = mTitleText.getText().toString();
         String description = mNoteText.getText().toString();
-        String location = mLocationText.getText().toString();
-        
+        String location = mLocationText.getText().toString();        
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT); 
     	String eventStartDateTime = dateTimeFormat.format(mEventStartCalendar.getTime());
@@ -442,6 +483,7 @@ public class EventEditActivity extends Activity {
             		eventStartDateTime, eventEndDateTime,isReminderChkBxSelected, reminderDateTime);
         }
        
+        //if the reminder calendar set. then add a reminder
         if (mReminderSet) {
         	new ReminderManager(this).setReminder(mRowId, mReminderCalendar);
 		} 
