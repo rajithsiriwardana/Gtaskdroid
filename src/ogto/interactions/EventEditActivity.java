@@ -29,23 +29,24 @@ import android.widget.Toast;
 
 public class EventEditActivity extends Activity {
 
-	/* 
+	/**
 	* Dialog Constants
 	*/
 	private static final int DATE_PICKER_DIALOG = 0;
 	private static final int TIME_PICKER_DIALOG = 1;
-	/*
+	/**
 	 * calendar constants
 	 */	
 	private static final int UPDATE_ALL_CALENDARS= 0;
 	private static final int UPDATE_EVENT_START_CALENDAR= 1;
 	private static final int UPDATE_EVENT_END_CALENDAR= 2;
 	private static final int UPDATE_REMINDER_CALENDAR= 3;
-	/* 
+	/** 
 	* Date Format 
 	*/
 	private static final String DATE_FORMAT = "yyyy MM dd"; 
 	private static final String TIME_FORMAT = "kk:mm";
+	
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd kk:mm:ss";
 	
 	
@@ -72,7 +73,7 @@ public class EventEditActivity extends Activity {
     
     private boolean mReminderSet; 
     private int mCalendarSwitch;									
-    /*buttons get updated according to the value given here. 0 = update all the button values
+    /** buttons get updated according to the value given here. 0 = update all the button values
      *  1 = event start dateTime
      *  2 = event end dateTime
      *  3 = reminder dateTime
@@ -120,7 +121,10 @@ public class EventEditActivity extends Activity {
         
 	}
 
-	//setting the value of the RowId
+	
+	/**
+	 *setting the value of the RowId 
+	 */
 	private void setRowIdFromIntent() {
 		if (mRowId == null) {
 			Bundle extras = getIntent().getExtras();            
@@ -130,14 +134,14 @@ public class EventEditActivity extends Activity {
 		}
 	}
     
-	//if the activity get paused
+	//when the activity get paused
     @Override
     protected void onPause() {
         super.onPause();
         mDbHelper.close(); 
     }
     
-    //the activity resumed
+    //the activity resume
     @Override
     protected void onResume() {
         super.onResume();
@@ -194,9 +198,11 @@ public class EventEditActivity extends Activity {
     	return timePicker; 
 	}
  	
+   /**
+    * button listeners 
+    */
    
    
-   	//button listeners 
  	private void registerButtonListenersAndSetDefaultText() {
 
 		mEventStartDateButton.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +268,7 @@ public class EventEditActivity extends Activity {
 			}
 		});
 		
-				
+			
 		mSaveButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View view) {        		
         		saveState(); 
@@ -282,7 +288,7 @@ public class EventEditActivity extends Activity {
 			}
 		});
 		
-		/*
+		/**
 		 * update specific calendar or all the calendars 
 		 */
 		  updateDateButtonText(); 						
@@ -295,8 +301,10 @@ public class EventEditActivity extends Activity {
     private void populateFields()  {
   	
     	mCalendarSwitch=UPDATE_ALL_CALENDARS;
-    	// Only populate the text boxes and change the calendar date
-    	// if the row is not null from the database. 
+    	/**
+    	 *  Only populate the text boxes and change the calendar date
+    	 *  if the row is not null from the database. 
+    	 */    	
         if (mRowId != null) {
             Cursor event = mDbHelper.fetchEvent(mRowId);
             startManagingCursor(event);
@@ -343,8 +351,8 @@ public class EventEditActivity extends Activity {
         		mTitleText.setText(defaultTitle); 
         	
         	if(defaultTime != null)
-        		mCalendar.add(Calendar.MINUTE, Integer.parseInt(defaultTime));
-        	
+        		mReminderCalendar.add(Calendar.MINUTE, Integer.parseInt(defaultTime));
+        		//not implemented yet. default reminder adding.
         	mReminderSet=false;
         	
         }
@@ -403,8 +411,7 @@ public class EventEditActivity extends Activity {
 		// Set the date button text based upon the value from the database 
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT); 
         String dateForButton = dateFormat.format(mCalendar.getTime()); 
-     //   mReminderDateButton.setText(dateForButton);
-        
+              
         
         switch (mCalendarSwitch) {
         

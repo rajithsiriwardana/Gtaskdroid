@@ -16,12 +16,16 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class EventsDbAdapter {
 	
-	//database info
+	/*
+	 * database info
+	 */
 	private static final String DATABASE_NAME="ogtodata";
 	private static final String DATABASE_TABLE="events";
 	private static final int DATABASE_VERSION=1;
 	
-	//database table columns
+	/*
+	 * database table columns
+	 */
 	public static final String KEY_TITLE="title";
 	public static final String KEY_NOTE="note";
 	public static final String KEY_LOCATION="location";
