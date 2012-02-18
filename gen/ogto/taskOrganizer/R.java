@@ -12,8 +12,7 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int ic_menu_add=0x7f020001;
-        public static final int ic_menu_preferences=0x7f020002;
+        public static final int ic_menu_authentication=0x7f020001;
     }
     public static final class id {
         public static final int add_reminder_checkbox=0x7f070009;
@@ -23,7 +22,8 @@ public final class R {
         public static final int event_start_date=0x7f07000a;
         public static final int event_start_time=0x7f07000c;
         public static final int location=0x7f070007;
-        public static final int menu_delete=0x7f070015;
+        public static final int menu_delete=0x7f070016;
+        public static final int menu_g_authentication=0x7f070015;
         public static final int menu_insert=0x7f070013;
         public static final int menu_settings=0x7f070014;
         public static final int note=0x7f070005;
@@ -58,6 +58,7 @@ public final class R {
         public static final int event_delete_message=0x7f050021;
         public static final int event_delete_title=0x7f050020;
         public static final int event_location=0x7f05001f;
+        public static final int google_account_sync=0x7f050023;
         public static final int menu_delete=0x7f050007;
         public static final int menu_insert=0x7f050006;
         public static final int menu_settings=0x7f050019;
