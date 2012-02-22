@@ -12,7 +12,9 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int ic_menu_authentication=0x7f020001;
+        public static final int ic_menu_google_sync=0x7f020001;
+        public static final int ic_menu_sync=0x7f020002;
+        public static final int ic_user_accounts=0x7f020003;
     }
     public static final class id {
         public static final int add_reminder_checkbox=0x7f070009;
@@ -23,13 +25,15 @@ public final class R {
         public static final int event_start_time=0x7f07000c;
         public static final int location=0x7f070007;
         public static final int menu_delete=0x7f070016;
-        public static final int menu_g_authentication=0x7f070015;
+        public static final int menu_google_sync=0x7f070015;
         public static final int menu_insert=0x7f070013;
         public static final int menu_settings=0x7f070014;
         public static final int note=0x7f070005;
         public static final int reminder_date=0x7f07000f;
         public static final int reminder_time=0x7f070010;
         public static final int save=0x7f070001;
+        public static final int switch_account=0x7f070017;
+        public static final int sync_selected=0x7f070018;
         public static final int text1=0x7f070012;
         public static final int textView1=0x7f070003;
         public static final int textView2=0x7f07000e;
@@ -43,10 +47,13 @@ public final class R {
         public static final int event_edit=0x7f030000;
         public static final int event_list=0x7f030001;
         public static final int event_row=0x7f030002;
+        public static final int list_item=0x7f030003;
+        public static final int main_task=0x7f030004;
     }
     public static final class menu {
         public static final int list_menu=0x7f060000;
         public static final int list_menu_item_longpress=0x7f060001;
+        public static final int sync_menu=0x7f060002;
     }
     public static final class string {
         public static final int add_reminder=0x7f05001b;
@@ -81,6 +88,9 @@ public final class R {
         public static final int pref_task_title_summary=0x7f050010;
         public static final int pref_task_title_title=0x7f050011;
         public static final int save=0x7f050004;
+        public static final int select_account=0x7f050024;
+        public static final int switch_account=0x7f050025;
+        public static final int sync_selected=0x7f050026;
         public static final int task_saved_message=0x7f050008;
         public static final int time=0x7f050002;
         public static final int title=0x7f050003;

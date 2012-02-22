@@ -6,5 +6,5 @@
     <item android:id="@+id/menu_settings"
         android:title="@string/menu_settings" 
         android:icon="@android:drawable/ic_menu_preferences"/>
-    <item android:id="@+id/menu_g_authentication" android:icon="@drawable/ic_menu_authentication" android:title="@string/google_account_sync"></item>
+    <item android:id="@+id/menu_google_sync" android:icon="@drawable/ic_menu_google_sync" android:title="@string/google_account_sync"></item>
 </menu>

@@ -1,6 +1,7 @@
 package ogto.interactions;
 
 
+import ogto.authentication.TaskListGoogle;
 import ogto.dataaccess.EventsDbAdapter;
 import ogto.taskOrganizer.R;
 import android.app.AlertDialog;
@@ -80,6 +81,10 @@ public class EventListActivity extends ListActivity {
 		case R.id.menu_settings:			
 			Intent intent=new Intent(this, TaskPreferences.class);
 			startActivity(intent);
+			return true;
+			
+		case R.id.menu_google_sync:
+			syncAccount();
 			return true;
 			
 		}
@@ -163,6 +168,10 @@ public class EventListActivity extends ListActivity {
 		
 	}
     
+    private void syncAccount(){
+    	Intent intent=new Intent(this, TaskListGoogle.class);
+    	startActivityForResult(intent, ACTIVITY_CREATE);
+    }
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

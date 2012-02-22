@@ -35,6 +35,9 @@
     <string name="event_delete_title">Are you sure?</string>
     <string name="event_delete_message">Are you sure you want to delete this event?</string>
     <string name="title_empty">Title must be filled in</string>
-    <string name="google_account_sync">Sync</string>
+    <string name="google_account_sync">Tasks</string>
+    <string name="select_account">Select a Google Account</string>
+    <string name="switch_account">Switch Account</string>
+    <string name="sync_selected">Sync</string>
 
 </resources>
