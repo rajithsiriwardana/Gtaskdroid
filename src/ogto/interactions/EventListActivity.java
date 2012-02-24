@@ -49,7 +49,7 @@ public class EventListActivity extends ListActivity {
     	String [] from=new String[] {EventsDbAdapter.KEY_TITLE};
     	
     	//And array of the field that want to bind in the view
-    	int [] to=new int[]{R.id.text1};
+    	int [] to=new int[]{R.id.eventTitle};
     	
     	//create a simple cursor adaptor and set it to display
     	SimpleCursorAdapter reminders=new SimpleCursorAdapter(this, R.layout.event_row, reMinderCursor,
@@ -152,7 +152,7 @@ public class EventListActivity extends ListActivity {
 	
 	//list item clicked
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {      //context menu on long click
+    protected void onListItemClick(ListView l, View v, int position, long id) {      
     	
     	super.onListItemClick(l, v, position, id);
     	Intent intent=new Intent(this,EventEditActivity.class);

@@ -34,6 +34,7 @@ import android.accounts.AccountManagerFuture;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,7 +65,6 @@ public class TaskListGoogle extends ListActivity {
 	private static final String PREF = "OGTOPref";
 	private static final int DIALOG_ACCOUNTS = 0;	
 	public static final int REQUEST_AUTHENTICATE = 0;
-
 	private final HttpTransport transport = AndroidHttp
 			.newCompatibleTransport();
 
@@ -93,6 +93,7 @@ public class TaskListGoogle extends ListActivity {
 		accountManager = new GoogleAccountManager(this);
 		Logger.getLogger("com.google.api.client").setLevel(LOGGING_LEVEL);
 		gotAccount(false);
+		
 	}
 
 	@Override
@@ -239,19 +240,20 @@ public class TaskListGoogle extends ListActivity {
 						}
 					} else {
 						//taskTitles.add("No sub tasks.");
+						
 					}
 				}
 			} else {
 				taskTitles.add("No tasks.");
 			}
-			setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item,
+			setListAdapter(new ArrayAdapter<String>(this, R.layout.event_row,
 					taskTitles));
 
 		} catch (IOException e) {
 			Log.d(TAG, "Exception ::"+e.getMessage());
 			handleException(e);
 		}
-		setContentView(R.layout.main_task);
+		setContentView(R.layout.event_list);
 	}
 	
 	public void addTaskListAction(View view){
@@ -264,6 +266,8 @@ public class TaskListGoogle extends ListActivity {
 			}
 		});
 		thread.start();
+		 ProgressDialog.show(TaskListGoogle.this,    
+	              "Please wait...", "Retrieving data ...", true);
 	}
 	
 	private void insertTaskList(){
