@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Open Google Task Organizer</string>
+    <string name="app_name">Gtaskdroid</string>
     <string name="no_reminders">No Reminders Yet</string>
     <string name="time">Reminder Time</string>
     <string name="title">Event</string>
