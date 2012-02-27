@@ -24,8 +24,7 @@ import android.widget.TextView;
  */
 public class ListCursorAdapter extends SimpleCursorAdapter {
 
-	private int layout;
-	
+	private int layout;	
 	private static final String DATE_OF_THE_WEEK_FORMAT="EEE MMM dd, yy";
 	
 	public ListCursorAdapter(Context context, int layout, Cursor c,

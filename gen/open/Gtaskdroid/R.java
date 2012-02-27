@@ -63,6 +63,7 @@ public final class R {
         public static final int all_day=0x7f05001c;
         public static final int app_name=0x7f050000;
         public static final int cancel=0x7f05001a;
+        public static final int default_task_due=0x7f050027;
         public static final int duration=0x7f05001d;
         public static final int duration_to=0x7f05001e;
         public static final int event_delete_message=0x7f050021;

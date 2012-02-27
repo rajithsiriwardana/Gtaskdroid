@@ -2,7 +2,6 @@ package open.gtaskdroid.activity;
 
 
 import open.gtaskdroid.adaptors.ListCursorAdapter;
-import open.gtaskdroid.authentication.TaskListGoogle;
 import open.gtaskdroid.dataaccess.EventsDbAdapter;
 import open.Gtaskdroid.R;
 import android.app.AlertDialog;
@@ -80,7 +79,7 @@ public class EventListActivity extends ListActivity {
 			return true;
 			
 		case R.id.menu_settings:			
-			Intent intent=new Intent(this, TaskPreferences.class);
+			Intent intent=new Intent(this, TaskPreferencesActivity.class);
 			startActivity(intent);
 			return true;
 			
@@ -170,7 +169,7 @@ public class EventListActivity extends ListActivity {
 	}
     
     private void syncAccount(){
-    	Intent intent=new Intent(this, TaskListGoogle.class);
+    	Intent intent=new Intent(this, GtaskListActivity.class);
     	startActivityForResult(intent, ACTIVITY_CREATE);
     }
     

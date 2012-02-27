@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name="open.gtaskdroid.activity.EventEditActivity" android:label="@string/app_name"></activity>
-        <activity android:name="open.gtaskdroid.activity.TaskPreferences" android:label="@string/app_name"></activity>
+        <activity android:name="open.gtaskdroid.activity.TaskPreferencesActivity" android:label="@string/app_name"></activity>
         <receiver android:name="open.gtaskdroid.reminderHandler.OnAlarmReceiver"></receiver>
         <service android:name="open.gtaskdroid.reminderHandler.ReminderService"></service>
         <receiver android:name="open.gtaskdroid.reminderHandler.OnBootReceiver">
@@ -32,7 +32,7 @@
             	    <action android:name="android.intent.action.BOOT_COMPLETED"/>
             	</intent-filter>            
         </receiver>
-        <activity android:name="open.gtaskdroid.authentication.TaskListGoogle" android:label="@string/app_name"></activity>
+        <activity android:name="open.gtaskdroid.activity.GtaskListActivity" android:label="@string/app_name"></activity>
     </application>
 
 </manifest>
