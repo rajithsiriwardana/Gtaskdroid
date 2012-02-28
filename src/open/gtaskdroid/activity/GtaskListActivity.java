@@ -27,6 +27,8 @@ import com.google.api.services.tasks.model.Task;
 import com.google.api.services.tasks.model.TaskList;
 
 import open.Gtaskdroid.R;
+import open.gtaskdroid.adaptors.ListArrayAdapter;
+import open.gtaskdroid.adaptors.ListDataModel;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
@@ -71,7 +73,7 @@ public class GtaskListActivity extends ListActivity {
 
 	// TODO: save auth token in preferences?
 	private GoogleAccountManager accountManager;
-	private List<String> taskTitles;
+	private List<ListDataModel>  taskTitles;
 
 	
 	
@@ -217,7 +219,7 @@ public class GtaskListActivity extends ListActivity {
 	void onAuthToken() {
 		try {
 			insertTaskList();
-			taskTitles = new ArrayList<String>();
+			taskTitles = new ArrayList<ListDataModel>();			
 			List<TaskList> taskLists = service.tasklists().list().execute()
 					.getItems();
 			if (taskLists != null) {
@@ -226,7 +228,8 @@ public class GtaskListActivity extends ListActivity {
 							.execute().getItems();
 					if (tasks != null) {
 						for (Task task : tasks) {
-							taskTitles.add(task.getTitle());
+							taskTitles.add(new ListDataModel(task.getTitle()));							
+							//taskTitles.add(task.getNotes());
 						}
 					} 
 				}
@@ -242,12 +245,16 @@ public class GtaskListActivity extends ListActivity {
 	private void update(){
 		
 		if(taskTitles==null){
-			taskTitles= new ArrayList<String>();
-			taskTitles.add("No available tasks");
+			taskTitles= new ArrayList<ListDataModel>();
+			taskTitles.add(new ListDataModel("No available tasks"));
 		}
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.event_row,
-				taskTitles));
-		setContentView(R.layout.event_list);
+		
+		ArrayAdapter<ListDataModel> adapter=new ListArrayAdapter(this, taskTitles);
+		setListAdapter(adapter);
+		
+		//setListAdapter(new ArrayAdapter<String>(this, R.layout.event_row,
+		//		taskTitles));
+		//setContentView(R.layout.gtask_event_row);
 	}
 	
 	
