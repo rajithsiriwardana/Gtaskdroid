@@ -101,7 +101,6 @@ public final class R {
         public static final int time=0x7f050002;
         public static final int title=0x7f050003;
         public static final int title_empty=0x7f050022;
-        public static final int zero_time_text=0x7f05002a;
     }
     public static final class xml {
         public static final int task_preferences=0x7f040000;

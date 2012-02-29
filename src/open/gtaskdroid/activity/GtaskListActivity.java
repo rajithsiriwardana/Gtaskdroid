@@ -291,7 +291,7 @@ public class GtaskListActivity extends ListActivity {
 			while(list.hasNext()){
 				ListArrayAdapterDataModel data=list.next();
 				if(data.isSelected()){
-				mDbHelper.createEvent(data.getTaskTitle(), data.getEventNote(), "", data.getEventStartDateTime(), "", SET_REMINDER_CBOX_DESELECT, "");
+				mDbHelper.createEvent(data.getTaskTitle(), data.getEventNote(), " ", data.getEventStartDateTime(), " ", SET_REMINDER_CBOX_DESELECT, " ");
 				
 				}
 			}

@@ -12,6 +12,7 @@ import open.gtaskdroid.activity.EventEditActivity;
 import open.gtaskdroid.dataaccess.EventsDbAdapter;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class ListCursorAdapter extends SimpleCursorAdapter {
 		TextView taskDueView= (TextView) v.findViewById(R.id.taskDue);
 		 
 		taskTitleView.setText(title);
-			 
+		if(!" ".equalsIgnoreCase(dateDue)){	 
 		SimpleDateFormat dateTimeFormat = new SimpleDateFormat(EventEditActivity.DATE_TIME_FORMAT);
 		SimpleDateFormat dateDueString = new SimpleDateFormat(DATE_OF_THE_WEEK_FORMAT);
 				
@@ -81,7 +82,11 @@ public class ListCursorAdapter extends SimpleCursorAdapter {
 					taskDueView.setText(dateDueString.format(date));
 				} catch (ParseException e) {
 					e.printStackTrace();
+					Log.e("listCursor", "here");
 				}
+		}else {
+			taskDueView.setText(" ");
+		}
 	}
 
 }

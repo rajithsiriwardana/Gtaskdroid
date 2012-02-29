@@ -56,7 +56,7 @@ public class ListArrayAdapterDataModel {
 	 * @return the taskTitle
 	 */
 	public String getTaskTitle() {
-		return taskTitle!=null? taskTitle:"";
+		return taskTitle!=null? taskTitle:" ";
 	}
 	
 	/**
@@ -74,18 +74,18 @@ public class ListArrayAdapterDataModel {
 
 
 	public String getTaskDue() {
-		return eventStartDate!=null? eventStartDate:"";
+		return eventStartDate!=null? eventStartDate:" ";
 	}
 
 	public String getEventStartDateTime(){
-		return eventStartDateTime!=null? eventStartDateTime:"";
+		return eventStartDateTime!=null? eventStartDateTime:" ";
 	}
 	
 	/**
 	 * @return the taskNotes
 	 */
 	public String getEventNote(){
-		return taskNote!=null? taskNote:"";
+		return taskNote!=null? taskNote:" ";
 	}
 	
 	
@@ -103,13 +103,13 @@ public class ListArrayAdapterDataModel {
 			eventStartDate=dateDueString.format(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			eventStartDateTime="";
-			eventStartDate="";
+			eventStartDateTime=" ";
+			eventStartDate=" ";
 		}
 		}else{
 			
-			eventStartDateTime="";
-			eventStartDate="";
+			eventStartDateTime=" ";
+			eventStartDate=" ";
 		}
 		
 		

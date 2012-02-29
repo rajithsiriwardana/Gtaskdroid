@@ -54,7 +54,7 @@ public class ListArrayAdapter extends ArrayAdapter<ListArrayAdapterDataModel> {
 							ListArrayAdapterDataModel element = (ListArrayAdapterDataModel) viewHolder.checkbox
 									.getTag();
 							element.setSelected(buttonView.isChecked());
-							//list.get(position).setSelected(true);
+							
 						}
 					});
 			view.setTag(viewHolder);

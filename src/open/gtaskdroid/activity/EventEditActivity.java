@@ -75,11 +75,16 @@ public class EventEditActivity extends Activity {
     private Calendar mReminderCalendar;
     
     private boolean mReminderSet; 
-
+    private boolean eventStartDateTimeAvailable;
+    private boolean eventEndDateTimeAvailable;
+    private boolean eventStartDateSet;
+    private boolean eventStartTimeSet;
+    private boolean eventEndDateSet;
+    private boolean eventEndTimeSet;
     
     private int mCalendarSwitch;									
     /** buttons get updated according to the value given here. 0 = update all the button values
-     *  1 = event start dateTime
+     *  1 = event End dateTime
      *  2 = event end dateTime
      *  3 = reminder dateTime
      */
@@ -123,6 +128,14 @@ public class EventEditActivity extends Activity {
         
         mAddReminderCheckBox=(CheckBox) findViewById(R.id.add_reminder_checkbox);
        
+        eventStartDateTimeAvailable=false;
+        eventEndDateTimeAvailable=false;
+        eventStartDateSet=false;
+        eventStartTimeSet=false;
+        eventEndDateSet=false;
+        eventEndTimeSet=false;
+        
+        
 	}
 
 	
@@ -180,6 +193,7 @@ public class EventEditActivity extends Activity {
 				mCalendar.set(Calendar.YEAR, year);
 				mCalendar.set(Calendar.MONTH, monthOfYear);
 				mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				
 				updateDateButtonText(); 
 			}
 		}, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH)); 
@@ -328,16 +342,16 @@ public class EventEditActivity extends Activity {
             Date date = null;
 			try {
 				String dateString = event.getString(event.getColumnIndexOrThrow(EventsDbAdapter.KEY_EVENT_START_DATE_TIME)); 
-				if(dateString!=null){
+				if(!(" ".equalsIgnoreCase(dateString))){
 				date = dateTimeFormat.parse(dateString);
 	            mEventStartCalendar.setTime(date);
-
+	            eventStartDateTimeAvailable=true;
 				}
 	            dateString=event.getString(event.getColumnIndexOrThrow(EventsDbAdapter.KEY_EVENT_END_DATE_TIME));
-	            if(dateString!=null){
+	            if(!(" ".equalsIgnoreCase(dateString))){
 	            date = dateTimeFormat.parse(dateString);
 	            mEventEndCalendar.setTime(date);
-
+	            eventEndDateTimeAvailable=true;
 	            }
 	            if (mReminderSet) {
 	            	dateString=event.getString(event.getColumnIndexOrThrow(EventsDbAdapter.KEY_REMINDER_DATE_TIME));
@@ -380,10 +394,19 @@ public class EventEditActivity extends Activity {
         switch (mCalendarSwitch) {
         
 		case UPDATE_ALL_CALENDARS:
+			
+			if(eventStartDateTimeAvailable){
         	timeForButton = timeFormat.format(mEventStartCalendar.getTime());
-        	mEventStartTimeButton.setText(timeForButton);
-        	timeForButton = timeFormat.format(mEventEndCalendar.getTime());
-        	mEventEndTimeButton.setText(timeForButton);
+        	}else {
+        		timeForButton=" ";
+        	}
+			mEventStartTimeButton.setText(timeForButton);
+			if(eventEndDateTimeAvailable){
+        	timeForButton = timeFormat.format(mEventEndCalendar.getTime());        	
+			} else {
+				timeForButton=" ";
+			}
+			mEventEndTimeButton.setText(timeForButton);
         	if (mReminderSet) {
         		timeForButton = timeFormat.format(mReminderCalendar.getTime());
         		mReminderTimeButton.setText(timeForButton);
@@ -396,14 +419,14 @@ public class EventEditActivity extends Activity {
         	mEventStartTimeButton.setText(timeForButton);
         	mEventStartCalendar.set(Calendar.HOUR_OF_DAY, mCalendar.get(Calendar.HOUR_OF_DAY));
         	mEventStartCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE)); 
-        	
+        	eventStartTimeSet=true;
         	break;
         	
 		case UPDATE_EVENT_END_CALENDAR:			
         	mEventEndTimeButton.setText(timeForButton);
         	mEventEndCalendar.set(Calendar.HOUR_OF_DAY, mCalendar.get(Calendar.HOUR_OF_DAY));
         	mEventEndCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE));
-        	
+        	eventEndTimeSet=true;
         	break;
         	
 		case UPDATE_REMINDER_CALENDAR:
@@ -427,9 +450,17 @@ public class EventEditActivity extends Activity {
         switch (mCalendarSwitch) {
         
 		case UPDATE_ALL_CALENDARS:
+			if(eventStartDateTimeAvailable){
         	dateForButton = dateFormat.format(mEventStartCalendar.getTime());
-        	mEventStartDateButton.setText(dateForButton);
+			}else {
+				dateForButton=" ";
+			}
+			mEventStartDateButton.setText(dateForButton);
+			if(eventStartDateTimeAvailable){
         	dateForButton = dateFormat.format(mEventEndCalendar.getTime());
+			} else {
+				dateForButton=" ";
+			}
         	mEventEndDateButton.setText(dateForButton);
         	if (mReminderSet) {
         		dateForButton = dateFormat.format(mReminderCalendar.getTime());
@@ -444,7 +475,7 @@ public class EventEditActivity extends Activity {
         	mEventStartCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
         	mEventStartCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
         	mEventStartCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
-        	
+        	eventStartDateSet=true;
 			break;
 			
 		case UPDATE_EVENT_END_CALENDAR:
@@ -452,7 +483,7 @@ public class EventEditActivity extends Activity {
         	mEventEndCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
         	mEventEndCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
         	mEventEndCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
-        	
+        	eventEndDateSet=true;
 			break;
 			
 		case UPDATE_REMINDER_CALENDAR:
@@ -486,9 +517,37 @@ public class EventEditActivity extends Activity {
         //SimpleDateFormat onlyDateFormat= new SimpleDateFormat(ONLY_DATE_FORMAT);
         String eventStartDateTime;
         String eventEndDateTime;
+           	if(eventStartDateTimeAvailable||(eventStartDateSet&&eventStartTimeSet)){
+    		eventStartDateTime = dateTimeFormat.format(mEventStartCalendar.getTime());
+           	}else if(eventStartDateSet&&!eventStartTimeSet){
+           		mEventStartCalendar.set(Calendar.HOUR_OF_DAY, 00);
+           		mEventStartCalendar.set(Calendar.MINUTE, 00);
+           		eventStartDateTime = dateTimeFormat.format(mEventStartCalendar.getTime());
+           	}else if(!eventStartDateSet&&eventStartTimeSet){
+           		mEventStartCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
+           		mEventStartCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
+           		mEventStartCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
+           		eventStartDateTime = dateTimeFormat.format(mEventStartCalendar.getTime());
+           	}else{
+           		eventStartDateTime=" ";
+           	}
            	
-    		eventStartDateTime = dateTimeFormat.format(mEventStartCalendar.getTime());    	 	
-    		eventEndDateTime= dateTimeFormat.format(mEventEndCalendar.getTime());
+           	
+           	if(eventEndDateTimeAvailable||(eventEndDateSet&&eventEndTimeSet)){
+           		eventEndDateTime = dateTimeFormat.format(mEventEndCalendar.getTime());
+           	}else if(eventEndDateSet&&!eventEndTimeSet){
+           		mEventEndCalendar.set(Calendar.HOUR_OF_DAY, 00);
+           		mEventEndCalendar.set(Calendar.MINUTE, 00);
+           		eventEndDateTime = dateTimeFormat.format(mEventEndCalendar.getTime());
+           	}else if(!eventEndDateSet&&eventEndTimeSet){
+           		mEventEndCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
+           		mEventEndCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
+           		mEventEndCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
+           		eventEndDateTime = dateTimeFormat.format(mEventEndCalendar.getTime());
+           	}else{
+           		eventEndDateTime=" ";
+           	}
+    		//eventEndDateTime= dateTimeFormat.format(mEventEndCalendar.getTime());
     	
     	
     	mReminderSet=mAddReminderCheckBox.isChecked();
