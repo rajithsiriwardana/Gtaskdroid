@@ -56,16 +56,16 @@ import android.widget.Toast;
 public class GtaskListActivity extends ListActivity {
 	
 	private static final Level LOGGING_LEVEL = Level.OFF;
-	private static final String TAG = "OGTO";
+	private static final String TAG = Messages.getString("GtaskListActivity.0"); //$NON-NLS-1$
 
 	/**
 	 * API key is to identify the app. this API is generated for Gtaskdroid testing. rajithsiriwardana@gmail.com
 	 */
-	private final String API_KEY = "AIzaSyDedxiWSiIlcfwKqtNVNJkA6gtOU750_go";
-	private String AUTH_TOKEN_TYPE = "oauth2:https://www.googleapis.com/auth/tasks";
+	private final String API_KEY = Messages.getString("GtaskListActivity.1"); //$NON-NLS-1$
+	private String AUTH_TOKEN_TYPE = Messages.getString("GtaskListActivity.2"); //$NON-NLS-1$
 
 	
-	private static final String PREF = "OGTOPref";
+	private static final String PREF = Messages.getString("GtaskListActivity.3"); //$NON-NLS-1$
 	private static final int DIALOG_ACCOUNTS = 0;	
 	public static final int REQUEST_AUTHENTICATE = 0;
 	private static final int SET_REMINDER_CBOX_DESELECT = 0;
@@ -85,7 +85,7 @@ public class GtaskListActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		service = Tasks.builder(transport, new JacksonFactory())
-				.setApplicationName("Gtaskdroid/1.0")
+				.setApplicationName(Messages.getString("GtaskListActivity.4")) //$NON-NLS-1$
 				.setHttpRequestInitializer(accessProtectedResource)
 				.setJsonHttpRequestInitializer(
 						new JsonHttpRequestInitializer() {
@@ -97,7 +97,7 @@ public class GtaskListActivity extends ListActivity {
 							}
 						}).build();
 		accountManager = new GoogleAccountManager(this);
-		Logger.getLogger("com.google.api.client").setLevel(LOGGING_LEVEL);
+		Logger.getLogger(Messages.getString("GtaskListActivity.5")).setLevel(LOGGING_LEVEL); //$NON-NLS-1$
 		gotAccount(false);		
 		mDbHelper = new EventsDbAdapter(this);
 	}
@@ -148,7 +148,7 @@ public class GtaskListActivity extends ListActivity {
 	
 	void gotAccount(boolean tokenExpired) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
-		String accountName = settings.getString("accountName", null);
+		String accountName = settings.getString(Messages.getString("GtaskListActivity.6"), null); //$NON-NLS-1$
 		Account account = accountManager.getAccountByName(accountName);
 		if (account != null) {
 			if (tokenExpired) {
@@ -167,7 +167,7 @@ public class GtaskListActivity extends ListActivity {
 	void gotAccount(final Account account) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("accountName", account.name);
+		editor.putString(Messages.getString("GtaskListActivity.7"), account.name); //$NON-NLS-1$
 		editor.commit();
 		accountManager.manager.getAuthToken(account, AUTH_TOKEN_TYPE, true,
 				new Manager(), null);
@@ -248,7 +248,7 @@ public class GtaskListActivity extends ListActivity {
 			}
 
 		} catch (IOException e) {
-			Log.d(TAG, "Exception ::"+e.getMessage());
+			Log.d(TAG, Messages.getString("GtaskListActivity.8")+e.getMessage()); //$NON-NLS-1$
 			handleException(e);
 		}
 		
@@ -258,7 +258,7 @@ public class GtaskListActivity extends ListActivity {
 		
 		if(events==null){
 			events= new ArrayList<ListArrayAdapterDataModel>();
-			events.add(new ListArrayAdapterDataModel("No available tasks"));
+			events.add(new ListArrayAdapterDataModel(Messages.getString("GtaskListActivity.9"))); //$NON-NLS-1$
 		}
 		
 		ArrayAdapter<ListArrayAdapterDataModel> adapter=new ListArrayAdapter(this, events);
@@ -272,14 +272,14 @@ public class GtaskListActivity extends ListActivity {
 
 		try{
 		TaskList tempTaskList=new TaskList();
-		tempTaskList.setTitle("Task List :-"+new Random().nextInt(30));
+		tempTaskList.setTitle(Messages.getString("GtaskListActivity.10")+new Random().nextInt(30)); //$NON-NLS-1$
 		TaskList newTaskList=service.tasklists().insert(tempTaskList).execute();
-		Log.d(TAG, "Inserted TaskList ::"+newTaskList.toString());
+		Log.d(TAG, Messages.getString("GtaskListActivity.11")+newTaskList.toString()); //$NON-NLS-1$
 		}catch(ClientProtocolException exp){
-			Log.d(TAG, "ClientProtocolException msg="+exp.getMessage());
+			Log.d(TAG, Messages.getString("GtaskListActivity.12")+exp.getMessage()); //$NON-NLS-1$
 		}
 		catch(Exception exp){
-			Log.d(TAG, "Exception msg="+exp.getMessage());
+			Log.d(TAG, Messages.getString("GtaskListActivity.13")+exp.getMessage()); //$NON-NLS-1$
 			handleException(exp);
 		}
 	}
@@ -291,7 +291,7 @@ public class GtaskListActivity extends ListActivity {
 			while(list.hasNext()){
 				ListArrayAdapterDataModel data=list.next();
 				if(data.isSelected()){
-				mDbHelper.createEvent(data.getTaskTitle(), data.getEventNote(), " ", data.getEventStartDateTime(), " ", SET_REMINDER_CBOX_DESELECT, " ");
+				mDbHelper.createEvent(data.getTaskTitle(), data.getEventNote(), Messages.getString("GtaskListActivity.14"), data.getEventStartDateTime(), Messages.getString("GtaskListActivity.15"), SET_REMINDER_CBOX_DESELECT, Messages.getString("GtaskListActivity.16")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				
 				}
 			}
@@ -325,7 +325,7 @@ public class GtaskListActivity extends ListActivity {
 							.setAccessToken(bundle
 									.getString(AccountManager.KEY_AUTHTOKEN));
 					String authToken=bundle.getString(AccountManager.KEY_AUTHTOKEN).toString();
-					Log.d("TasksSample", "Autho Toke ="+authToken);
+					Log.d(Messages.getString("GtaskListActivity.17"), Messages.getString("GtaskListActivity.18")+authToken); //$NON-NLS-1$ //$NON-NLS-2$
 					onAuthToken();
 					update();
 				}
