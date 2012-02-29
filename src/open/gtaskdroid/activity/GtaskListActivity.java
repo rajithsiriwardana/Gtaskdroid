@@ -71,16 +71,10 @@ public class GtaskListActivity extends ListActivity {
 	private GoogleAccessProtectedResource accessProtectedResource = new GoogleAccessProtectedResource(
 			null);
 
-	// TODO: save auth token in preferences?
 	private GoogleAccountManager accountManager;
 	private List<ListDataModel>  taskTitles;
 
-	
-	
-	
-	
-	
-	
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -207,7 +201,7 @@ public class GtaskListActivity extends ListActivity {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			//  should only try this once to avoid infinite loop
+
 			if (statusCode == 401) {
 				gotAccount(true);
 				return;
@@ -228,8 +222,8 @@ public class GtaskListActivity extends ListActivity {
 							.execute().getItems();
 					if (tasks != null) {
 						for (Task task : tasks) {
-							taskTitles.add(new ListDataModel(task.getTitle()));							
-							//taskTitles.add(task.getNotes());
+							taskTitles.add(new ListDataModel(task.getTitle(),task.getDue(),task.getNotes()));							
+							
 						}
 					} 
 				}
@@ -252,15 +246,12 @@ public class GtaskListActivity extends ListActivity {
 		ArrayAdapter<ListDataModel> adapter=new ListArrayAdapter(this, taskTitles);
 		setListAdapter(adapter);
 		
-		//setListAdapter(new ArrayAdapter<String>(this, R.layout.event_row,
-		//		taskTitles));
-		//setContentView(R.layout.gtask_event_row);
 	}
 	
 	
 
 	private void insertTaskList(){
-		//TODO: testing
+
 		try{
 		TaskList tempTaskList=new TaskList();
 		tempTaskList.setTitle("Task List :-"+new Random().nextInt(30));

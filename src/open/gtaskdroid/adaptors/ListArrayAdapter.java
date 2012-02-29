@@ -42,6 +42,7 @@ public class ListArrayAdapter extends ArrayAdapter<ListDataModel> {
 			view = inflator.inflate(R.layout.gtask_event_row, null);
 			final ViewHolder viewHolder = new ViewHolder();
 			viewHolder.taskTitle = (TextView) view.findViewById(R.id.taskTitle);
+			viewHolder.taskDue = (TextView) view.findViewById(R.id.taskDue);
 			viewHolder.checkbox = (CheckBox) view.findViewById(R.id.check);
 		/*	viewHolder.checkbox
 					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -63,6 +64,7 @@ public class ListArrayAdapter extends ArrayAdapter<ListDataModel> {
 		}
 		ViewHolder holder = (ViewHolder) view.getTag();
 		holder.taskTitle.setText(list.get(position).getTaskTitle());
+		holder.taskDue.setText(list.get(position).getTaskDue());
 		holder.checkbox.setChecked(list.get(position).isSelected());
 		return view;
 	}
@@ -72,6 +74,7 @@ public class ListArrayAdapter extends ArrayAdapter<ListDataModel> {
 		
 	
 		protected TextView taskTitle;
+		protected TextView taskDue;
 		protected CheckBox checkbox;
 	}
 
