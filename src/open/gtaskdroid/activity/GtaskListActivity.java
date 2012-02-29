@@ -5,6 +5,7 @@ package open.gtaskdroid.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -28,7 +29,8 @@ import com.google.api.services.tasks.model.TaskList;
 
 import open.Gtaskdroid.R;
 import open.gtaskdroid.adaptors.ListArrayAdapter;
-import open.gtaskdroid.adaptors.ListDataModel;
+import open.gtaskdroid.adaptors.ListArrayAdapterDataModel;
+import open.gtaskdroid.dataaccess.EventsDbAdapter;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
@@ -45,6 +47,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 /**
  * @author rajith
@@ -65,6 +68,7 @@ public class GtaskListActivity extends ListActivity {
 	private static final String PREF = "OGTOPref";
 	private static final int DIALOG_ACCOUNTS = 0;	
 	public static final int REQUEST_AUTHENTICATE = 0;
+	private static final int SET_REMINDER_CBOX_DESELECT = 0;
 	private final HttpTransport transport = AndroidHttp.newCompatibleTransport();
 
 	private Tasks service;
@@ -72,7 +76,8 @@ public class GtaskListActivity extends ListActivity {
 			null);
 
 	private GoogleAccountManager accountManager;
-	private List<ListDataModel>  taskTitles;
+	private List<ListArrayAdapterDataModel>  events;
+	private EventsDbAdapter mDbHelper;
 
 
 	
@@ -94,7 +99,7 @@ public class GtaskListActivity extends ListActivity {
 		accountManager = new GoogleAccountManager(this);
 		Logger.getLogger("com.google.api.client").setLevel(LOGGING_LEVEL);
 		gotAccount(false);		
-		
+		mDbHelper = new EventsDbAdapter(this);
 	}
 
 	@Override
@@ -128,6 +133,19 @@ public class GtaskListActivity extends ListActivity {
 		return builder.create();
 	}
 
+	@Override
+    protected void onPause() {
+        super.onPause();
+        mDbHelper.close(); 
+    }
+	
+	@Override								//need to add more
+    protected void onResume() {
+        super.onResume();
+        mDbHelper.open(); 
+    }
+	
+	
 	void gotAccount(boolean tokenExpired) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
 		String accountName = settings.getString("accountName", null);
@@ -185,7 +203,7 @@ public class GtaskListActivity extends ListActivity {
 			return true;
 			
 		case R.id.sync_selected:
-			//have to implement
+			syncSelectedTasks();
 			return true;
 		}
 		return false;
@@ -213,7 +231,7 @@ public class GtaskListActivity extends ListActivity {
 	void onAuthToken() {
 		try {
 			insertTaskList();
-			taskTitles = new ArrayList<ListDataModel>();			
+			events = new ArrayList<ListArrayAdapterDataModel>();			
 			List<TaskList> taskLists = service.tasklists().list().execute()
 					.getItems();
 			if (taskLists != null) {
@@ -222,7 +240,7 @@ public class GtaskListActivity extends ListActivity {
 							.execute().getItems();
 					if (tasks != null) {
 						for (Task task : tasks) {
-							taskTitles.add(new ListDataModel(task.getTitle(),task.getDue(),task.getNotes()));							
+							events.add(new ListArrayAdapterDataModel(task.getTitle(),task.getDue(),task.getNotes()));							
 							
 						}
 					} 
@@ -238,12 +256,12 @@ public class GtaskListActivity extends ListActivity {
 	
 	private void update(){
 		
-		if(taskTitles==null){
-			taskTitles= new ArrayList<ListDataModel>();
-			taskTitles.add(new ListDataModel("No available tasks"));
+		if(events==null){
+			events= new ArrayList<ListArrayAdapterDataModel>();
+			events.add(new ListArrayAdapterDataModel("No available tasks"));
 		}
 		
-		ArrayAdapter<ListDataModel> adapter=new ListArrayAdapter(this, taskTitles);
+		ArrayAdapter<ListArrayAdapterDataModel> adapter=new ListArrayAdapter(this, events);
 		setListAdapter(adapter);
 		
 	}
@@ -266,6 +284,26 @@ public class GtaskListActivity extends ListActivity {
 		}
 	}
 
+	private void syncSelectedTasks(){
+		
+		if(events!=null){
+			Iterator<ListArrayAdapterDataModel> list= events.iterator();
+			while(list.hasNext()){
+				ListArrayAdapterDataModel data=list.next();
+				if(data.isSelected()){
+				mDbHelper.createEvent(data.getTaskTitle(), data.getEventNote(), "", data.getEventStartDateTime(), "", SET_REMINDER_CBOX_DESELECT, "");
+				
+				}
+			}
+		}
+  		setResult(RESULT_OK);        	   
+		Toast.makeText(GtaskListActivity.this, getString(R.string.event_sync_toast_message), Toast.LENGTH_SHORT).show();
+	    finish();
+		
+	}
+	
+	
+	
 	
 	
 	private final class Manager implements AccountManagerCallback<Bundle> {
@@ -296,7 +334,6 @@ public class GtaskListActivity extends ListActivity {
 			}
 		}
 	}
-	
 	
 	
 	

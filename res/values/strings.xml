@@ -40,5 +40,8 @@
     <string name="switch_account">Switch Account</string>
     <string name="sync_selected">Sync</string>
     <string name="default_task_due">Today</string>
+    <string name="event_sync_toast_message">Events synced</string>
+    <string name="date_time_not_set"/>
+    <string name="zero_time_text">00:00:00</string>
 
 </resources>

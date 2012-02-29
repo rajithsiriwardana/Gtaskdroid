@@ -48,6 +48,8 @@ public class EventEditActivity extends Activity {
 	private static final String DATE_FORMAT = "yyyy MM dd"; 
 	private static final String TIME_FORMAT = "kk:mm";
 	
+	//private static final String ONLY_DATE_FORMAT = "yyyy-MM-dd";
+	
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd kk:mm:ss";
 	
 	
@@ -73,6 +75,8 @@ public class EventEditActivity extends Activity {
     private Calendar mReminderCalendar;
     
     private boolean mReminderSet; 
+
+    
     private int mCalendarSwitch;									
     /** buttons get updated according to the value given here. 0 = update all the button values
      *  1 = event start dateTime
@@ -119,7 +123,6 @@ public class EventEditActivity extends Activity {
         
         mAddReminderCheckBox=(CheckBox) findViewById(R.id.add_reminder_checkbox);
        
-        
 	}
 
 	
@@ -325,11 +328,17 @@ public class EventEditActivity extends Activity {
             Date date = null;
 			try {
 				String dateString = event.getString(event.getColumnIndexOrThrow(EventsDbAdapter.KEY_EVENT_START_DATE_TIME)); 
+				if(dateString!=null){
 				date = dateTimeFormat.parse(dateString);
 	            mEventStartCalendar.setTime(date);
+
+				}
 	            dateString=event.getString(event.getColumnIndexOrThrow(EventsDbAdapter.KEY_EVENT_END_DATE_TIME));
+	            if(dateString!=null){
 	            date = dateTimeFormat.parse(dateString);
-	            mEventEndCalendar.setTime(date);	            
+	            mEventEndCalendar.setTime(date);
+
+	            }
 	            if (mReminderSet) {
 	            	dateString=event.getString(event.getColumnIndexOrThrow(EventsDbAdapter.KEY_REMINDER_DATE_TIME));
 	            	date = dateTimeFormat.parse(dateString);
@@ -379,20 +388,22 @@ public class EventEditActivity extends Activity {
         		timeForButton = timeFormat.format(mReminderCalendar.getTime());
         		mReminderTimeButton.setText(timeForButton);
 			}else {
-				mReminderTimeButton.setText("");
+				mReminderTimeButton.setText(R.string.date_time_not_set);
 			}			
 			break;
 			
 		case UPDATE_EVENT_START_CALENDAR:			
         	mEventStartTimeButton.setText(timeForButton);
         	mEventStartCalendar.set(Calendar.HOUR_OF_DAY, mCalendar.get(Calendar.HOUR_OF_DAY));
-        	mEventStartCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE));        	
+        	mEventStartCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE)); 
+        	
         	break;
         	
 		case UPDATE_EVENT_END_CALENDAR:			
         	mEventEndTimeButton.setText(timeForButton);
         	mEventEndCalendar.set(Calendar.HOUR_OF_DAY, mCalendar.get(Calendar.HOUR_OF_DAY));
         	mEventEndCalendar.set(Calendar.MINUTE, mCalendar.get(Calendar.MINUTE));
+        	
         	break;
         	
 		case UPDATE_REMINDER_CALENDAR:
@@ -424,7 +435,7 @@ public class EventEditActivity extends Activity {
         		dateForButton = dateFormat.format(mReminderCalendar.getTime());
         		mReminderDateButton.setText(dateForButton);
 			}else {
-				mReminderDateButton.setText("");
+				mReminderDateButton.setText(R.string.date_time_not_set);
 			}
 			break;
 			
@@ -433,6 +444,7 @@ public class EventEditActivity extends Activity {
         	mEventStartCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
         	mEventStartCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
         	mEventStartCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
+        	
 			break;
 			
 		case UPDATE_EVENT_END_CALENDAR:
@@ -440,6 +452,7 @@ public class EventEditActivity extends Activity {
         	mEventEndCalendar.set(Calendar.YEAR, mCalendar.get(Calendar.YEAR));
         	mEventEndCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH));
         	mEventEndCalendar.set(Calendar.DAY_OF_MONTH, mCalendar.get(Calendar.DAY_OF_MONTH));
+        	
 			break;
 			
 		case UPDATE_REMINDER_CALENDAR:
@@ -470,8 +483,13 @@ public class EventEditActivity extends Activity {
         String location = mLocationText.getText().toString();        
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT); 
-    	String eventStartDateTime = dateTimeFormat.format(mEventStartCalendar.getTime());
-    	String eventEndDateTime= dateTimeFormat.format(mEventEndCalendar.getTime());
+        //SimpleDateFormat onlyDateFormat= new SimpleDateFormat(ONLY_DATE_FORMAT);
+        String eventStartDateTime;
+        String eventEndDateTime;
+           	
+    		eventStartDateTime = dateTimeFormat.format(mEventStartCalendar.getTime());    	 	
+    		eventEndDateTime= dateTimeFormat.format(mEventEndCalendar.getTime());
+    	
     	
     	mReminderSet=mAddReminderCheckBox.isChecked();
     	

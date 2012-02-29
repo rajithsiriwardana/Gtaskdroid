@@ -13,19 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 /**
  * @author rajith
  *
  */
-public class ListArrayAdapter extends ArrayAdapter<ListDataModel> {
+public class ListArrayAdapter extends ArrayAdapter<ListArrayAdapterDataModel> {
 
 	
-	private final List<ListDataModel> list;
+	private final List<ListArrayAdapterDataModel> list;
 	private final Activity context;
 	
-	public ListArrayAdapter(Activity context, List <ListDataModel> list) {
+	public ListArrayAdapter(Activity context, List <ListArrayAdapterDataModel> list) {
 		super(context,R.layout.gtask_event_row, list);
 		this.context=context;
 		this.list=list;		
@@ -44,18 +45,18 @@ public class ListArrayAdapter extends ArrayAdapter<ListDataModel> {
 			viewHolder.taskTitle = (TextView) view.findViewById(R.id.taskTitle);
 			viewHolder.taskDue = (TextView) view.findViewById(R.id.taskDue);
 			viewHolder.checkbox = (CheckBox) view.findViewById(R.id.check);
-		/*	viewHolder.checkbox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			viewHolder.checkbox
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 						@Override
 						public void onCheckedChanged(CompoundButton buttonView,
 								boolean isChecked) {
-							ListDataModel element = (ListDataModel) viewHolder.checkbox
+							ListArrayAdapterDataModel element = (ListArrayAdapterDataModel) viewHolder.checkbox
 									.getTag();
 							element.setSelected(buttonView.isChecked());
-
+							//list.get(position).setSelected(true);
 						}
-					});*/
+					});
 			view.setTag(viewHolder);
 			viewHolder.checkbox.setTag(list.get(position));
 		} else {

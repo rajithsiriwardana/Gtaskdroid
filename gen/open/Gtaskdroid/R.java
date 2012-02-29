@@ -63,12 +63,14 @@ public final class R {
         public static final int all_day=0x7f05001c;
         public static final int app_name=0x7f050000;
         public static final int cancel=0x7f05001a;
+        public static final int date_time_not_set=0x7f050029;
         public static final int default_task_due=0x7f050027;
         public static final int duration=0x7f05001d;
         public static final int duration_to=0x7f05001e;
         public static final int event_delete_message=0x7f050021;
         public static final int event_delete_title=0x7f050020;
         public static final int event_location=0x7f05001f;
+        public static final int event_sync_toast_message=0x7f050028;
         public static final int google_account_sync=0x7f050023;
         public static final int menu_delete=0x7f050007;
         public static final int menu_insert=0x7f050006;
@@ -99,6 +101,7 @@ public final class R {
         public static final int time=0x7f050002;
         public static final int title=0x7f050003;
         public static final int title_empty=0x7f050022;
+        public static final int zero_time_text=0x7f05002a;
     }
     public static final class xml {
         public static final int task_preferences=0x7f040000;
