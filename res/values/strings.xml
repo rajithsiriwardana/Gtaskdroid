@@ -42,5 +42,6 @@
     <string name="default_task_due">Today</string>
     <string name="event_sync_toast_message">Events synced</string>
     <string name="date_time_not_set"> </string>
+    <string name="no_network_connnection">Network connection unavailable</string>
 
 </resources>

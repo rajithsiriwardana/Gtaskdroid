@@ -75,6 +75,7 @@ public final class R {
         public static final int menu_delete=0x7f050007;
         public static final int menu_insert=0x7f050006;
         public static final int menu_settings=0x7f050019;
+        public static final int no_network_connnection=0x7f05002a;
         public static final int no_reminders=0x7f050001;
         public static final int note=0x7f050005;
         public static final int notify_new_task_msg=0x7f050009;

@@ -38,10 +38,14 @@ import android.accounts.AccountManagerFuture;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -84,6 +88,7 @@ public class GtaskListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mDbHelper = new EventsDbAdapter(this);
 		service = Tasks.builder(transport, new JacksonFactory())
 				.setApplicationName(Messages.getString("GtaskListActivity.4")) //$NON-NLS-1$
 				.setHttpRequestInitializer(accessProtectedResource)
@@ -99,7 +104,7 @@ public class GtaskListActivity extends ListActivity {
 		accountManager = new GoogleAccountManager(this);
 		Logger.getLogger(Messages.getString("GtaskListActivity.5")).setLevel(LOGGING_LEVEL); //$NON-NLS-1$
 		gotAccount(false);		
-		mDbHelper = new EventsDbAdapter(this);
+		
 	}
 
 	@Override
@@ -146,7 +151,7 @@ public class GtaskListActivity extends ListActivity {
     }
 	
 	
-	void gotAccount(boolean tokenExpired) {
+	private void gotAccount(boolean tokenExpired) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
 		String accountName = settings.getString(Messages.getString("GtaskListActivity.6"), null); //$NON-NLS-1$
 		Account account = accountManager.getAccountByName(accountName);
@@ -164,7 +169,7 @@ public class GtaskListActivity extends ListActivity {
 		
 	}
 
-	void gotAccount(final Account account) {
+	private void gotAccount(final Account account) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString(Messages.getString("GtaskListActivity.7"), account.name); //$NON-NLS-1$
@@ -215,17 +220,19 @@ public class GtaskListActivity extends ListActivity {
 			HttpResponse response = ((HttpResponseException) e).getResponse();
 			int statusCode = response.getStatusCode();
 			try {
-				response.ignore();
+				response.ignore();				
 			} catch (IOException e1) {
 				e1.printStackTrace();
-			}
+				}
 
 			if (statusCode == 401) {
-				gotAccount(true);
+				gotAccount(true);				
 				return;
 			}
 		}
 		Log.e(TAG, e.getMessage(), e);
+		Toast.makeText(GtaskListActivity.this, getString(R.string.no_network_connnection), Toast.LENGTH_LONG).show();
+	    finish();
 	}
 
 	void onAuthToken() {
@@ -250,6 +257,9 @@ public class GtaskListActivity extends ListActivity {
 		} catch (IOException e) {
 			Log.d(TAG, Messages.getString("GtaskListActivity.8")+e.getMessage()); //$NON-NLS-1$
 			handleException(e);
+
+			
+
 		}
 		
 	}
@@ -308,7 +318,26 @@ public class GtaskListActivity extends ListActivity {
 	
 	private final class Manager implements AccountManagerCallback<Bundle> {
 		
-		public void run(AccountManagerFuture<Bundle> future) {
+		ProgressDialog myProgressDialog = null;
+		Handler handler = new Handler(){
+			
+			@Override
+			public void handleMessage(Message msg) {
+				myProgressDialog.dismiss();
+				update();
+			};
+		};
+		
+
+		
+		public void run(final AccountManagerFuture<Bundle> future) {
+			 myProgressDialog = ProgressDialog.show(GtaskListActivity.this,
+                     "Please wait", "Connecting Google...", true);
+		
+			 
+				 
+			 new Thread() {
+                 public void run() {
 			try {
 				Bundle bundle = future.getResult();
 				if (bundle.containsKey(AccountManager.KEY_INTENT)) {
@@ -326,15 +355,21 @@ public class GtaskListActivity extends ListActivity {
 									.getString(AccountManager.KEY_AUTHTOKEN));
 					String authToken=bundle.getString(AccountManager.KEY_AUTHTOKEN).toString();
 					Log.d(Messages.getString("GtaskListActivity.17"), Messages.getString("GtaskListActivity.18")+authToken); //$NON-NLS-1$ //$NON-NLS-2$
-					onAuthToken();
-					update();
+					onAuthToken();					
 				}
 			} catch (Exception e) {
 				handleException(e);
-			}
+			}handler.sendEmptyMessage(0);
+			 Looper.prepare();
+                 }
+			 }.start();
+		}//run
+		
+
 		}
-	}
 	
 	
+	
+
 	
 }
