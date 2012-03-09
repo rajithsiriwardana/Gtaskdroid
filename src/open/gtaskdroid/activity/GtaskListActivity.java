@@ -43,9 +43,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -82,6 +79,7 @@ public class GtaskListActivity extends ListActivity {
 	private GoogleAccountManager accountManager;
 	private List<ListArrayAdapterDataModel>  events;
 	private EventsDbAdapter mDbHelper;
+	private ProgressDialog myProgressDialog;
 
 
 	
@@ -231,6 +229,7 @@ public class GtaskListActivity extends ListActivity {
 			}
 		}
 		Log.e(TAG, e.getMessage(), e);
+		myProgressDialog.dismiss();
 		Toast.makeText(GtaskListActivity.this, getString(R.string.no_network_connnection), Toast.LENGTH_LONG).show();
 	    finish();
 	}
@@ -318,26 +317,14 @@ public class GtaskListActivity extends ListActivity {
 	
 	private final class Manager implements AccountManagerCallback<Bundle> {
 		
-		ProgressDialog myProgressDialog = null;
-		Handler handler = new Handler(){
-			
-			@Override
-			public void handleMessage(Message msg) {
-				myProgressDialog.dismiss();
-				update();
-			};
-		};
+		public void run(final AccountManagerFuture<Bundle> future) {
+			 myProgressDialog = null;
+			 myProgressDialog = ProgressDialog.show(GtaskListActivity.this,
+                    "Please wait", "Connecting Google...", true);
 		
 
-		
-		public void run(final AccountManagerFuture<Bundle> future) {
-			 myProgressDialog = ProgressDialog.show(GtaskListActivity.this,
-                     "Please wait", "Connecting Google...", true);
-		
-			 
-				 
 			 new Thread() {
-                 public void run() {
+                public void run() {
 			try {
 				Bundle bundle = future.getResult();
 				if (bundle.containsKey(AccountManager.KEY_INTENT)) {
@@ -355,17 +342,29 @@ public class GtaskListActivity extends ListActivity {
 									.getString(AccountManager.KEY_AUTHTOKEN));
 					String authToken=bundle.getString(AccountManager.KEY_AUTHTOKEN).toString();
 					Log.d(Messages.getString("GtaskListActivity.17"), Messages.getString("GtaskListActivity.18")+authToken); //$NON-NLS-1$ //$NON-NLS-2$
-					onAuthToken();					
+					onAuthToken();							
+					GtaskListActivity.this.runOnUiThread(new Runnable() {
+					    public void run() {
+					    	update();
+					    	myProgressDialog.dismiss();
+							
+					    }
+					});
 				}
 			} catch (Exception e) {
-				handleException(e);
-			}handler.sendEmptyMessage(0);
-			 Looper.prepare();
-                 }
-			 }.start();
-		}//run
-		
+				GtaskListActivity.this.runOnUiThread(new Runnable() {
+				    public void run() {
+				    	
+				    	myProgressDialog.dismiss();
+						
+				    }
+				});
 
+			}   
+                }
+			 }.start();
+		}
+		
 		}
 	
 	
