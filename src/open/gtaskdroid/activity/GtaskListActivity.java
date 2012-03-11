@@ -320,7 +320,7 @@ public class GtaskListActivity extends ListActivity {
 		public void run(final AccountManagerFuture<Bundle> future) {
 			 myProgressDialog = null;
 			 myProgressDialog = ProgressDialog.show(GtaskListActivity.this,
-                    "Please wait", "Connecting Google...", true);
+                   null , "Connecting Google...", true);
 		
 
 			 new Thread() {
