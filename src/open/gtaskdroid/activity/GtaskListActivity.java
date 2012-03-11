@@ -351,11 +351,11 @@ public class GtaskListActivity extends ListActivity {
 					    }
 					});
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				GtaskListActivity.this.runOnUiThread(new Runnable() {
 				    public void run() {
 				    	
-				    	myProgressDialog.dismiss();
+				    	handleException(e);
 						
 				    }
 				});
