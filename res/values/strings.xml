@@ -43,5 +43,8 @@
     <string name="event_sync_toast_message">Events synced</string>
     <string name="date_time_not_set"> </string>
     <string name="no_network_connnection">Network connection unavailable</string>
+    <string name="sync_back_selected">Sync task</string>
+    <string name="atleast_fill_title">Fill event title to sync</string>
+    <string name="fill_task_title_to_save">Fill event title</string>
 
 </resources>

@@ -26,16 +26,17 @@ public final class R {
         public static final int event_start_date=0x7f07000a;
         public static final int event_start_time=0x7f07000c;
         public static final int location=0x7f070007;
-        public static final int menu_delete=0x7f070019;
-        public static final int menu_google_sync=0x7f070018;
-        public static final int menu_insert=0x7f070016;
-        public static final int menu_settings=0x7f070017;
+        public static final int menu_delete=0x7f07001a;
+        public static final int menu_google_sync=0x7f070019;
+        public static final int menu_insert=0x7f070017;
+        public static final int menu_settings=0x7f070018;
         public static final int note=0x7f070005;
         public static final int reminder_date=0x7f07000f;
         public static final int reminder_time=0x7f070010;
         public static final int save=0x7f070001;
-        public static final int switch_account=0x7f07001a;
-        public static final int sync_selected=0x7f07001b;
+        public static final int switch_account=0x7f07001b;
+        public static final int sync_back_selected=0x7f070016;
+        public static final int sync_selected=0x7f07001c;
         public static final int taskDue=0x7f070015;
         public static final int taskTitle=0x7f070014;
         public static final int textView1=0x7f070003;
@@ -54,14 +55,16 @@ public final class R {
         public static final int list_item=0x7f030004;
     }
     public static final class menu {
-        public static final int list_menu=0x7f060000;
-        public static final int list_menu_item_longpress=0x7f060001;
-        public static final int sync_menu=0x7f060002;
+        public static final int event_edit_menu=0x7f060000;
+        public static final int list_menu=0x7f060001;
+        public static final int list_menu_item_longpress=0x7f060002;
+        public static final int sync_menu=0x7f060003;
     }
     public static final class string {
         public static final int add_reminder=0x7f05001b;
         public static final int all_day=0x7f05001c;
         public static final int app_name=0x7f050000;
+        public static final int atleast_fill_title=0x7f05002c;
         public static final int cancel=0x7f05001a;
         public static final int date_time_not_set=0x7f050029;
         public static final int default_task_due=0x7f050027;
@@ -71,6 +74,7 @@ public final class R {
         public static final int event_delete_title=0x7f050020;
         public static final int event_location=0x7f05001f;
         public static final int event_sync_toast_message=0x7f050028;
+        public static final int fill_task_title_to_save=0x7f05002d;
         public static final int google_account_sync=0x7f050023;
         public static final int menu_delete=0x7f050007;
         public static final int menu_insert=0x7f050006;
@@ -97,6 +101,7 @@ public final class R {
         public static final int save=0x7f050004;
         public static final int select_account=0x7f050024;
         public static final int switch_account=0x7f050025;
+        public static final int sync_back_selected=0x7f05002b;
         public static final int sync_selected=0x7f050026;
         public static final int task_saved_message=0x7f050008;
         public static final int time=0x7f050002;

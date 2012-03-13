@@ -1,25 +1,58 @@
 
 package open.gtaskdroid.activity;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.http.client.ClientProtocolException;
+
+import com.google.api.client.extensions.android2.AndroidHttp;
+import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
+import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
+import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpResponseException;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.json.JsonHttpRequest;
+import com.google.api.client.http.json.JsonHttpRequestInitializer;
+import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.util.DateTime;
+import com.google.api.services.tasks.Tasks;
+import com.google.api.services.tasks.TasksRequest;
+import com.google.api.services.tasks.model.Task;
+import com.google.api.services.tasks.model.TaskList;
 
 import open.gtaskdroid.dataaccess.EventsDbAdapter;
 import open.gtaskdroid.reminderHandler.ReminderManager;
 
 import open.Gtaskdroid.R;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -136,8 +169,53 @@ public class EventEditActivity extends Activity {
         eventEndTimeSet=false;
         
         
+        
 	}
 
+	/**
+	 * 
+	 */
+	public void buildService() {
+		
+		service = Tasks.builder(transport, new JacksonFactory())
+				.setApplicationName(Messages.getString("GtaskListActivity.4")) //$NON-NLS-1$
+				.setHttpRequestInitializer(accessProtectedResource)
+				.setJsonHttpRequestInitializer(
+						new JsonHttpRequestInitializer() {
+
+							public void initialize(JsonHttpRequest request)
+									throws IOException {
+								TasksRequest tasksRequest = (TasksRequest) request;
+								tasksRequest.setKey(API_KEY);
+							}
+						}).build();
+		accountManager = new GoogleAccountManager(this);
+		Logger.getLogger(Messages.getString("GtaskListActivity.5")).setLevel(LOGGING_LEVEL);//$NON-NLS-1$
+	}
+	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+    	MenuInflater mi=getMenuInflater();
+    	mi.inflate(R.menu.event_edit_menu, menu);
+    	return true;    	
+    }
+	
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    	switch (item.getItemId()) {
+			
+		case R.id.sync_back_selected:
+			buildService();
+			syncTasks();
+			return true;
+			
+		}
+    	return super.onMenuItemSelected(featureId, item);
+    }
+	
+
+	
 	
 	/**
 	 *setting the value of the RowId 
@@ -176,9 +254,12 @@ public class EventEditActivity extends Activity {
     			return showDatePicker();
     		case TIME_PICKER_DIALOG: 
     			return showTimePicker(); 
+    		case DIALOG_ACCOUNTS:
+    			return spawnDialogAccounts();
+    		
     	}
     	return super.onCreateDialog(id);
-    }
+}
     
     
     
@@ -288,11 +369,15 @@ public class EventEditActivity extends Activity {
 		
 			
 		mSaveButton.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View view) {        		
+        	public void onClick(View view) {    
+        		if(mTitleText.getText().toString().length()>0){
         		saveState(); 
         		setResult(RESULT_OK);        	   
         		Toast.makeText(EventEditActivity.this, getString(R.string.task_saved_message), Toast.LENGTH_SHORT).show();
-        	    finish();         		
+        	    finish();
+        		}else{
+            		Toast.makeText(EventEditActivity.this, getString(R.string.fill_task_title_to_save), Toast.LENGTH_SHORT).show();
+            	}
         	}
           
         });
@@ -508,13 +593,14 @@ public class EventEditActivity extends Activity {
 
     //save the event in database
     private void saveState() {
+    	
+  
     	    	
         String title = mTitleText.getText().toString();
         String description = mNoteText.getText().toString();
         String location = mLocationText.getText().toString();        
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT); 
-        //SimpleDateFormat onlyDateFormat= new SimpleDateFormat(ONLY_DATE_FORMAT);
         String eventStartDateTime;
         String eventEndDateTime;
            	if(eventStartDateTimeAvailable||(eventStartDateSet&&eventStartTimeSet)){
@@ -547,7 +633,7 @@ public class EventEditActivity extends Activity {
            	}else{
            		eventEndDateTime=" ";
            	}
-    		//eventEndDateTime= dateTimeFormat.format(mEventEndCalendar.getTime());
+
     	
     	
     	mReminderSet=mAddReminderCheckBox.isChecked();
@@ -576,5 +662,191 @@ public class EventEditActivity extends Activity {
 
 		
     }
+    
+    
+    
+    
+    
+    
+    /**
+     * resync ability
+     */    
+    private ProgressDialog myProgressDialog;
+    private GoogleAccountManager accountManager;
+    private static final String PREF = Messages.getString("GtaskListActivity.3"); //$NON-NLS-1$
+    private String AUTH_TOKEN_TYPE = Messages.getString("GtaskListActivity.2"); //$NON-NLS-1$
+	public static final int REQUEST_AUTHENTICATE = 0;
+	private static final String TAG = Messages.getString("GtaskListActivity.0"); //$NON-NLS-1$
+	private static final Level LOGGING_LEVEL = Level.OFF;
+	private final String API_KEY = Messages.getString("GtaskListActivity.1"); //$NON-NLS-1$
+	private final HttpTransport transport = AndroidHttp.newCompatibleTransport();
+	private GoogleAccessProtectedResource accessProtectedResource = new GoogleAccessProtectedResource(
+			null);
+	private Tasks service;
+	private static final int DIALOG_ACCOUNTS = 3;	
+    
+	
+    private void syncTasks(){
+    	if(mTitleText.getText().toString().length()>0){
+    	showDialog(DIALOG_ACCOUNTS);
+    	}else{
+    		Toast.makeText(EventEditActivity.this, getString(R.string.atleast_fill_title), Toast.LENGTH_LONG).show();
+    	}
+    }
+    
+   
+    
+	private Dialog spawnDialogAccounts() {
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.select_account);
+		final Account[] accounts = accountManager.getAccounts();
+		final int size = accounts.length;
+		String[] names = new String[size];
+		for (int i = 0; i < size; i++) {
+			names[i] = accounts[i].name;
+		}
+		builder.setItems(names, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				gotAccount(accounts[which]);
+				
+			}
+		});
+		return builder.create();
+	}
+    
+	
+	private void gotAccount(final Account account) {
+		SharedPreferences settings = getSharedPreferences(PREF, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString(Messages.getString("GtaskListActivity.7"), account.name); //$NON-NLS-1$
+		editor.commit();
+		accountManager.manager.getAuthToken(account, AUTH_TOKEN_TYPE, true,
+				new Manager(), null);
+	}
+    
+	
+	void onAuthToken() {
+		try {
+			insertTaskList();
+		
+			List<TaskList> taskLists = service.tasklists().list().execute()
+					.getItems();
+
+					Task task = new Task();
+					Task setTitle = task.setTitle(mTitleText.getText().toString());
+					Task setNotes = task.setNotes(mNoteText.getText().toString());
+					Date date=mEventStartCalendar.getTime();
+					DateTime taskDue=new DateTime(date);
+					Task setDueDate= task.setDue(taskDue);
+					//task.setDue("2010-10-15T12:00:00.000Z");
+					Task result = service.tasks.insert("@default", task).execute();
+
+
+		} catch (IOException e) {
+			Log.d(TAG, Messages.getString("GtaskListActivity.8")+e.getMessage()); //$NON-NLS-1$
+			handleException(e);
+
+			
+
+		}
+		
+	}
+	
+	void handleException(Exception e) {
+		e.printStackTrace();
+		if (e instanceof HttpResponseException) {
+			HttpResponse response = ((HttpResponseException) e).getResponse();
+			int statusCode = response.getStatusCode();
+			try {
+				response.ignore();				
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				}
+
+			if (statusCode == 401) {
+				//gotAccount(true);				
+				return;
+			}
+		}
+		Log.e(TAG, e.getMessage(), e);
+		myProgressDialog.dismiss();
+		Toast.makeText(EventEditActivity.this, getString(R.string.no_network_connnection), Toast.LENGTH_LONG).show();
+	    finish();
+	}
+	
+	
+	private void insertTaskList(){
+
+		try{
+		TaskList tempTaskList=new TaskList();
+		tempTaskList.setTitle(Messages.getString("GtaskListActivity.10")+new Random().nextInt(30)); //$NON-NLS-1$
+		TaskList newTaskList=service.tasklists().insert(tempTaskList).execute();
+		Log.d(TAG, Messages.getString("GtaskListActivity.11")+newTaskList.toString()); //$NON-NLS-1$
+		}catch(ClientProtocolException exp){
+			Log.d(TAG, Messages.getString("GtaskListActivity.12")+exp.getMessage()); //$NON-NLS-1$
+		}
+		catch(Exception exp){
+			Log.d(TAG, Messages.getString("GtaskListActivity.13")+exp.getMessage()); //$NON-NLS-1$
+			handleException(exp);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	private final class Manager implements AccountManagerCallback<Bundle> {
+		
+		public void run(final AccountManagerFuture<Bundle> future) {
+			 myProgressDialog = null;
+			 myProgressDialog = ProgressDialog.show(EventEditActivity.this,
+                   null , "Connecting Google...", true);
+		
+
+			 new Thread() {
+                public void run() {
+			try {
+				Bundle bundle = future.getResult();
+				if (bundle.containsKey(AccountManager.KEY_INTENT)) {
+					
+					Intent intent = bundle
+							.getParcelable(AccountManager.KEY_INTENT);
+					intent.setFlags(intent.getFlags()
+							& ~Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivityForResult(intent,
+							REQUEST_AUTHENTICATE);
+				} else if (bundle
+						.containsKey(AccountManager.KEY_AUTHTOKEN)) {
+					accessProtectedResource
+							.setAccessToken(bundle
+									.getString(AccountManager.KEY_AUTHTOKEN));
+					String authToken=bundle.getString(AccountManager.KEY_AUTHTOKEN).toString();
+					Log.d(Messages.getString("GtaskListActivity.17"), Messages.getString("GtaskListActivity.18")+authToken); //$NON-NLS-1$ //$NON-NLS-2$
+					onAuthToken();							
+					EventEditActivity.this.runOnUiThread(new Runnable() {
+					    public void run() {
+					    	//update();
+					    	myProgressDialog.dismiss();
+							
+					    }
+					});
+				}
+			} catch (final Exception e) {
+				EventEditActivity.this.runOnUiThread(new Runnable() {
+				    public void run() {
+				    	
+				    	handleException(e);
+						
+				    }
+				});
+
+			}   
+                }
+			 }.start();
+		}
+		
+		}
     
 }
