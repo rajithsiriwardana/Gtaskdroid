@@ -78,12 +78,9 @@ public class EventEditActivity extends Activity {
 	* Date Format 
 	*/
 	private static final String DATE_FORMAT = "yyyy MM dd"; 
-	private static final String TIME_FORMAT = "kk:mm";
-	//private static final String GTASK_DATE_TIME_FORMAT="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-	
-	//private static final String ONLY_DATE_FORMAT = "yyyy-MM-dd";
-	
+	private static final String TIME_FORMAT = "kk:mm";		
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd kk:mm:ss";
+	//private static final String GTASK_DATE_TIME_FORMAT="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 	
 	
 	
@@ -742,13 +739,6 @@ public class EventEditActivity extends Activity {
 							Task mGtask = new Task();
 							mGtask.setTitle(mTitleText.getText().toString()) ;
 							mGtask.setNotes(mNoteText.getText().toString());
-							/*SimpleDateFormat gTaskDue=new SimpleDateFormat(GTASK_DATE_TIME_FORMAT);
-							String due=gTaskDue.format(mEventStartCalendar.getTime());
-							Date date=gTaskDue.parse(due);
-							DateTime taskDue=new DateTime(date);
-							
-							mGtask.setDue(taskDue);*/
-							//task.setDue(due)("2010-10-15T12:00:00.000Z");
 							service.tasks.insert("@default", mGtask).execute();							
 							
 						
