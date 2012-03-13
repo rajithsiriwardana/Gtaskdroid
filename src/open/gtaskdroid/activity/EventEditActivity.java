@@ -22,7 +22,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.json.JsonHttpRequest;
 import com.google.api.client.http.json.JsonHttpRequestInitializer;
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.api.client.util.DateTime;
 import com.google.api.services.tasks.Tasks;
 import com.google.api.services.tasks.TasksRequest;
 import com.google.api.services.tasks.model.Task;
@@ -80,6 +79,7 @@ public class EventEditActivity extends Activity {
 	*/
 	private static final String DATE_FORMAT = "yyyy MM dd"; 
 	private static final String TIME_FORMAT = "kk:mm";
+	//private static final String GTASK_DATE_TIME_FORMAT="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 	
 	//private static final String ONLY_DATE_FORMAT = "yyyy-MM-dd";
 	
@@ -168,7 +168,7 @@ public class EventEditActivity extends Activity {
         eventEndDateSet=false;
         eventEndTimeSet=false;
         
-        
+        buildService();
         
 	}
 
@@ -206,7 +206,7 @@ public class EventEditActivity extends Activity {
     	switch (item.getItemId()) {
 			
 		case R.id.sync_back_selected:
-			buildService();
+			
 			syncTasks();
 			return true;
 			
@@ -726,22 +726,35 @@ public class EventEditActivity extends Activity {
 	}
     
 	
-	void onAuthToken() {
+	@SuppressWarnings("deprecation")
+	void onAuthToken() throws ParseException {
 		try {
 			insertTaskList();
-		
+						
 			List<TaskList> taskLists = service.tasklists().list().execute()
 					.getItems();
-
-					Task task = new Task();
-					Task setTitle = task.setTitle(mTitleText.getText().toString());
-					Task setNotes = task.setNotes(mNoteText.getText().toString());
-					Date date=mEventStartCalendar.getTime();
-					DateTime taskDue=new DateTime(date);
-					Task setDueDate= task.setDue(taskDue);
-					//task.setDue("2010-10-15T12:00:00.000Z");
-					Task result = service.tasks.insert("@default", task).execute();
-
+			if (taskLists != null) {
+				for (TaskList taskList : taskLists) {
+					List<Task> tasks = service.tasks().list(taskList.getId())
+							.execute().getItems();
+					if (tasks != null) {
+						
+							Task mGtask = new Task();
+							mGtask.setTitle(mTitleText.getText().toString()) ;
+							mGtask.setNotes(mNoteText.getText().toString());
+							/*SimpleDateFormat gTaskDue=new SimpleDateFormat(GTASK_DATE_TIME_FORMAT);
+							String due=gTaskDue.format(mEventStartCalendar.getTime());
+							Date date=gTaskDue.parse(due);
+							DateTime taskDue=new DateTime(date);
+							
+							mGtask.setDue(taskDue);*/
+							//task.setDue(due)("2010-10-15T12:00:00.000Z");
+							service.tasks.insert("@default", mGtask).execute();							
+							
+						
+					} 
+				}
+			}
 
 		} catch (IOException e) {
 			Log.d(TAG, Messages.getString("GtaskListActivity.8")+e.getMessage()); //$NON-NLS-1$
@@ -765,14 +778,15 @@ public class EventEditActivity extends Activity {
 				}
 
 			if (statusCode == 401) {
-				//gotAccount(true);				
+				gotAccount(true);				
 				return;
 			}
+			
 		}
 		Log.e(TAG, e.getMessage(), e);
 		myProgressDialog.dismiss();
 		Toast.makeText(EventEditActivity.this, getString(R.string.no_network_connnection), Toast.LENGTH_LONG).show();
-	    finish();
+	    
 	}
 	
 	
@@ -792,7 +806,22 @@ public class EventEditActivity extends Activity {
 		}
 	}
 	
-	
+	private void gotAccount(boolean tokenExpired) {
+		SharedPreferences settings = getSharedPreferences(PREF, 0);
+		String accountName = settings.getString(Messages.getString("GtaskListActivity.6"), null); //$NON-NLS-1$
+		Account account = accountManager.getAccountByName(accountName);
+		if (account != null) {
+			if (tokenExpired) {
+				accountManager.invalidateAuthToken(accessProtectedResource
+						.getAccessToken());
+				accessProtectedResource.setAccessToken(null);
+			}
+			gotAccount(account);			
+			return;
+		}
+		showDialog(DIALOG_ACCOUNTS);
+		
+	}
 	
 	
 	
@@ -827,8 +856,7 @@ public class EventEditActivity extends Activity {
 					onAuthToken();							
 					EventEditActivity.this.runOnUiThread(new Runnable() {
 					    public void run() {
-					    	//update();
-					    	myProgressDialog.dismiss();
+					       	myProgressDialog.dismiss();
 							
 					    }
 					});

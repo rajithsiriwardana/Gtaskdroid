@@ -52,7 +52,7 @@ public class EventListActivity extends ListActivity {
     	int [] to=new int[]{R.id.taskTitle};
     	
     	//create a simple cursor adaptor and set it to display
-    	ListCursorAdapter reminders=new ListCursorAdapter(this, R.layout.gtask_event_row, reMinderCursor,
+    	ListCursorAdapter reminders=new ListCursorAdapter(this, R.layout.event_list_row, reMinderCursor,
     			from, to);
     	
     	setListAdapter(reminders);

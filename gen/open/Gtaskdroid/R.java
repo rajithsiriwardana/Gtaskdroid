@@ -19,26 +19,28 @@ public final class R {
     public static final class id {
         public static final int add_reminder_checkbox=0x7f070009;
         public static final int cancel=0x7f070000;
-        public static final int check=0x7f070013;
-        public static final int eventTitle=0x7f070012;
+        public static final int check=0x7f070016;
+        public static final int eventTitle=0x7f070015;
         public static final int event_end_date=0x7f07000b;
         public static final int event_end_time=0x7f070011;
         public static final int event_start_date=0x7f07000a;
         public static final int event_start_time=0x7f07000c;
         public static final int location=0x7f070007;
-        public static final int menu_delete=0x7f07001a;
-        public static final int menu_google_sync=0x7f070019;
-        public static final int menu_insert=0x7f070017;
-        public static final int menu_settings=0x7f070018;
+        public static final int menu_delete=0x7f07001c;
+        public static final int menu_google_sync=0x7f07001b;
+        public static final int menu_insert=0x7f070019;
+        public static final int menu_settings=0x7f07001a;
         public static final int note=0x7f070005;
         public static final int reminder_date=0x7f07000f;
         public static final int reminder_time=0x7f070010;
         public static final int save=0x7f070001;
-        public static final int switch_account=0x7f07001b;
-        public static final int sync_back_selected=0x7f070016;
-        public static final int sync_selected=0x7f07001c;
-        public static final int taskDue=0x7f070015;
-        public static final int taskTitle=0x7f070014;
+        public static final int switch_account=0x7f07001d;
+        public static final int sync_back_selected=0x7f070018;
+        public static final int sync_selected=0x7f07001e;
+        public static final int taskDue=0x7f070017;
+        public static final int taskDueDate=0x7f070013;
+        public static final int taskDueTime=0x7f070014;
+        public static final int taskTitle=0x7f070012;
         public static final int textView1=0x7f070003;
         public static final int textView2=0x7f07000e;
         public static final int textView3=0x7f07000d;
@@ -50,9 +52,10 @@ public final class R {
     public static final class layout {
         public static final int event_edit=0x7f030000;
         public static final int event_list=0x7f030001;
-        public static final int event_row=0x7f030002;
-        public static final int gtask_event_row=0x7f030003;
-        public static final int list_item=0x7f030004;
+        public static final int event_list_row=0x7f030002;
+        public static final int event_row=0x7f030003;
+        public static final int gtask_event_row=0x7f030004;
+        public static final int list_item=0x7f030005;
     }
     public static final class menu {
         public static final int event_edit_menu=0x7f060000;

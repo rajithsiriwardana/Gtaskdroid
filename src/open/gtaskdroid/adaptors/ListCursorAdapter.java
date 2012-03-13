@@ -5,6 +5,7 @@ package open.gtaskdroid.adaptors;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import open.Gtaskdroid.R;
@@ -25,13 +26,21 @@ import android.widget.TextView;
  */
 public class ListCursorAdapter extends SimpleCursorAdapter {
 
-	private int layout;	
-	private static final String DATE_OF_THE_WEEK_FORMAT="EEE MMM dd, yy";
+		
+	private static final String DATE_FORMAT="MMM dd, yy";
+	private static final String DATE_OF_THE_WEEK_FORMAT="EEE";
+	private static final String TIME_FORMAT="HH:mm";
+	
+	private int layout;
+	private Calendar mToday;
+	private Calendar mEventDate;
 	
 	public ListCursorAdapter(Context context, int layout, Cursor c,
 			String[] from, int[] to) {
 		super(context, layout, c, from, to);
 		this.layout=layout;
+		mToday=Calendar.getInstance();
+		mEventDate=Calendar.getInstance();
 	}
 
 	/* (non-Javadoc)
@@ -68,24 +77,44 @@ public class ListCursorAdapter extends SimpleCursorAdapter {
 		  * Next set the name of the entry.
 		  */    
 		TextView taskTitleView= (TextView) v.findViewById(R.id.taskTitle);
-		TextView taskDueView= (TextView) v.findViewById(R.id.taskDue);
+		TextView taskDueTimeView= (TextView) v.findViewById(R.id.taskDueTime);
+		TextView taskDueDateView= (TextView) v.findViewById(R.id.taskDueDate);
 		 
 		taskTitleView.setText(title);
+		
 		if(!" ".equalsIgnoreCase(dateDue)){	 
 		SimpleDateFormat dateTimeFormat = new SimpleDateFormat(EventEditActivity.DATE_TIME_FORMAT);
-		SimpleDateFormat dateDueString = new SimpleDateFormat(DATE_OF_THE_WEEK_FORMAT);
+		SimpleDateFormat dateDueFormat = new SimpleDateFormat(DATE_FORMAT);
+		SimpleDateFormat dueTimeFormat = new SimpleDateFormat(TIME_FORMAT);
+		SimpleDateFormat dueDateOfWeekFormat = new SimpleDateFormat(DATE_OF_THE_WEEK_FORMAT);
+		
 				
 				Date date = null;
 				
 				try {
-					date = dateTimeFormat.parse(dateDue);					 
-					taskDueView.setText(dateDueString.format(date));
+					date = dateTimeFormat.parse(dateDue);
+					mEventDate.setTime(date);
+					if(mToday.get(Calendar.DAY_OF_MONTH)>mEventDate.get(Calendar.DAY_OF_MONTH)){
+						taskDueTimeView.setText(dateDueFormat.format(date));
+						taskDueTimeView.setTextColor(0xffff0000);
+						taskDueDateView.setText(dueDateOfWeekFormat.format(date));
+					}else if(mToday.get(Calendar.DAY_OF_MONTH)==mEventDate.get(Calendar.DAY_OF_MONTH)){
+						taskDueTimeView.setText(dueTimeFormat.format(date));
+						taskDueTimeView.setTextColor(0xffffffff);
+						taskDueDateView.setText("Today");
+					}else {
+						taskDueTimeView.setText(dateDueFormat.format(date));
+						taskDueTimeView.setTextColor(0xffffffff);
+						taskDueDateView.setText(dueDateOfWeekFormat.format(date));
+					}
+
 				} catch (ParseException e) {
 					e.printStackTrace();
 					Log.e("listCursor", "here");
 				}
 		}else {
-			taskDueView.setText(" ");
+			taskDueTimeView.setText(" ");
+			taskDueDateView.setText(" ");
 		}
 	}
 
