@@ -46,5 +46,6 @@
     <string name="sync_back_selected">Sync with gtask</string>
     <string name="atleast_fill_title">Fill event title to sync</string>
     <string name="fill_task_title_to_save">Fill event title</string>
+    <string name="task_added_gtask_successfully">Gtask Added successfully</string>
 
 </resources>

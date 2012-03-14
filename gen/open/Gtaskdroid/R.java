@@ -106,6 +106,7 @@ public final class R {
         public static final int switch_account=0x7f050025;
         public static final int sync_back_selected=0x7f05002b;
         public static final int sync_selected=0x7f050026;
+        public static final int task_added_gtask_successfully=0x7f05002e;
         public static final int task_saved_message=0x7f050008;
         public static final int time=0x7f050002;
         public static final int title=0x7f050003;

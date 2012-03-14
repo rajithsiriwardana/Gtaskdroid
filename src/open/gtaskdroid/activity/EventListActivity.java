@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-//import android.widget.SimpleCursorAdapter;
+
 
 public class EventListActivity extends ListActivity {
 	

@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +23,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.json.JsonHttpRequest;
 import com.google.api.client.http.json.JsonHttpRequestInitializer;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.tasks.Tasks;
 import com.google.api.services.tasks.TasksRequest;
 import com.google.api.services.tasks.model.Task;
@@ -80,7 +82,8 @@ public class EventEditActivity extends Activity {
 	private static final String DATE_FORMAT = "yyyy MM dd"; 
 	private static final String TIME_FORMAT = "kk:mm";		
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd kk:mm:ss";
-	//private static final String GTASK_DATE_TIME_FORMAT="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+	private static final String GTASK_DATE_TIME_FORMAT="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+	
 	
 	
 	
@@ -731,19 +734,21 @@ public class EventEditActivity extends Activity {
 			List<TaskList> taskLists = service.tasklists().list().execute()
 					.getItems();
 			if (taskLists != null) {
-				for (TaskList taskList : taskLists) {
-					List<Task> tasks = service.tasks().list(taskList.getId())
-							.execute().getItems();
-					if (tasks != null) {
+
 						
 							Task mGtask = new Task();
 							mGtask.setTitle(mTitleText.getText().toString()) ;
 							mGtask.setNotes(mNoteText.getText().toString());
-							service.tasks.insert("@default", mGtask).execute();							
+													
+							SimpleDateFormat gTaskDue=new SimpleDateFormat(GTASK_DATE_TIME_FORMAT);
+							String due=gTaskDue.format(mEventStartCalendar.getTime());
 							
-						
-					} 
-				}
+							Date date=gTaskDue.parse(due);							
+							DateTime taskDue=new DateTime(date,TimeZone.getTimeZone("Zulu"));
+							Log.d("Time Tag", taskDue.toString());
+							mGtask.setDue(taskDue);	
+							service.tasks.insert("@default", mGtask).execute();	
+
 			}
 
 		} catch (IOException e) {
@@ -847,7 +852,8 @@ public class EventEditActivity extends Activity {
 					EventEditActivity.this.runOnUiThread(new Runnable() {
 					    public void run() {
 					       	myProgressDialog.dismiss();
-							
+							Toast.makeText(EventEditActivity.this, getString(R.string.task_added_gtask_successfully), Toast.LENGTH_LONG).show();
+
 					    }
 					});
 				}
