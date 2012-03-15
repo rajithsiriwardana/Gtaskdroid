@@ -32,10 +32,8 @@ public class EventsDbAdapter {
 	public static final String KEY_EVENT_START_DATE_TIME="event_start_date_time";
 	public static final String KEY_EVENT_END_DATE_TIME="event_end_date_time";
 	public static final String KEY_REMINDER_DATE_TIME="reminder_date_time";
-	public static final String KEY_EVENT_STATUS="event_status";
 	public static final String KEY_IS_REMINDER_SET="is_reminder_set";
 	public static final String KEY_ROWID="_id";
-
 	
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
@@ -50,7 +48,6 @@ public class EventsDbAdapter {
 			+ KEY_EVENT_START_DATE_TIME + " text not null, "
 			+ KEY_EVENT_END_DATE_TIME + " text not null, "
 			+ KEY_IS_REMINDER_SET + " int not null, "
-			+ KEY_EVENT_STATUS + " int not null, "
 			+ KEY_REMINDER_DATE_TIME +" text not null );";
 	
 	private final Context mCtx;
@@ -96,7 +93,7 @@ public class EventsDbAdapter {
 
     //add event to the database
 	public long createEvent(String title, String note, String location, String eventStartDateTime,
-			String eventEndDateTime, int reminderSet,int eventStatus, String reminderDateTime) {
+			String eventEndDateTime, int reminderSet, String reminderDateTime) {
 		
 		ContentValues initialValue= new ContentValues();
 		initialValue.put(KEY_TITLE, title);
@@ -105,7 +102,6 @@ public class EventsDbAdapter {
 		initialValue.put(KEY_EVENT_START_DATE_TIME, eventStartDateTime);
 		initialValue.put(KEY_EVENT_END_DATE_TIME, eventEndDateTime);
 		initialValue.put(KEY_IS_REMINDER_SET, reminderSet);
-		initialValue.put(KEY_EVENT_STATUS, eventStatus);
 		initialValue.put(KEY_REMINDER_DATE_TIME, reminderDateTime);
 		
 		return mDb.insert(DATABASE_TABLE, null, initialValue);
@@ -120,7 +116,7 @@ public class EventsDbAdapter {
 	//fetch all events 
 	public Cursor fetchAllEvents() {		
 		return mDb.query(DATABASE_TABLE, new String []{KEY_ROWID, KEY_TITLE, 
-				KEY_NOTE, KEY_LOCATION, KEY_EVENT_START_DATE_TIME, KEY_EVENT_END_DATE_TIME,KEY_IS_REMINDER_SET,KEY_EVENT_STATUS, KEY_REMINDER_DATE_TIME},
+				KEY_NOTE, KEY_LOCATION, KEY_EVENT_START_DATE_TIME, KEY_EVENT_END_DATE_TIME,KEY_IS_REMINDER_SET, KEY_REMINDER_DATE_TIME},
 				null, null, null, null, null);		
 	}
 	
@@ -129,7 +125,7 @@ public class EventsDbAdapter {
 	public Cursor fetchEvent(long rowId) throws SQLException{
 		
 		Cursor mCursor=mDb.query(true, DATABASE_TABLE, new String []{KEY_ROWID, KEY_TITLE, KEY_NOTE, KEY_LOCATION, KEY_EVENT_START_DATE_TIME,
-				KEY_EVENT_END_DATE_TIME, KEY_IS_REMINDER_SET,KEY_EVENT_STATUS, KEY_REMINDER_DATE_TIME}, KEY_ROWID + "=" + rowId, null, null, null, null, null);
+				KEY_EVENT_END_DATE_TIME, KEY_IS_REMINDER_SET, KEY_REMINDER_DATE_TIME}, KEY_ROWID + "=" + rowId, null, null, null, null, null);
 		
 		if (mCursor!=null){
 			mCursor.moveToFirst();
@@ -140,7 +136,7 @@ public class EventsDbAdapter {
 	
 	//update an existing event
 	public boolean updateEvent(long rowId, String title, String note, String location, String eventStartDateTime,
-			String eventEndDateTime, int reminderSet, int eventStatus, String reminderDateTime){
+			String eventEndDateTime, int reminderSet,  String reminderDateTime){
 		
 		ContentValues args=new ContentValues();		
 		args.put(KEY_TITLE, title);
@@ -149,7 +145,6 @@ public class EventsDbAdapter {
 		args.put(KEY_EVENT_START_DATE_TIME, eventStartDateTime);
 		args.put(KEY_EVENT_END_DATE_TIME, eventEndDateTime);
 		args.put(KEY_IS_REMINDER_SET, reminderSet);
-		args.put(KEY_EVENT_STATUS, eventStatus);
 		args.put(KEY_REMINDER_DATE_TIME, reminderDateTime);
 		
 		return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" +rowId, null)>0;
