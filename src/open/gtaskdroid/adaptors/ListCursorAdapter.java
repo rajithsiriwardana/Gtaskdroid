@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -79,6 +80,9 @@ public class ListCursorAdapter extends SimpleCursorAdapter {
 		TextView taskTitleView= (TextView) v.findViewById(R.id.taskTitle);
 		TextView taskDueTimeView= (TextView) v.findViewById(R.id.taskDueTime);
 		TextView taskDueDateView= (TextView) v.findViewById(R.id.taskDueDate);
+		RelativeLayout mRlayout= (RelativeLayout) v.findViewById(layout);
+		
+		mRlayout.setBackgroundColor(0xffffffff);
 		 
 		taskTitleView.setText(title);
 		

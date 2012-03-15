@@ -107,12 +107,14 @@ public class EventListActivity extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_delete:
-	    	  		
+		case R.id.menu_delete:	    	  		
 	    	setEventDeleteDialog(item);	    	
-			return true;
-			
+			return true;			
 		}
+		
+		
+		
+		
 		return super.onContextItemSelected(item);
 	}
     
