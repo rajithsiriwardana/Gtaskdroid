@@ -70,6 +70,7 @@ public class GtaskListActivity extends ListActivity {
 	private static final int DIALOG_ACCOUNTS = 0;	
 	public static final int REQUEST_AUTHENTICATE = 0;
 	private static final int SET_REMINDER_CBOX_DESELECT = 0;
+	private static final int MARK_AS_INCOMPLETE = 0;
 	private final HttpTransport transport = AndroidHttp.newCompatibleTransport();
 
 	private Tasks service;
@@ -300,7 +301,7 @@ public class GtaskListActivity extends ListActivity {
 			while(list.hasNext()){
 				ListArrayAdapterDataModel data=list.next();
 				if(data.isSelected()){
-				mDbHelper.createEvent(data.getTaskTitle(), data.getEventNote(), Messages.getString("GtaskListActivity.14"), data.getEventStartDateTime(), Messages.getString("GtaskListActivity.15"), SET_REMINDER_CBOX_DESELECT, Messages.getString("GtaskListActivity.16")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				mDbHelper.createEvent(data.getTaskTitle(), data.getEventNote(), Messages.getString("GtaskListActivity.14"), data.getEventStartDateTime(), Messages.getString("GtaskListActivity.15"), SET_REMINDER_CBOX_DESELECT, MARK_AS_INCOMPLETE, Messages.getString("GtaskListActivity.16")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				
 				}
 			}

@@ -24,6 +24,8 @@ public class EventListActivity extends ListActivity {
 	
 	private static final int ACTIVITY_CREATE=0;
 	private static final int ACTIVITY_EDIT=1;
+	private static final int EVENT_COMPLETED = 1;
+	private static final int EVENT_INCOMPLETE= 0;
 	
 	private EventsDbAdapter mDbHelper;
    
@@ -46,7 +48,7 @@ public class EventListActivity extends ListActivity {
     	startManagingCursor(reMinderCursor);
     	
     	//create an array to specify fields we want (only the TITLE)
-    	String [] from=new String[] {EventsDbAdapter.KEY_TITLE,EventsDbAdapter.KEY_EVENT_START_DATE_TIME};
+    	String [] from=new String[] {EventsDbAdapter.KEY_TITLE,EventsDbAdapter.KEY_EVENT_START_DATE_TIME, EventsDbAdapter.KEY_STATUS};
     	
     	//And array of the field that want to bind in the view
     	int [] to=new int[]{R.id.taskTitle};
@@ -109,7 +111,13 @@ public class EventListActivity extends ListActivity {
 		switch (item.getItemId()) {
 		case R.id.menu_delete:	    	  		
 	    	setEventDeleteDialog(item);	    	
-			return true;			
+			return true;
+		case R.id.menu_mark_as_completed:	    	  		
+			markAsCompleted(item);	    	
+			return true;
+		case R.id.menu_mark_as_incomplete:	    	  		
+			markAsInComplete(item);	    	
+			return true;
 		}
 		
 		
@@ -118,7 +126,21 @@ public class EventListActivity extends ListActivity {
 		return super.onContextItemSelected(item);
 	}
     
+	private void markAsCompleted(final MenuItem item){
+		
+		AdapterContextMenuInfo info=(AdapterContextMenuInfo)item.getMenuInfo();
+		mDbHelper.updateEventStatus(info.id, EVENT_COMPLETED);
+		fillData();
+		
+	}
 	
+	private void markAsInComplete(final MenuItem item){
+		
+		AdapterContextMenuInfo info=(AdapterContextMenuInfo)item.getMenuInfo();
+		mDbHelper.updateEventStatus(info.id, EVENT_INCOMPLETE);
+		fillData();
+		
+	}
 	
 	//deleting an event
 	private void setEventDeleteDialog(final MenuItem item) {

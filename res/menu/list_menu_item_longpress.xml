@@ -2,6 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/menu_delete" 
         android:title="@string/menu_delete"></item>
+    <item android:id="@+id/menu_mark_as_completed" android:title="@string/menu_mark_as_completed"></item>
+    <item android:id="@+id/menu_mark_as_incomplete" android:title="@string/menu_mark_as_incomplete"></item>
     
 
 </menu>

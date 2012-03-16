@@ -29,14 +29,16 @@ public final class R {
         public static final int menu_delete=0x7f07001c;
         public static final int menu_google_sync=0x7f07001b;
         public static final int menu_insert=0x7f070019;
+        public static final int menu_mark_as_completed=0x7f07001d;
+        public static final int menu_mark_as_incomplete=0x7f07001e;
         public static final int menu_settings=0x7f07001a;
         public static final int note=0x7f070005;
         public static final int reminder_date=0x7f07000f;
         public static final int reminder_time=0x7f070010;
         public static final int save=0x7f070001;
-        public static final int switch_account=0x7f07001d;
+        public static final int switch_account=0x7f07001f;
         public static final int sync_back_selected=0x7f070018;
-        public static final int sync_selected=0x7f07001e;
+        public static final int sync_selected=0x7f070020;
         public static final int taskDue=0x7f070017;
         public static final int taskDueDate=0x7f070013;
         public static final int taskDueTime=0x7f070014;
@@ -81,6 +83,8 @@ public final class R {
         public static final int google_account_sync=0x7f050023;
         public static final int menu_delete=0x7f050007;
         public static final int menu_insert=0x7f050006;
+        public static final int menu_mark_as_completed=0x7f05002f;
+        public static final int menu_mark_as_incomplete=0x7f050030;
         public static final int menu_settings=0x7f050019;
         public static final int no_network_connnection=0x7f05002a;
         public static final int no_reminders=0x7f050001;

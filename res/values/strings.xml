@@ -7,7 +7,7 @@
     <string name="save">Save</string>
     <string name="note">Description</string> 
     <string name="menu_insert">Add Reminder</string>
-    <string name="menu_delete">Delete Reminder</string>
+    <string name="menu_delete">Delete reminder</string>
     <string name="task_saved_message">Task Saved</string>
     <string name="notify_new_task_msg">A task need to be reviewed </string>
     <string name="notify_new_task_title">Gtaskdroid reminder</string>
@@ -47,5 +47,7 @@
     <string name="atleast_fill_title">Fill event title to sync</string>
     <string name="fill_task_title_to_save">Fill event title</string>
     <string name="task_added_gtask_successfully">Gtask Added successfully</string>
+    <string name="menu_mark_as_completed">Mark as completed</string>
+    <string name="menu_mark_as_incomplete">Mark as incomplete</string>
 
 </resources>
