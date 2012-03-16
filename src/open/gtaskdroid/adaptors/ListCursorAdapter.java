@@ -83,10 +83,11 @@ public class ListCursorAdapter extends SimpleCursorAdapter {
 		 
 		taskTitleView.setText(title);
 		
+		
 		if(eventStatus!=0){
-			v.setBackgroundColor(0xff888888);
+			v.setBackgroundColor(0x00000000);
 		}else{
-			v.setBackgroundColor(0xff000000);
+			v.setBackgroundColor(0xff444444);
 		}
 		
 		if(!" ".equalsIgnoreCase(dateDue)){	 
