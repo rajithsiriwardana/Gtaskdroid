@@ -2,6 +2,8 @@ package open.gtaskdroid.activity;
 
 
 import open.gtaskdroid.adaptors.ListCursorAdapter;
+import open.gtaskdroid.adaptors.ListCursorData;
+import open.gtaskdroid.adaptors.ListCursorSorter;
 import open.gtaskdroid.dataaccess.EventsDbAdapter;
 import open.Gtaskdroid.R;
 import android.app.AlertDialog;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
@@ -44,20 +47,11 @@ public class EventListActivity extends ListActivity {
     
     private void fillData(){
     	
-    	Cursor reMinderCursor=mDbHelper.fetchAllEvents();
-    	startManagingCursor(reMinderCursor);
+      	Cursor reMinderCursor=mDbHelper.fetchAllEvents();
+    	ListCursorSorter sort=new ListCursorSorter(reMinderCursor);
     	
-    	//create an array to specify fields we want (only the TITLE)
-    	String [] from=new String[] {EventsDbAdapter.KEY_TITLE,EventsDbAdapter.KEY_EVENT_START_DATE_TIME, EventsDbAdapter.KEY_STATUS};
-    	
-    	//And array of the field that want to bind in the view
-    	int [] to=new int[]{R.id.taskTitle};
-    	
-    	//create a simple cursor adaptor and set it to display
-    	ListCursorAdapter reminders=new ListCursorAdapter(this, R.layout.event_list_row, reMinderCursor,
-    			from, to);
-    	
-    	setListAdapter(reminders);
+    	ArrayAdapter<ListCursorData> adapter=new ListCursorAdapter(this, sort.getSectionList());
+    	setListAdapter(adapter);
     	
     	
     }
