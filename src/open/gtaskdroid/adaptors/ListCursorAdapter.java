@@ -102,11 +102,11 @@ public class ListCursorAdapter extends SimpleCursorAdapter {
 				try {
 					date = dateTimeFormat.parse(dateDue);
 					mEventDate.setTime(date);
-					if(mToday.get(Calendar.DAY_OF_MONTH)>mEventDate.get(Calendar.DAY_OF_MONTH)){
+					if(mToday.get(Calendar.YEAR)>mEventDate.get(Calendar.YEAR)||mToday.get(Calendar.MONTH)>mEventDate.get(Calendar.MONTH)||mToday.get(Calendar.DAY_OF_MONTH)>mEventDate.get(Calendar.DAY_OF_MONTH)){
 						taskDueTimeView.setText(dateDueFormat.format(date));
 						taskDueTimeView.setTextColor(0xffff0000);
 						taskDueDateView.setText(dueDateOfWeekFormat.format(date));
-					}else if(mToday.get(Calendar.DAY_OF_MONTH)==mEventDate.get(Calendar.DAY_OF_MONTH)){
+					}else if(mToday.get(Calendar.YEAR)==mEventDate.get(Calendar.YEAR)&&mToday.get(Calendar.MONTH)==mEventDate.get(Calendar.MONTH)&&mToday.get(Calendar.DAY_OF_MONTH)==mEventDate.get(Calendar.DAY_OF_MONTH)){
 						taskDueTimeView.setText(dueTimeFormat.format(date));
 						taskDueTimeView.setTextColor(0xffffffff);
 						taskDueDateView.setText("Today");
