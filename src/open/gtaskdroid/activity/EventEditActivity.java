@@ -449,17 +449,14 @@ public class EventEditActivity extends Activity {
         	// This is a new task - add defaults from preferences if set. 
         	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this); 
         	String defaultTitleKey = getString(R.string.pref_task_title_key); 
-        	String defaultTimeKey = getString(R.string.pref_default_time_from_now_key); 
+        	
         	
         	String defaultTitle = prefs.getString(defaultTitleKey, null);
-        	String defaultTime = prefs.getString(defaultTimeKey, null); 
+        	
         	
         	if(defaultTitle != null)
         		mTitleText.setText(defaultTitle); 
-        	
-        	if(defaultTime != null)
-        		mReminderCalendar.add(Calendar.MINUTE, Integer.parseInt(defaultTime));
-        		//not implemented yet. default reminder adding.
+
         	mReminderSet=false;
         	
         }

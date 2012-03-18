@@ -14,8 +14,10 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,14 +44,21 @@ public class EventListActivity extends ListActivity {
         mDbHelper=new EventsDbAdapter(this);
         mDbHelper.open();
         removeOutDatedEvents();
+        mDbHelper.close();
+        mDbHelper.open();
         fillData();
                 
         registerForContextMenu(getListView());
     }
     
     
-    private void removeOutDatedEvents(){						//set this to preferences
-    	OutDatedEventsRemover mRemover=new OutDatedEventsRemover(mDbHelper, OutDatedEventsRemover.WEEK_OLD);
+    private void removeOutDatedEvents(){
+    	
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    	String defaultOverdueKey = getString(R.string.pref_task_overdue_delete);
+    	String removeTimeValue=prefs.getString(defaultOverdueKey, "1");
+
+    	OutDatedEventsRemover mRemover=new OutDatedEventsRemover(mDbHelper,Integer.parseInt(removeTimeValue));
     	mRemover.removeData();
     }
     
