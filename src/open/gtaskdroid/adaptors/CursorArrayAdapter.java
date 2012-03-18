@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 /**
@@ -45,24 +43,11 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 			viewHolder.taskTitle = (TextView) view.findViewById(R.id.taskTitle);
 			viewHolder.taskDueDate = (TextView) view.findViewById(R.id.taskDueDate);
 			viewHolder.taskDueTime = (TextView) view.findViewById(R.id.taskDueTime);
-			/*viewHolder.checkbox = (CheckBox) view.findViewById(R.id.check);
-			viewHolder.checkbox
-				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							ListArrayAdapterDataModel element = (ListArrayAdapterDataModel) viewHolder.checkbox
-									.getTag();
-							element.setSelected(buttonView.isChecked());
-							
-						}
-					});*/
 			view.setTag(viewHolder);
-			//viewHolder.checkbox.setTag(list.get(position));
+
 		} else {
 			view = convertView;
-			//((ViewHolder) view.getTag()).checkbox.setTag(list.get(position));
 		}
 		ViewHolder holder = (ViewHolder) view.getTag();
 		
@@ -74,7 +59,7 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 		holder.taskTitle.setText(list.get(position).getEventTitle());
 		holder.taskDueDate.setText(list.get(position).getWeekDate());
 		holder.taskDueTime.setText(list.get(position).getEventTime());
-		//holder.checkbox.setChecked(list.get(position).isSelected());
+
 		return view;
 	}
 	
@@ -84,7 +69,6 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 	
 		protected TextView taskTitle;
 		protected TextView taskDueDate;
-		//protected CheckBox checkbox;
 		protected TextView taskDueTime;
 	}
 

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import open.gtaskdroid.adaptors.CursorAdapterData;
 import open.gtaskdroid.adaptors.CursorArrayAdapter;
 import open.gtaskdroid.adaptors.ListCursorSorter;
+import open.gtaskdroid.adaptors.OutDatedEventsRemover;
 import open.gtaskdroid.dataaccess.EventsDbAdapter;
 import open.Gtaskdroid.R;
 
@@ -30,8 +31,6 @@ public class EventListActivity extends ListActivity {
 	
 	private static final int ACTIVITY_CREATE=0;
 	private static final int ACTIVITY_EDIT=1;
-	private static final int EVENT_COMPLETED = 1;
-	private static final int EVENT_INCOMPLETE= 0;
 	
 	private EventsDbAdapter mDbHelper;
    
@@ -42,19 +41,26 @@ public class EventListActivity extends ListActivity {
         
         mDbHelper=new EventsDbAdapter(this);
         mDbHelper.open();
+        removeOutDatedEvents();
         fillData();
                 
         registerForContextMenu(getListView());
     }
     
     
+    private void removeOutDatedEvents(){						//set this to preferences
+    	OutDatedEventsRemover mRemover=new OutDatedEventsRemover(mDbHelper, OutDatedEventsRemover.WEEK_OLD);
+    	mRemover.removeData();
+    }
+    
+    
     private void fillData(){
     	
       	Cursor reMinderCursor=mDbHelper.fetchAllEvents();
-    	ListCursorSorter sort;
+    	ListCursorSorter sorter;
 		try {
-			sort = new ListCursorSorter(reMinderCursor);
-	    	ArrayAdapter<CursorAdapterData> adapter=new CursorArrayAdapter(this, sort.getSectionList());
+			sorter = new ListCursorSorter(reMinderCursor);
+	    	ArrayAdapter<CursorAdapterData> adapter=new CursorArrayAdapter(this, sorter.getSectionList());
 	    	setListAdapter(adapter);
 		} catch (ParseException e) {
 			
@@ -118,33 +124,12 @@ public class EventListActivity extends ListActivity {
 		case R.id.menu_delete:	    	  		
 	    	setEventDeleteDialog(item);	    	
 			return true;
-		case R.id.menu_mark_as_completed:	    	  		
-			markAsCompleted(item);	    	
-			return true;
-		case R.id.menu_mark_as_incomplete:	    	  		
-			markAsInComplete(item);	    	
-			return true;
 		}
-		
 		return super.onContextItemSelected(item);
 
 	}
     
-	private void markAsCompleted(final MenuItem item){
-		
-		AdapterContextMenuInfo info=(AdapterContextMenuInfo)item.getMenuInfo();
-		mDbHelper.updateEventStatus(info.id, EVENT_COMPLETED);
-		fillData();
-		
-	}
-	
-	private void markAsInComplete(final MenuItem item){
-		
-		AdapterContextMenuInfo info=(AdapterContextMenuInfo)item.getMenuInfo();
-		mDbHelper.updateEventStatus(info.id, EVENT_INCOMPLETE);
-		fillData();
-		
-	}
+
 	
 	//deleting an event
 	private void setEventDeleteDialog(final MenuItem item) {

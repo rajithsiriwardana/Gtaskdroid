@@ -76,7 +76,6 @@ public class EventEditActivity extends Activity {
 	private static final int UPDATE_EVENT_START_CALENDAR= 1;
 	private static final int UPDATE_EVENT_END_CALENDAR= 2;
 	private static final int UPDATE_REMINDER_CALENDAR= 3;
-	private static final int MARK_AS_INCOMPLETE = 0;
 	/** 
 	* Date Format 
 	*/
@@ -116,7 +115,6 @@ public class EventEditActivity extends Activity {
     private boolean eventEndDateSet;
     private boolean eventEndTimeSet;
     
-    private int eventStatus;
     private int mCalendarSwitch;									
     /** buttons get updated according to the value given here. 0 = update all the button values
      *  1 = event End dateTime
@@ -169,7 +167,6 @@ public class EventEditActivity extends Activity {
         eventStartTimeSet=false;
         eventEndDateSet=false;
         eventEndTimeSet=false;
-        eventStatus= MARK_AS_INCOMPLETE;
         buildService();
         
 	}
@@ -419,8 +416,7 @@ public class EventEditActivity extends Activity {
             		event.getColumnIndexOrThrow(EventsDbAdapter.KEY_NOTE)));
             mLocationText.setText(event.getString(
             		event.getColumnIndexOrThrow(EventsDbAdapter.KEY_LOCATION)));
-            eventStatus=event.getInt(event.getColumnIndexOrThrow(EventsDbAdapter.KEY_STATUS));
-            
+                       
             mReminderSet = event.getInt(
             		event.getColumnIndexOrThrow(EventsDbAdapter.KEY_IS_REMINDER_SET))==1? true : false;
             mAddReminderCheckBox.setChecked(mReminderSet);
@@ -647,13 +643,13 @@ public class EventEditActivity extends Activity {
         if (mRowId == null) {
         	
         	long id = mDbHelper.createEvent(title, description, location,
-        			eventStartDateTime, eventEndDateTime,isReminderChkBxSelected, eventStatus, reminderDateTime);
+        			eventStartDateTime, eventEndDateTime,isReminderChkBxSelected, reminderDateTime);
             if (id > 0) {
                 mRowId = id;
             }
         } else {
             mDbHelper.updateEvent(mRowId, title, description,location,
-            		eventStartDateTime, eventEndDateTime, isReminderChkBxSelected, eventStatus, reminderDateTime);
+            		eventStartDateTime, eventEndDateTime, isReminderChkBxSelected, reminderDateTime);
         }
        
         //if the reminder calendar set. then add a reminder
