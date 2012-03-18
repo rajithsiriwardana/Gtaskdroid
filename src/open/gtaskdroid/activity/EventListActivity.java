@@ -1,9 +1,14 @@
 package open.gtaskdroid.activity;
 
 
-import open.gtaskdroid.adaptors.ListCursorAdapter;
+import java.text.ParseException;
+
+import open.gtaskdroid.adaptors.CursorAdapterData;
+import open.gtaskdroid.adaptors.CursorArrayAdapter;
+import open.gtaskdroid.adaptors.ListCursorSorter;
 import open.gtaskdroid.dataaccess.EventsDbAdapter;
 import open.Gtaskdroid.R;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -17,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
@@ -44,20 +50,18 @@ public class EventListActivity extends ListActivity {
     
     private void fillData(){
     	
-    	Cursor reMinderCursor=mDbHelper.fetchAllEvents();
-    	startManagingCursor(reMinderCursor);
+      	Cursor reMinderCursor=mDbHelper.fetchAllEvents();
+    	ListCursorSorter sort;
+		try {
+			sort = new ListCursorSorter(reMinderCursor);
+	    	ArrayAdapter<CursorAdapterData> adapter=new CursorArrayAdapter(this, sort.getSectionList());
+	    	setListAdapter(adapter);
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+		}
     	
-    	//create an array to specify fields we want (only the TITLE)
-    	String [] from=new String[] {EventsDbAdapter.KEY_TITLE,EventsDbAdapter.KEY_EVENT_START_DATE_TIME, EventsDbAdapter.KEY_STATUS};
-    	
-    	//And array of the field that want to bind in the view
-    	int [] to=new int[]{R.id.taskTitle};
-    	
-    	//create a simple cursor adaptor and set it to display
-    	ListCursorAdapter reminders=new ListCursorAdapter(this, R.layout.event_list_row, reMinderCursor,
-    			from, to);
-    	
-    	setListAdapter(reminders);
+
     	
     	
     }
@@ -106,8 +110,10 @@ public class EventListActivity extends ListActivity {
     }
 
 	
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+
 		switch (item.getItemId()) {
 		case R.id.menu_delete:	    	  		
 	    	setEventDeleteDialog(item);	    	
@@ -120,10 +126,8 @@ public class EventListActivity extends ListActivity {
 			return true;
 		}
 		
-		
-		
-		
 		return super.onContextItemSelected(item);
+
 	}
     
 	private void markAsCompleted(final MenuItem item){
@@ -178,11 +182,13 @@ public class EventListActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {      
     	
-    	super.onListItemClick(l, v, position, id);
+    	super.onListItemClick(l, v, position, id);    	
+    	CursorAdapterData mItem = (CursorAdapterData)this.getListAdapter().getItem(position);
+    	if(mItem.getRowId()>0){
     	Intent intent=new Intent(this,EventEditActivity.class);
-    	intent.putExtra(EventsDbAdapter.KEY_ROWID, id);
+    	intent.putExtra(EventsDbAdapter.KEY_ROWID,mItem.getRowId());  
     	startActivityForResult(intent, ACTIVITY_EDIT);
-    	
+    	}
     }
     
     //new event creating
