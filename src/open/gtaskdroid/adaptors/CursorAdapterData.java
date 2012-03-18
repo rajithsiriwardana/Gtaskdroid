@@ -30,6 +30,13 @@ public class CursorAdapterData {
 	private Calendar mToday;
 	private Calendar mEventDate;
 	
+	/**
+	 * 
+	 * @param rowId
+	 * @param eventTitle
+	 * @param eventStartTime
+	 * @throws ParseException
+	 */
 	public CursorAdapterData (int rowId, String eventTitle, String eventStartTime) throws ParseException{
 		this.rowId=rowId;
 		this.eventTitle=eventTitle;
@@ -37,31 +44,52 @@ public class CursorAdapterData {
 		convertToDate();
 	}
 	
+	/**
+	 * 
+	 * @return RowId
+	 */
 	public long getRowId(){
 		return (long)rowId;
 	}
 	
+	/**
+	 * 
+	 * @return eventTitle
+	 */
 	public String getEventTitle(){
 		return eventTitle!=null ? eventTitle : " ";		
 	}
 	
-	
+	/**
+	 * get date in EEE format ex: WED
+	 * @return
+	 */
 	public String getWeekDate(){
 		return eventStartTime!=null ? convertToDateOfWeekFormat() : " ";
 	}
 	
+	/**
+	 * get time in HH:ss format ex:16:30 for today tasks
+	 * @return
+	 */
 	public String getEventTime(){
 		
 		return eventStartTime!=null ? convertToEventTimeFormat() : " ";
 	}
 	
-	
+	/**
+	 * 
+	 * @return Calendar date
+	 */
 	public Calendar getEventdateCalendar(){
 		return mEventDate;
 	}
 	
 	
-	
+	/**
+	 * parsing database string to calendar
+	 * @throws ParseException
+	 */
 	private void convertToDate() throws ParseException{
 		
 		mToday=Calendar.getInstance();
@@ -75,6 +103,10 @@ public class CursorAdapterData {
 		}else eventStartTime=null;
 	}
 	
+	/**
+	 * converting to EEE format
+	 * @return
+	 */
 	private String convertToDateOfWeekFormat(){
 		
 		SimpleDateFormat dueDateOfWeekFormat = new SimpleDateFormat(DATE_OF_THE_WEEK_FORMAT);			
@@ -84,6 +116,10 @@ public class CursorAdapterData {
 				
 	}
 	
+	/**
+	 * converting to HH:ss format
+	 * @return
+	 */
 	private String convertToEventTimeFormat(){
 		
 		SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_FORMAT);

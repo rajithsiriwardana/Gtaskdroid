@@ -31,6 +31,11 @@ public class ListCursorSorter {
 
 	private ArrayList<CursorAdapterData> mArrayList = new ArrayList<CursorAdapterData>();
 
+	/**
+	 * 
+	 * @param reMinderCursor
+	 * @throws ParseException
+	 */
 	public ListCursorSorter (Cursor reMinderCursor) throws ParseException{	
 		this.reMinderCursor=reMinderCursor;	
 		this.mToday=Calendar.getInstance();
@@ -38,6 +43,10 @@ public class ListCursorSorter {
 		sort();
 	}
 
+	/**
+	 * sort the list according to Overdue, Today and other
+	 * @throws ParseException
+	 */
 	private void sort() throws ParseException{
 		
 		
@@ -106,11 +115,20 @@ public class ListCursorSorter {
 
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public List <CursorAdapterData> getSectionList(){
 		
 		return mArrayList;
 	}
 
+	/**
+	 * comaparator for Time
+	 * @author rajith
+	 *
+	 */
 	private class mComparator implements Comparator<CursorAdapterData>{
 
 		@Override

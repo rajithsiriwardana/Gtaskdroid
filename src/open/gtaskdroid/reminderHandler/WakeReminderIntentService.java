@@ -14,7 +14,7 @@ import android.os.PowerManager;
  */
 public abstract class WakeReminderIntentService extends IntentService {
 
-	/* (non-Javadoc)
+	/**
 	 * @see android.app.IntentService#onHandleIntent(android.content.Intent)
 	 */
 	
@@ -40,7 +40,9 @@ public abstract class WakeReminderIntentService extends IntentService {
 		super(name);
 	}
 
-	
+	/**
+	 * 
+	 */
 	@Override
 	protected void onHandleIntent(Intent arg0) {
 		try {

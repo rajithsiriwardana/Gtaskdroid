@@ -82,7 +82,9 @@ public class GtaskListActivity extends ListActivity {
 	private ProgressDialog myProgressDialog;
 
 
-	
+	/**
+	 * 
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,6 +107,9 @@ public class GtaskListActivity extends ListActivity {
 		
 	}
 
+	/**
+	 * dialog to choose google account
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -115,6 +120,7 @@ public class GtaskListActivity extends ListActivity {
 	}
 
 	/**
+	 * viewing available google accounts
 	 * @return
 	 */
 	public Dialog spawnDialogAccounts() {
@@ -136,19 +142,28 @@ public class GtaskListActivity extends ListActivity {
 		return builder.create();
 	}
 
+	/**
+	 * 
+	 */
 	@Override
     protected void onPause() {
         super.onPause();
         mDbHelper.close(); 
     }
 	
+	/**
+	 * 
+	 */
 	@Override								//need to add more
     protected void onResume() {
         super.onResume();
         mDbHelper.open(); 
     }
 	
-	
+	/**
+	 * 
+	 * @param tokenExpired
+	 */
 	private void gotAccount(boolean tokenExpired) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
 		String accountName = settings.getString(Messages.getString("GtaskListActivity.6"), null); //$NON-NLS-1$
@@ -167,6 +182,10 @@ public class GtaskListActivity extends ListActivity {
 		
 	}
 
+	/**
+	 * 
+	 * @param account
+	 */
 	private void gotAccount(final Account account) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -176,6 +195,9 @@ public class GtaskListActivity extends ListActivity {
 				new Manager(), null);
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -190,6 +212,9 @@ public class GtaskListActivity extends ListActivity {
 		}
 	}
 
+	/**
+	 * menu for sync tasks
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	   	super.onCreateOptionsMenu(menu);
@@ -198,6 +223,9 @@ public class GtaskListActivity extends ListActivity {
 		return true;
 	}
 
+	/**
+	 * when menu item clicked
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -212,6 +240,10 @@ public class GtaskListActivity extends ListActivity {
 		return false;
 	}
 
+	/**
+	 * handling exceptions
+	 * @param e
+	 */
 	void handleException(Exception e) {
 		e.printStackTrace();
 		if (e instanceof HttpResponseException) {
@@ -234,6 +266,9 @@ public class GtaskListActivity extends ListActivity {
 	    finish();
 	}
 
+	/**
+	 * token authenticating
+	 */
 	void onAuthToken() {
 		try {
 			insertTaskList();
@@ -263,6 +298,9 @@ public class GtaskListActivity extends ListActivity {
 		
 	}
 	
+	/**
+	 * populating the view
+	 */
 	private void update(){
 		
 		if(events==null){
@@ -293,6 +331,9 @@ public class GtaskListActivity extends ListActivity {
 		}
 	}
 
+	/**
+	 * sycn selected tasks with database
+	 */
 	private void syncSelectedTasks(){
 		
 		if(events!=null){
@@ -314,7 +355,11 @@ public class GtaskListActivity extends ListActivity {
 	
 	
 	
-	
+	/**
+	 * callback account manager to authenticate
+	 * @author rajith
+	 *
+	 */
 	private final class Manager implements AccountManagerCallback<Bundle> {
 		
 		public void run(final AccountManagerFuture<Bundle> future) {

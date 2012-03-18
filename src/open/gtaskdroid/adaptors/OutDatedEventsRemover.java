@@ -28,6 +28,11 @@ public class OutDatedEventsRemover {
 	private Calendar mToday;
 	private Calendar mEventEndTime;
 	
+	/**
+	 * 
+	 * @param mDbHelper
+	 * @param period
+	 */
 	public OutDatedEventsRemover (EventsDbAdapter mDbHelper, int period){
 		
 		this.mDbHelper=mDbHelper;
@@ -37,6 +42,9 @@ public class OutDatedEventsRemover {
 		mEventEndTime=Calendar.getInstance();
 	}
 	
+	/**
+	 * removing data from database
+	 */
 	public void removeData(){
 		eventsCursor.moveToFirst();
 		while(!eventsCursor.isAfterLast()) {
@@ -75,7 +83,7 @@ public class OutDatedEventsRemover {
 	}
 
 	/**
-	 * 
+	 * getting the limitations
 	 */
 	private Calendar removeBefore() {
 		if(removePeriod==MONTH_OLD){

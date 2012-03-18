@@ -21,7 +21,7 @@ public class ReminderService extends WakeReminderIntentService {
 		super("ReminderService");
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see ogto.taskreminder.WakeReminderIntentService#doReminderWork(android.content.Intent)
 	 */
 	@Override

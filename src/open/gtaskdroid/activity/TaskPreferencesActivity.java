@@ -14,6 +14,9 @@ import android.preference.PreferenceActivity;
  */
 public class TaskPreferencesActivity extends PreferenceActivity {
 
+	/**
+	 * pop preferences
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

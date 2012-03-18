@@ -14,7 +14,7 @@ import android.content.Intent;
  */
 public class OnAlarmReceiver extends BroadcastReceiver {
 
-	/* (non-Javadoc)
+	/**
 	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
 	 */
 	@Override

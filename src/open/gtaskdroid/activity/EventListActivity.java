@@ -36,6 +36,9 @@ public class EventListActivity extends ListActivity {
 	
 	private EventsDbAdapter mDbHelper;
    
+	/**
+	 * 
+	 */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +54,9 @@ public class EventListActivity extends ListActivity {
         registerForContextMenu(getListView());
     }
     
-    
+    /**
+     * remove outdated data from data base as user specified
+     */
     private void removeOutDatedEvents(){
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -62,7 +67,9 @@ public class EventListActivity extends ListActivity {
     	mRemover.removeData();
     }
     
-    
+    /**
+     * populating list view
+     */
     private void fillData(){
     	
       	Cursor reMinderCursor=mDbHelper.fetchAllEvents();
@@ -82,7 +89,9 @@ public class EventListActivity extends ListActivity {
     }
     
        
-    
+    /**
+     * menu for the ListTaskActivity
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	super.onCreateOptionsMenu(menu);
@@ -91,7 +100,9 @@ public class EventListActivity extends ListActivity {
     	return true;    	
     }
    
-    
+    /**
+     * if menu item selected
+     */
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
     	switch (item.getItemId()) {
@@ -112,8 +123,11 @@ public class EventListActivity extends ListActivity {
     	return super.onMenuItemSelected(featureId, item);
     }
     
-  //handling context menu
-
+ 
+    /**
+     * handling context menu
+     * long press
+     */
 	@Override
     public void onCreateContextMenu(ContextMenu menu, View v,
     		ContextMenuInfo menuInfo) {
@@ -125,7 +139,9 @@ public class EventListActivity extends ListActivity {
     }
 
 	
-	
+	/**
+	 * if item long pressed
+	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
@@ -140,7 +156,10 @@ public class EventListActivity extends ListActivity {
     
 
 	
-	//deleting an event
+	/**
+	 * deleting an event
+	 * @param item
+	 */
 	private void setEventDeleteDialog(final MenuItem item) {
 		
 		AlertDialog.Builder builder=
@@ -172,7 +191,9 @@ public class EventListActivity extends ListActivity {
 	
 	
 	
-	//list item clicked
+	/**
+	 * list item clicked
+	 */
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {      
     	
@@ -185,18 +206,26 @@ public class EventListActivity extends ListActivity {
     	}
     }
     
-    //new event creating
+    /**
+     * new event creating
+     */
     private void createReminder() {
 		Intent intent=new Intent(this, EventEditActivity.class);
 		startActivityForResult(intent, ACTIVITY_CREATE);
 		
 	}
     
+    /**
+     * getting Gtask list
+     */
     private void syncAccount(){    	
     	Intent intent=new Intent(this, GtaskListActivity.class);
     	startActivityForResult(intent, ACTIVITY_CREATE);
     }
     
+    /**
+     * 
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     	super.onActivityResult(requestCode, resultCode, intent);

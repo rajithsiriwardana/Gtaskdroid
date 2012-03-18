@@ -22,11 +22,20 @@ public class ReminderManager {
 	private Context mContext;
 	private AlarmManager mAlarmManager;
 	
+	/**
+	 * 
+	 * @param context
+	 */
 	public ReminderManager(Context context) {
 		mContext=context;
 		mAlarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	}
 	
+	/**
+	 * 
+	 * @param taskId
+	 * @param when
+	 */
 	public void setReminder(long taskId, Calendar when) {
 		
 		Intent intent=new Intent(mContext, OnAlarmReceiver.class);

@@ -16,14 +16,14 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class EventsDbAdapter {
 	
-	/*
+	/**
 	 * database info
 	 */
 	private static final String DATABASE_NAME="ogtodata";
 	private static final String DATABASE_TABLE="events";
 	private static final int DATABASE_VERSION=1;
 	
-	/*
+	/**
 	 * database table columns
 	 */
 	public static final String KEY_TITLE="title";
@@ -38,7 +38,9 @@ public class EventsDbAdapter {
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
 	
-	//create database 
+	/**
+	 * create database 
+	 */
 	private static final String DATABASE_CREATE=
 			"create table "+ DATABASE_TABLE +" ("
 			+ KEY_ROWID +" integer primary key autoincrement, "
@@ -52,24 +54,38 @@ public class EventsDbAdapter {
 	
 	private final Context mCtx;
 	
+	/**
+	 * 
+	 * @param mCtx
+	 */
 	public EventsDbAdapter (Context mCtx){		
 		this.mCtx=mCtx;		
 	}
 	
-	//open database connection
+	/**
+	 * open database connection
+	 * @return
+	 * @throws android.database.SQLException
+	 */
 	public EventsDbAdapter open() throws android.database.SQLException {
 		mDbHelper =new DatabaseHelper(mCtx);
 		mDb= mDbHelper.getWritableDatabase();
 		return this;
 	}
 	
-	//close database connection
+	/**
+	 * close database connection
+	 */
 	public void close(){
 		mDbHelper.close();
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @author rajith
+	 *
+	 */
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
 		public DatabaseHelper(Context context) {
@@ -82,16 +98,28 @@ public class EventsDbAdapter {
 			
 		}
 
+		/**
+		 * implenet when upgrading to a new database
+		 */
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			//not used
 			//you can upgrade the Database with ALTER 
 			
 		}	
 	}
 
 
-    //add event to the database
+    /**
+     * add event to the database
+     * @param title
+     * @param note
+     * @param location
+     * @param eventStartDateTime
+     * @param eventEndDateTime
+     * @param reminderSet
+     * @param reminderDateTime
+     * @return
+     */
 	public long createEvent(String title, String note, String location, String eventStartDateTime,
 			String eventEndDateTime, int reminderSet, String reminderDateTime) {
 		
@@ -107,13 +135,20 @@ public class EventsDbAdapter {
 		return mDb.insert(DATABASE_TABLE, null, initialValue);
 	}
 	
-	//delete event from database
+	/**
+	 * delete event from database
+	 * @param rowId
+	 * @return
+	 */
 	public boolean deleteEvent(long rowId) {
 		return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null)>0;
 	}
 	
 
-	//fetch all events 
+	/**
+	 * fetch all events 
+	 * @return
+	 */
 	public Cursor fetchAllEvents() {		
 		return mDb.query(DATABASE_TABLE, new String []{KEY_ROWID, KEY_TITLE, 
 				KEY_NOTE, KEY_LOCATION, KEY_EVENT_START_DATE_TIME, KEY_EVENT_END_DATE_TIME,KEY_IS_REMINDER_SET, KEY_REMINDER_DATE_TIME},
@@ -121,7 +156,12 @@ public class EventsDbAdapter {
 	}
 	
 	
-	//fetch specific event specified by the rowId
+	/**
+	 * fetch specific event specified by the rowId
+	 * @param rowId
+	 * @return
+	 * @throws SQLException
+	 */
 	public Cursor fetchEvent(long rowId) throws SQLException{
 		
 		Cursor mCursor=mDb.query(true, DATABASE_TABLE, new String []{KEY_ROWID, KEY_TITLE, KEY_NOTE, KEY_LOCATION, KEY_EVENT_START_DATE_TIME,
@@ -134,7 +174,18 @@ public class EventsDbAdapter {
 	}
 	
 	
-	//update an existing event
+	/**
+	 * update an existing event
+	 * @param rowId
+	 * @param title
+	 * @param note
+	 * @param location
+	 * @param eventStartDateTime
+	 * @param eventEndDateTime
+	 * @param reminderSet
+	 * @param reminderDateTime
+	 * @return
+	 */
 	public boolean updateEvent(long rowId, String title, String note, String location, String eventStartDateTime,
 			String eventEndDateTime, int reminderSet, String reminderDateTime){
 		

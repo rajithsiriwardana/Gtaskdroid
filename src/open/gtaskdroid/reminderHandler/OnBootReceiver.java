@@ -23,7 +23,7 @@ import android.util.Log;
  */
 public class OnBootReceiver extends BroadcastReceiver {
 
-	/* (non-Javadoc)
+	/**
 	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
 	 */
 	@Override

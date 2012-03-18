@@ -26,13 +26,18 @@ public class ListArrayAdapter extends ArrayAdapter<ListArrayAdapterDataModel> {
 	private final List<ListArrayAdapterDataModel> list;
 	private final Activity context;
 	
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 */
 	public ListArrayAdapter(Activity context, List <ListArrayAdapterDataModel> list) {
 		super(context,R.layout.gtask_event_row, list);
 		this.context=context;
 		this.list=list;		
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
 	 */
 	@Override
@@ -70,7 +75,11 @@ public class ListArrayAdapter extends ArrayAdapter<ListArrayAdapterDataModel> {
 		return view;
 	}
 	
-	
+	/**
+	 * to hold row data without requesting again and again
+	 * @author rajith
+	 *
+	 */
 	static class ViewHolder {
 		
 	

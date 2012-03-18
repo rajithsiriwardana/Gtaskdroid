@@ -24,12 +24,11 @@ public class ListArrayAdapterDataModel {
 	
 	private String taskTitle;
 	private String eventStartDateTime;
-	//private Calendar eventEndDateTime;
-	private String taskNote;
-	//private String location;
+	private String taskNote;	
 	
-	
-	//displaying data
+	/**
+	 * displaying data
+	 */
 	private String eventStartDate;	
 	private boolean selected;
 	
@@ -46,6 +45,10 @@ public class ListArrayAdapterDataModel {
 		this.selected=false;
 	}
 	
+	/**
+	 * 
+	 * @param taskTitle
+	 */
 	public ListArrayAdapterDataModel(String taskTitle){
 		this.taskTitle=taskTitle;
 		this.selected=false;
@@ -73,10 +76,18 @@ public class ListArrayAdapterDataModel {
 	}
 
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getTaskDue() {
 		return eventStartDate!=null? eventStartDate:" ";
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getEventStartDateTime(){
 		return eventStartDateTime!=null? eventStartDateTime:" ";
 	}
@@ -88,7 +99,10 @@ public class ListArrayAdapterDataModel {
 		return taskNote!=null? taskNote:" ";
 	}
 	
-	
+	/**
+	 * 
+	 * @param taskDue
+	 */
 	private void convertDateTimeFormat(DateTime taskDue){
 		if(taskDue!=null){
 		SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT);

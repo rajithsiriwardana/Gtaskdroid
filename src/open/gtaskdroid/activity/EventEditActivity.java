@@ -85,7 +85,9 @@ public class EventEditActivity extends Activity {
 	private static final String GTASK_DATE_TIME_FORMAT="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 	
 	
-	
+	/**
+	 * layout components
+	 */	
 	
 	private EditText mTitleText;
     private EditText mNoteText;
@@ -101,12 +103,12 @@ public class EventEditActivity extends Activity {
     private CheckBox mAddReminderCheckBox;
     private Long mRowId;
     private EventsDbAdapter mDbHelper;
-    
+
     private Calendar mCalendar;
     private Calendar mEventStartCalendar;
     private Calendar mEventEndCalendar;
     private Calendar mReminderCalendar;
-    
+
     private boolean mReminderSet; 
     private boolean eventStartDateTimeAvailable;
     private boolean eventEndDateTimeAvailable;
@@ -124,6 +126,9 @@ public class EventEditActivity extends Activity {
        
     
 
+    /**
+     * 
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +136,7 @@ public class EventEditActivity extends Activity {
         mDbHelper = new EventsDbAdapter(this);        
         setContentView(R.layout.event_edit);        
                 
-        initContent();							//initialize buttons textFields and check boxes
+        initContent();							
         
         mRowId = savedInstanceState != null ? savedInstanceState.getLong(EventsDbAdapter.KEY_ROWID) 
                 							: null;
@@ -139,6 +144,9 @@ public class EventEditActivity extends Activity {
         registerButtonListenersAndSetDefaultText();
     }
 
+    /**
+     * initialize buttons textFields and check boxes
+     */
 	private void initContent() {
 		
 		mCalendar = Calendar.getInstance();
@@ -172,7 +180,7 @@ public class EventEditActivity extends Activity {
 	}
 
 	/**
-	 * 
+	 * building services to authenticate
 	 */
 	public void buildService() {
 		
@@ -192,6 +200,9 @@ public class EventEditActivity extends Activity {
 		Logger.getLogger(Messages.getString("GtaskListActivity.5")).setLevel(LOGGING_LEVEL);//$NON-NLS-1$
 	}
 	
+	/**
+	 * 
+	 */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	super.onCreateOptionsMenu(menu);
@@ -200,6 +211,9 @@ public class EventEditActivity extends Activity {
     	return true;    	
     }
 	
+    /**
+     * 
+     */
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
     	switch (item.getItemId()) {
@@ -228,14 +242,18 @@ public class EventEditActivity extends Activity {
 		}
 	}
     
-	//when the activity get paused
+	/**
+	 * when the activity get paused
+	 */
     @Override
     protected void onPause() {
         super.onPause();
         mDbHelper.close(); 
     }
     
-    //the activity resume
+    /**
+     * the activity resume
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -245,7 +263,9 @@ public class EventEditActivity extends Activity {
     }
     
     
-    
+    /**
+     * 
+     */
     @Override
     protected Dialog onCreateDialog(int id) {
     	switch(id) {
@@ -262,7 +282,10 @@ public class EventEditActivity extends Activity {
     
     
     
-    //date picker dialog spawning
+    /**
+     * date picker dialog spawning
+     * @return
+     */
  	private DatePickerDialog showDatePicker() {
 		
 		
@@ -280,7 +303,10 @@ public class EventEditActivity extends Activity {
 		return datePicker; 
 	}
  	
-   //time picker dialog spawning
+   /**
+    * time picker dialog spawning
+    * @return
+    */
    private TimePickerDialog showTimePicker() {
 		
     	TimePickerDialog timePicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
@@ -298,9 +324,7 @@ public class EventEditActivity extends Activity {
  	
    /**
     * button listeners 
-    */
-   
-   
+    */   
  	private void registerButtonListenersAndSetDefaultText() {
 
 		mEventStartDateButton.setOnClickListener(new View.OnClickListener() {
@@ -390,16 +414,17 @@ public class EventEditActivity extends Activity {
 			}
 		});
 		
-		/**
-		 * update specific calendar or all the calendars 
-		 */
+		// update specific calendar or all the calendars 
+		
 		  updateDateButtonText(); 						
 	      updateTimeButtonText();
 	}
    
 
  	
-	
+	/**
+	 * populating fields in the layout
+	 */
     private void populateFields()  {
   	
     	mCalendarSwitch=UPDATE_ALL_CALENDARS;
@@ -467,8 +492,11 @@ public class EventEditActivity extends Activity {
         	
     }
 
+    /**
+     *  Set the time button text based upon the value from the database
+     */
 	private void updateTimeButtonText() {
-		// Set the time button text based upon the value from the database
+		
         SimpleDateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT); 
         String timeForButton = timeFormat.format(mCalendar.getTime()); 
   
@@ -521,9 +549,11 @@ public class EventEditActivity extends Activity {
 	}
 	
 	
-
+	/**
+	 *  Set the date button text based upon the value from the database 
+	 */
 	private void updateDateButtonText() {
-		// Set the date button text based upon the value from the database 
+		
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT); 
         String dateForButton = dateFormat.format(mCalendar.getTime()); 
               
@@ -580,6 +610,9 @@ public class EventEditActivity extends Activity {
 		
 	}
     
+	/**
+	 * 
+	 */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -587,7 +620,9 @@ public class EventEditActivity extends Activity {
     }
     
 
-    //save the event in database
+    /**
+     * save the event in database
+     */
     private void saveState() {
     	
   
@@ -681,7 +716,9 @@ public class EventEditActivity extends Activity {
 	private Tasks service;
 	private static final int DIALOG_ACCOUNTS = 3;	
     
-	
+	/**
+	 * sync selected items to the database
+	 */
     private void syncTasks(){
     	if(mTitleText.getText().toString().length()>0){
     	showDialog(DIALOG_ACCOUNTS);
@@ -691,7 +728,10 @@ public class EventEditActivity extends Activity {
     }
     
    
-    
+    /**
+     * spawn dialog to select account
+     * @return
+     */
 	private Dialog spawnDialogAccounts() {
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -711,7 +751,10 @@ public class EventEditActivity extends Activity {
 		return builder.create();
 	}
     
-	
+	/**
+	 * 
+	 * @param account
+	 */
 	private void gotAccount(final Account account) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -721,7 +764,10 @@ public class EventEditActivity extends Activity {
 				new Manager(), null);
 	}
     
-	
+	/**
+	 * 
+	 * @throws ParseException
+	 */
 	@SuppressWarnings("deprecation")
 	void onAuthToken() throws ParseException {
 		try {
@@ -757,6 +803,10 @@ public class EventEditActivity extends Activity {
 		
 	}
 	
+	/**
+	 * handling exceptions
+	 * @param e
+	 */
 	void handleException(Exception e) {
 		e.printStackTrace();
 		if (e instanceof HttpResponseException) {
@@ -780,7 +830,9 @@ public class EventEditActivity extends Activity {
 	    
 	}
 	
-	
+	/**
+	 * inserting task to a list
+	 */
 	private void insertTaskList(){
 
 		try{
@@ -797,6 +849,10 @@ public class EventEditActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * if token expired to validate token
+	 * @param tokenExpired
+	 */
 	private void gotAccount(boolean tokenExpired) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
 		String accountName = settings.getString(Messages.getString("GtaskListActivity.6"), null); //$NON-NLS-1$
@@ -816,7 +872,11 @@ public class EventEditActivity extends Activity {
 	
 	
 	
-	
+	/**
+	 * 
+	 * @author rajith
+	 *
+	 */
 	private final class Manager implements AccountManagerCallback<Bundle> {
 		
 		public void run(final AccountManagerFuture<Bundle> future) {

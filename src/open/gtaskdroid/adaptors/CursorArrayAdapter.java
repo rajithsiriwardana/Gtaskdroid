@@ -24,13 +24,18 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 	private final List<CursorAdapterData> list;
 	private final Activity context;
 	
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 */
 	public CursorArrayAdapter(Activity context, List <CursorAdapterData> list) {
 		super(context,R.layout.event_list_row, list);
 		this.context=context;
 		this.list=list;		
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
 	 */
 	@Override
@@ -63,7 +68,11 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 		return view;
 	}
 	
-	
+	/**
+	 * to hold row data without requesting again and again
+	 * @author rajith
+	 *
+	 */
 	static class ViewHolder {
 		
 	
