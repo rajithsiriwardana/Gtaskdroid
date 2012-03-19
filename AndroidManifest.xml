@@ -33,6 +33,7 @@
             	</intent-filter>            
         </receiver>
         <activity android:name="open.gtaskdroid.activity.GtaskListActivity" android:label="@string/app_name"></activity>
+        <activity android:name="open.gtaskdroid.activity.QuickGuideActivity" android:label="@string/app_name"></activity>
     </application>
 
 </manifest>

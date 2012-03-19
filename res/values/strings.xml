@@ -43,6 +43,26 @@
     <string name="pref_task_overdue_delete">prefOverdue</string>
     <string name="pref_task_overdue_delete_title">Overdue Tasks Removing</string>
     <string name="pref_task_overdue_delete_summary">select time to remove before tasks</string>
-    <string name="advanced_options">Advance Options</string>    
+    <string name="advanced_options">Advance Options</string>
+    <string name="quick_guide">Quick Guide</string>
+    <string name="abt_app_name_str">Gtaskdroid version 1.0</string>
+    <string name="empty_str"/>
+    <string name="quick_guide_intro">Gtaskdroid is an Android app which helps you to organize your day to day tasks. This app is ready to go after installation. This app allows you to sync your Gtasks with this app and also you can push your task into Gtask. Authentication to Google accounts is taken from “Account and sync” settings on your device. To get the maximum use you must have a Google account. </string>
+    <string name="quick_guide_features_title">Features</string>
+    <string name="quick_guide_feature_one">1. Sync tasks between a multiple Google accounts with a one application. </string>
+    <string name="quick_guide_feature_two">2. Application view tasks in three categories “Overdue”, “Today” and “Other”. Overdue tasks will be automatically deleted after certain duration which user can specify. Default is after one month. You can  change this in settings, Overdue task removing. You can have a preferred task title as default. </string>
+    <string name="quick_guide_feature_three">3. In “Gtask” menu item is to view your Gtask list. From that list you can specify the required task that need to be synced to the app. You can switch your accounts in Gtask list. </string>
+    <string name="quick_guide_feature_four">4. If you need to sync a task which is in the application you need to switch the task into Edit view and in there is a menu item called sync; that will sync that particular task to your account. You can change your accounts when you sync.</string>
+    <string name="quick_guide_permissions_required">Permissions</string>
+    <string name="quick_guide_permission_one">1. GET_ACCOUNTS &amp; USE_CREDENTIALS</string>
+    <string name="quick_guide_permission_one_details">     Allows an application to request authentication tokens.</string>
+    <string name="quick_guide_permission_two">2. INTERNET</string>
+    <string name="quick_guide_permission_two_details">     Allows application to create network sockets and communicate.</string>
+    <string name="quick_guide_permission_three">3. WAKE_LOCK</string>
+    <string name="quick_guide_permission_three_details">     Allows application to prevent phone getting into sleep while notifications. </string>
+    <string name="quick_guide_permission_four">4. RECEIVE_BOOT_COMPLETED</string>
+    <string name="quick_guide_permission_four_details">     Allows application to Boot up when the device boots. Which requires to maintain reminders. </string>
+    <string name="quick_guide_footer">This is an Open source application and you can access the application repository</string>
+    <string name="quick_guide_github_link">https://github.com/rajithsiriwardana/Gtaskdroid</string>    
 
 </resources>

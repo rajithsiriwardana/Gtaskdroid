@@ -119,6 +119,8 @@ public class EventListActivity extends ListActivity {
 			syncAccount();
 			return true;
 			
+		case R.id.quick_guide:
+			viewGuide();
 		}
     	return super.onMenuItemSelected(featureId, item);
     }
@@ -204,6 +206,11 @@ public class EventListActivity extends ListActivity {
     	intent.putExtra(EventsDbAdapter.KEY_ROWID,mItem.getRowId());  
     	startActivityForResult(intent, ACTIVITY_EDIT);
     	}
+    }
+    
+    private void viewGuide(){
+    	Intent intent=new Intent(this, QuickGuideActivity.class);
+		startActivityForResult(intent, ACTIVITY_CREATE);
     }
     
     /**
