@@ -44,21 +44,11 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 		View view= null;
 		if (convertView == null) {
 			LayoutInflater inflator = context.getLayoutInflater();
+			view = inflator.inflate(R.layout.event_list_row, null);
 			final ViewHolder viewHolder = new ViewHolder();
-			
-			if(list.get(position).getRowId()<0){
-				view = inflator.inflate(R.layout.test_row, null);
-				viewHolder.taskTitle = (TextView) view.findViewById(R.id.taskTitle);
-			}else {
-				view = inflator.inflate(R.layout.event_list_row, null);
-				viewHolder.taskTitle = (TextView) view.findViewById(R.id.taskTitle);
-				viewHolder.taskDueDate = (TextView) view.findViewById(R.id.taskDueDate);
-				viewHolder.taskDueTime = (TextView) view.findViewById(R.id.taskDueTime);
-			}
-			
-			
-
-;
+			viewHolder.taskTitle = (TextView) view.findViewById(R.id.taskTitle);
+			viewHolder.taskDueDate = (TextView) view.findViewById(R.id.taskDueDate);
+			viewHolder.taskDueTime = (TextView) view.findViewById(R.id.taskDueTime);
 
 			view.setTag(viewHolder);
 
@@ -71,7 +61,6 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 			view.setFocusable(true);
 			view.setBackgroundColor(0xff36454F);//view.setBackgroundColor(0xff444444);eee9e9,36454F
 			fillViews(position, holder);
-			holder.taskTitle.setText(list.get(position).getEventTitle());
 			holder.taskTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
 			holder.taskTitle.setTypeface(null, 2);			
 		}else{
@@ -79,9 +68,9 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 		}
 		
 		if(list.get(position).isOverdue()){
-			//setTextColor(holder,0xff696969);
+			setTextColor(holder,0xff696969);
 		}else{
-			//setTextColor(holder,0xffffffff);
+			setTextColor(holder,0xffffffff);
 		}
 		
 
