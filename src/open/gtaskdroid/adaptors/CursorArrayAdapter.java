@@ -57,11 +57,12 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 		}
 		ViewHolder holder = (ViewHolder) view.getTag();
 		
+		//if the row is to specify overdue or today or other
 		if(list.get(position).getRowId()<0){
-			view.setFocusable(true);
-			view.setBackgroundColor(0xff36454F);//view.setBackgroundColor(0xff444444);eee9e9,36454F
+			view.setFocusable(true);			
+			view.setBackgroundColor(0xff36454F);
 			fillViews(position, holder);
-			holder.taskTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+			holder.taskTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,28);
 			holder.taskTitle.setTypeface(null, 2);			
 		}else{
 			fillViews(position, holder);
@@ -79,6 +80,7 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 
 	/**
 	 * @param holder
+	 * @param color
 	 */
 	private void setTextColor(ViewHolder holder, int color) {
 		holder.taskTitle.setTextColor(color);
