@@ -817,6 +817,7 @@ public class EventEditActivity extends Activity {
 	 * @param e
 	 */
 	void handleException(Exception e) {
+		boolean accountCollected=false;
 		e.printStackTrace();
 		if (e instanceof HttpResponseException) {
 			HttpResponse response = ((HttpResponseException) e).getResponse();
@@ -828,15 +829,17 @@ public class EventEditActivity extends Activity {
 				}
 
 			if (statusCode == 401) {
-				gotAccount(true);				
+				gotAccount(true);
+				accountCollected=true;
 				return;
 			}
 			
 		}
 		Log.e(TAG, e.getMessage(), e);
+		if(!accountCollected){
 		myProgressDialog.dismiss();
 		Toast.makeText(EventEditActivity.this, getString(R.string.no_network_connnection), Toast.LENGTH_LONG).show();
-	    
+		}
 	}
 	
 	/**
