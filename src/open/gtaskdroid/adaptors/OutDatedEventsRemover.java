@@ -87,19 +87,15 @@ public class OutDatedEventsRemover {
 	 */
 	private Calendar removeBefore() {
 		if(removePeriod==MONTH_OLD){
-			if(mToday.get(Calendar.MONTH)!=0){
-				mEventEndTime.set(mToday.get(Calendar.YEAR), mToday.get(Calendar.MONTH)-1, 1);
-			}
-			else mEventEndTime.set(mToday.get(Calendar.YEAR)-1, mToday.get(Calendar.MONTH)+11, 1);
+
+				mEventEndTime.set(Calendar.WEEK_OF_YEAR, mToday.get(Calendar.WEEK_OF_YEAR)-4);
+
 		}else if(removePeriod==WEEK_OLD){
-			if(mToday.get(Calendar.WEEK_OF_YEAR)!=1){
+
 			mEventEndTime.set(Calendar.WEEK_OF_YEAR, (mToday.get(Calendar.WEEK_OF_YEAR)-1));
-			}else {
-				mEventEndTime.set(Calendar.YEAR, mToday.get(Calendar.YEAR)-1);
-				mEventEndTime.set(Calendar.WEEK_OF_YEAR, 51);
-			}
+
 		}else if(removePeriod==DAY_OLD){
-			mEventEndTime.set(Calendar.DATE, mToday.get(Calendar.DATE)-1);
+			mEventEndTime.set(Calendar.DAY_OF_YEAR, mToday.get(Calendar.DAY_OF_YEAR)-1);
 		}
 		return mEventEndTime;
 	}
