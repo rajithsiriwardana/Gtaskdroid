@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+   
+    <string-array name="time">
+        <item>Month before</item>
+        <item>Week before</item>
+        <item>Day before</item>
+    </string-array>
+    
+    <string-array name="time_pref_num">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
+    
+</resources>

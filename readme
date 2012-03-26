@@ -1,0 +1,3 @@
+To connect with Google task API you must get an API key from Google API console (https://code.google.com/apis/console) 
+And add that key into src/open/gtaskdroid/activity/messages.properties 
+I have specified the location as follows "GtaskListActivity.1=************************************_go"
