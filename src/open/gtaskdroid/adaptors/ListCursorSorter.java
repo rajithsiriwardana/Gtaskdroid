@@ -76,8 +76,10 @@ public class ListCursorSorter {
 					date = dateTimeFormat.parse(dateString);
 					mEventDate.setTime(date);
 		            
-					if(mToday.get(Calendar.YEAR)>mEventDate.get(Calendar.YEAR)||mToday.get(Calendar.MONTH)>mEventDate.get(Calendar.MONTH)||mToday.get(Calendar.DAY_OF_MONTH)>mEventDate.get(Calendar.DAY_OF_MONTH)){						
-						overDueList.add(new CursorAdapterData(rowId,titleString, dateString));
+					if(mToday.get(Calendar.YEAR)>mEventDate.get(Calendar.YEAR)||mToday.get(Calendar.MONTH)>mEventDate.get(Calendar.MONTH)||mToday.get(Calendar.DAY_OF_MONTH)>mEventDate.get(Calendar.DAY_OF_MONTH)){
+						CursorAdapterData mCursorAdapterData=new CursorAdapterData(rowId,titleString, dateString);
+						mCursorAdapterData.setOverdue(true);
+						overDueList.add(mCursorAdapterData);
 					}else if(mToday.get(Calendar.YEAR)==mEventDate.get(Calendar.YEAR)&&mToday.get(Calendar.MONTH)==mEventDate.get(Calendar.MONTH)&&mToday.get(Calendar.DAY_OF_MONTH)==mEventDate.get(Calendar.DAY_OF_MONTH)){
 						todayList.add(new CursorAdapterData(rowId,titleString, dateString));
 					}else{
@@ -92,17 +94,17 @@ public class ListCursorSorter {
 		}
 		
 		if (!overDueList.isEmpty()) {
-			mArrayList.add(new CursorAdapterData(-1,"Overdue", " "));
+			mArrayList.add(new CursorAdapterData(-1,"Overdue ", " "));
 			Collections.sort(overDueList, new mComparator());
 			mArrayList.addAll(overDueList);   
 			}
 		if (!todayList.isEmpty()) {
-			mArrayList.add(new CursorAdapterData(-1,"Today", " "));
+			mArrayList.add(new CursorAdapterData(-1,"Today ", " "));
 			Collections.sort(todayList, new mComparator());
 			mArrayList.addAll(todayList);   
 		}
 		if (!otherList.isEmpty()||!noDateList.isEmpty()) {
-			mArrayList.add(new CursorAdapterData(-1,"Other", " "));
+			mArrayList.add(new CursorAdapterData(-1,"Other ", " "));
 			if(!otherList.isEmpty()){
 				Collections.sort(otherList, new mComparator());
 				mArrayList.addAll(otherList);   

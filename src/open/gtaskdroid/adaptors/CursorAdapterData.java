@@ -29,6 +29,7 @@ public class CursorAdapterData {
 	private Date date;
 	private Calendar mToday;
 	private Calendar mEventDate;
+	private boolean overdue;
 	
 	/**
 	 * 
@@ -41,6 +42,7 @@ public class CursorAdapterData {
 		this.rowId=rowId;
 		this.eventTitle=eventTitle;
 		this.eventStartTime=eventStartTime;
+		this.overdue=false;
 		convertToDate();
 	}
 	
@@ -130,6 +132,20 @@ public class CursorAdapterData {
 			
 		}else return dateTimeFormat.format(date);
 				
+	}
+
+	/**
+	 * @return the overdue
+	 */
+	public boolean isOverdue() {
+		return overdue;
+	}
+
+	/**
+	 * @param overdue the overdue to set
+	 */
+	public void setOverdue(boolean overdue) {
+		this.overdue = overdue;
 	}
 	
 

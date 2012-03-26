@@ -8,6 +8,7 @@ import java.util.List;
 import open.Gtaskdroid.R;
 
 import android.app.Activity;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,14 +59,42 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 		
 		if(list.get(position).getRowId()<0){
 			view.setFocusable(true);
-			view.setBackgroundColor(0xff444444);
+			view.setBackgroundColor(0xff36454F);//view.setBackgroundColor(0xff444444);eee9e9,36454F
+			fillViews(position, holder);
+			holder.taskTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,22);
+			holder.taskTitle.setTypeface(null, 2);			
+		}else{
+			fillViews(position, holder);
 		}
+		
+		if(list.get(position).isOverdue()){
+			setTextColor(holder,0xff696969);
+		}else{
+			setTextColor(holder,0xffffffff);
+		}
+		
+
+		return view;
+	}
+
+	/**
+	 * @param holder
+	 */
+	private void setTextColor(ViewHolder holder, int color) {
+		holder.taskTitle.setTextColor(color);
+		holder.taskDueDate.setTextColor(color);
+		holder.taskDueTime.setTextColor(color);
+	}
+
+	/**
+	 * @param position
+	 * @param holder
+	 */
+	private void fillViews(int position, ViewHolder holder) {
 		
 		holder.taskTitle.setText(list.get(position).getEventTitle());
 		holder.taskDueDate.setText(list.get(position).getWeekDate());
 		holder.taskDueTime.setText(list.get(position).getEventTime());
-
-		return view;
 	}
 	
 	/**
