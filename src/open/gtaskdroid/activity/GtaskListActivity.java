@@ -160,6 +160,14 @@ public class GtaskListActivity extends ListActivity {
         mDbHelper.open(); 
     }
 	
+    /**
+     * 
+     */
+    @Override
+    protected void onDestroy() {    	
+    	super.onDestroy();
+        mDbHelper.close();
+    }
 	/**
 	 * 
 	 * @param tokenExpired

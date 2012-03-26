@@ -47,13 +47,19 @@ public class EventListActivity extends ListActivity {
         mDbHelper=new EventsDbAdapter(this);
         mDbHelper.open();
         removeOutDatedEvents();
-        mDbHelper.close();
-        mDbHelper.open();
         fillData();
                 
         registerForContextMenu(getListView());
     }
     
+    /**
+     * 
+     */
+    @Override
+    protected void onDestroy() {    	
+    	super.onDestroy();
+        mDbHelper.close();
+    }
     /**
      * remove outdated data from data base as user specified
      */

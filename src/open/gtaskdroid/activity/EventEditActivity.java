@@ -144,6 +144,15 @@ public class EventEditActivity extends Activity {
         registerButtonListenersAndSetDefaultText();
     }
 
+    
+    /**
+     * 
+     */
+    @Override
+    protected void onDestroy() {    	
+    	super.onDestroy();
+        mDbHelper.close();
+    }
     /**
      * initialize buttons textFields and check boxes
      */
