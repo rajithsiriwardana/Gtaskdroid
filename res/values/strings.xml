@@ -6,8 +6,8 @@
     <string name="title">Event</string>
     <string name="save">Save</string>
     <string name="note">Description</string> 
-    <string name="menu_insert">Add Reminder</string>
-    <string name="menu_delete">Delete reminder</string>
+    <string name="menu_insert">Add Task</string>
+    <string name="menu_delete">Delete Task</string>
     <string name="task_saved_message">Task Saved</string>
     <string name="notify_new_task_msg">A task need to be reviewed </string>
     <string name="notify_new_task_title">Gtaskdroid reminder</string>

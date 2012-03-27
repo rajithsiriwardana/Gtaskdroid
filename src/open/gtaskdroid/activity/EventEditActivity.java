@@ -894,7 +894,7 @@ public class EventEditActivity extends Activity {
 		public void run(final AccountManagerFuture<Bundle> future) {
 			 myProgressDialog = null;
 			 myProgressDialog = ProgressDialog.show(EventEditActivity.this,
-                   null , "Connecting Google...", true);
+                   null , "Connecting Account Gtasks...", true);
 		
 
 			 new Thread() {
