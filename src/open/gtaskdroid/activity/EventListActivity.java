@@ -35,6 +35,12 @@ public class EventListActivity extends ListActivity {
 	private static final int ACTIVITY_EDIT=1;
 	
 	private EventsDbAdapter mDbHelper;
+	
+	
+	/**
+	 * for context menu long press
+	 */
+	private CursorAdapterData mContextItem;
    
 	/**
 	 * 
@@ -144,6 +150,8 @@ public class EventListActivity extends ListActivity {
     	
     	MenuInflater mi=getMenuInflater();
     	mi.inflate(R.menu.list_menu_item_longpress, menu);
+    	AdapterContextMenuInfo info=(AdapterContextMenuInfo) menuInfo;
+    	mContextItem = (CursorAdapterData)this.getListAdapter().getItem( info.position);
     }
 
 	
@@ -179,8 +187,9 @@ public class EventListActivity extends ListActivity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				AdapterContextMenuInfo info=(AdapterContextMenuInfo)item.getMenuInfo();
-				mDbHelper.deleteEvent(info.id);
+		    	if(mContextItem.getRowId()>0){
+					mDbHelper.deleteEvent(mContextItem.getRowId());
+		    	}
 				fillData();
 				
 			}
