@@ -14,7 +14,7 @@ import android.os.Bundle;
 public class QuickGuideActivity extends Activity {
 
 	/**
-	 * 
+	 * @param Bundle
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

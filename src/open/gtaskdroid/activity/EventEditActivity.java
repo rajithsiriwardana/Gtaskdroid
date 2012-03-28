@@ -117,12 +117,13 @@ public class EventEditActivity extends Activity {
     private boolean eventEndDateSet;
     private boolean eventEndTimeSet;
     
-    private int mCalendarSwitch;									
     /** buttons get updated according to the value given here. 0 = update all the button values
      *  1 = event End dateTime
      *  2 = event end dateTime
      *  3 = reminder dateTime
      */
+    private int mCalendarSwitch;									
+
        
     
 
@@ -154,7 +155,7 @@ public class EventEditActivity extends Activity {
         mDbHelper.close();
     }
     /**
-     * initialize buttons textFields and check boxes
+     * initialize buttons textFields and check boxes from the XML
      */
 	private void initContent() {
 		
@@ -189,7 +190,7 @@ public class EventEditActivity extends Activity {
 	}
 
 	/**
-	 * building services to authenticate
+	 * building services to authenticate with the help of accountManager
 	 */
 	public void buildService() {
 		
@@ -211,6 +212,8 @@ public class EventEditActivity extends Activity {
 	
 	/**
 	 * 
+	 * menu for Gtask sync
+	 * @return boolean
 	 */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -221,7 +224,7 @@ public class EventEditActivity extends Activity {
     }
 	
     /**
-     * 
+     * @return boolean
      */
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -273,7 +276,8 @@ public class EventEditActivity extends Activity {
     
     
     /**
-     * 
+     * Dialog pickers
+     * @return Dialog
      */
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -293,7 +297,7 @@ public class EventEditActivity extends Activity {
     
     /**
      * date picker dialog spawning
-     * @return
+     * @return DatePickerDialog
      */
  	private DatePickerDialog showDatePicker() {
 		
@@ -314,7 +318,7 @@ public class EventEditActivity extends Activity {
  	
    /**
     * time picker dialog spawning
-    * @return
+    * @return TimePickerDialog
     */
    private TimePickerDialog showTimePicker() {
 		
@@ -423,8 +427,7 @@ public class EventEditActivity extends Activity {
 			}
 		});
 		
-		// update specific calendar or all the calendars 
-		
+		// update specific calendar or all the calendars 		
 		  updateDateButtonText(); 						
 	      updateTimeButtonText();
 	}
@@ -739,7 +742,7 @@ public class EventEditActivity extends Activity {
    
     /**
      * spawn dialog to select account
-     * @return
+     * @return Dialog
      */
 	private Dialog spawnDialogAccounts() {
 		
@@ -813,7 +816,7 @@ public class EventEditActivity extends Activity {
 	}
 	
 	/**
-	 * handling exceptions
+	 * handling exceptions 401 will try to reconnect by requesting another token
 	 * @param e
 	 */
 	void handleException(Exception e) {

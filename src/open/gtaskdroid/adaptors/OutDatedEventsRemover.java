@@ -69,7 +69,7 @@ public class OutDatedEventsRemover {
 
 	/**
 	 * @param dateString
-	 * @return
+	 * @return Date
 	 */
 	private Date parseToDate(String dateString) {
 		SimpleDateFormat dateTimeFormat = new SimpleDateFormat(EventEditActivity.DATE_TIME_FORMAT);
@@ -84,6 +84,7 @@ public class OutDatedEventsRemover {
 
 	/**
 	 * getting the limitations
+	 * @return Calendar
 	 */
 	private Calendar removeBefore() {
 		if(removePeriod==MONTH_OLD){

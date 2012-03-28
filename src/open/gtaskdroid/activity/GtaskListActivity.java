@@ -154,7 +154,7 @@ public class GtaskListActivity extends ListActivity {
 	/**
 	 * 
 	 */
-	@Override								//need to add more
+	@Override								
     protected void onResume() {
         super.onResume();
         mDbHelper.open(); 

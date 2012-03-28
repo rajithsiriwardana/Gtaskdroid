@@ -40,10 +40,10 @@ public class EventListActivity extends ListActivity {
 	/**
 	 * for context menu long press
 	 */
-	private CursorAdapterData mItem;
+	private CursorAdapterData mContextItem;
    
 	/**
-	 * 
+	 * @param Bundle
 	 */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +103,7 @@ public class EventListActivity extends ListActivity {
        
     /**
      * menu for the ListTaskActivity
+     * @return boolean
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,6 +115,7 @@ public class EventListActivity extends ListActivity {
    
     /**
      * if menu item selected
+     * @return boolean
      */
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -139,8 +141,11 @@ public class EventListActivity extends ListActivity {
     
  
     /**
-     * handling context menu
-     * long press
+     * handling context menu(long press)
+     * @param ContextMenu
+     * @param View
+     * @param ContextMenuInfo
+     * 
      */
 	@Override
     public void onCreateContextMenu(ContextMenu menu, View v,
@@ -151,12 +156,14 @@ public class EventListActivity extends ListActivity {
     	MenuInflater mi=getMenuInflater();
     	mi.inflate(R.menu.list_menu_item_longpress, menu);
     	AdapterContextMenuInfo info=(AdapterContextMenuInfo) menuInfo;
-    	mItem = (CursorAdapterData)this.getListAdapter().getItem( info.position);
+    	mContextItem = (CursorAdapterData)this.getListAdapter().getItem( info.position);
     }
 
 	
 	/**
 	 * if item long pressed
+	 * @param MenuItem
+	 * @return boolean
 	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -187,8 +194,8 @@ public class EventListActivity extends ListActivity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-		    	if(mItem.getRowId()>0){
-					mDbHelper.deleteEvent(mItem.getRowId());
+		    	if(mContextItem.getRowId()>0){
+					mDbHelper.deleteEvent(mContextItem.getRowId());
 		    	}
 				fillData();
 				
@@ -210,6 +217,8 @@ public class EventListActivity extends ListActivity {
 	
 	/**
 	 * list item clicked
+	 * @param ListView
+	 * @param View
 	 */
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {      
@@ -246,7 +255,7 @@ public class EventListActivity extends ListActivity {
     }
     
     /**
-     * 
+     * @param Intent
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

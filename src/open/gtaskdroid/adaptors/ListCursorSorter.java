@@ -119,7 +119,7 @@ public class ListCursorSorter {
 	
 	/**
 	 * 
-	 * @return
+	 * @return List <CursorAdapterData>
 	 */
 	public List <CursorAdapterData> getSectionList(){
 		

@@ -78,7 +78,7 @@ public class ListArrayAdapterDataModel {
 
 	/**
 	 * 
-	 * @return
+	 * @return String
 	 */
 	public String getTaskDue() {
 		return eventStartDate!=null? eventStartDate:" ";
@@ -86,14 +86,14 @@ public class ListArrayAdapterDataModel {
 
 	/**
 	 * 
-	 * @return
+	 * @return String
 	 */
 	public String getEventStartDateTime(){
 		return eventStartDateTime!=null? eventStartDateTime:" ";
 	}
 	
 	/**
-	 * @return the taskNotes
+	 * @return String
 	 */
 	public String getEventNote(){
 		return taskNote!=null? taskNote:" ";

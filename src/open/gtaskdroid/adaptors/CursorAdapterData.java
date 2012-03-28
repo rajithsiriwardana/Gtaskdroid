@@ -64,7 +64,7 @@ public class CursorAdapterData {
 	
 	/**
 	 * get date in EEE format ex: WED
-	 * @return
+	 * @return String
 	 */
 	public String getWeekDate(){
 		return eventStartTime!=null ? convertToDateOfWeekFormat() : " ";
@@ -72,7 +72,7 @@ public class CursorAdapterData {
 	
 	/**
 	 * get time in HH:ss format ex:16:30 for today tasks
-	 * @return
+	 * @return String
 	 */
 	public String getEventTime(){
 		
@@ -81,7 +81,7 @@ public class CursorAdapterData {
 	
 	/**
 	 * 
-	 * @return Calendar date
+	 * @return Calendar
 	 */
 	public Calendar getEventdateCalendar(){
 		return mEventDate;
@@ -107,7 +107,7 @@ public class CursorAdapterData {
 	
 	/**
 	 * converting to EEE format
-	 * @return
+	 * @return String
 	 */
 	private String convertToDateOfWeekFormat(){
 		
@@ -120,7 +120,7 @@ public class CursorAdapterData {
 	
 	/**
 	 * converting to HH:ss format
-	 * @return
+	 * @return String
 	 */
 	private String convertToEventTimeFormat(){
 		
