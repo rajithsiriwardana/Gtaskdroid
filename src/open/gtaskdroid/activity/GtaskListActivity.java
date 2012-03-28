@@ -82,11 +82,13 @@ public class GtaskListActivity extends ListActivity {
 	private ProgressDialog myProgressDialog;
 
 
+	
 	/**
 	 * 
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		mDbHelper = new EventsDbAdapter(this);
 		service = Tasks.builder(transport, new JacksonFactory())
@@ -186,6 +188,9 @@ public class GtaskListActivity extends ListActivity {
 			update();
 			return;
 		}
+		if(myProgressDialog!=null){
+		myProgressDialog.dismiss();
+		}
 		showDialog(DIALOG_ACCOUNTS);
 		
 	}
@@ -214,6 +219,9 @@ public class GtaskListActivity extends ListActivity {
 			if (resultCode == RESULT_OK) {
 				gotAccount(false);				
 			} else {
+				if(myProgressDialog!=null){
+				myProgressDialog.dismiss();
+				}
 				showDialog(DIALOG_ACCOUNTS);
 			}
 			break;
@@ -272,7 +280,9 @@ public class GtaskListActivity extends ListActivity {
 		}
 		Log.e(TAG, e.getMessage(), e);
 		if(!accountCollected){
-		myProgressDialog.dismiss();
+	    if(myProgressDialog!=null){
+	    	myProgressDialog.dismiss();
+		}
 		Toast.makeText(GtaskListActivity.this, getString(R.string.no_network_connnection), Toast.LENGTH_LONG).show();
 	    finish();
 		}
@@ -407,7 +417,18 @@ public class GtaskListActivity extends ListActivity {
 							
 					    }
 					});
-				}
+				}else {
+					
+					GtaskListActivity.this.runOnUiThread(new Runnable() {
+					    public void run() {	
+					    	if(myProgressDialog!=null){
+					    	myProgressDialog.dismiss();
+					    	}
+					    }
+					});
+					
+				
+			}
 			} catch (final Exception e) {
 				GtaskListActivity.this.runOnUiThread(new Runnable() {
 				    public void run() {

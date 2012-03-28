@@ -840,7 +840,9 @@ public class EventEditActivity extends Activity {
 		}
 		Log.e(TAG, e.getMessage(), e);
 		if(!accountCollected){
-		myProgressDialog.dismiss();
+			if(myProgressDialog!=null){
+				myProgressDialog.dismiss();
+			}
 		Toast.makeText(EventEditActivity.this, getString(R.string.no_network_connnection), Toast.LENGTH_LONG).show();
 		}
 	}
@@ -880,6 +882,9 @@ public class EventEditActivity extends Activity {
 			}
 			gotAccount(account);			
 			return;
+		}
+		if(myProgressDialog!=null){
+			myProgressDialog.dismiss();
 		}
 		showDialog(DIALOG_ACCOUNTS);
 		
@@ -927,6 +932,17 @@ public class EventEditActivity extends Activity {
 
 					    }
 					});
+				}else {
+					
+						EventEditActivity.this.runOnUiThread(new Runnable() {
+						    public void run() {	
+						    	if(myProgressDialog!=null){
+						    	myProgressDialog.dismiss();
+						    	}
+						    }
+						});
+						
+					
 				}
 			} catch (final Exception e) {
 				EventEditActivity.this.runOnUiThread(new Runnable() {
