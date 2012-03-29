@@ -297,9 +297,6 @@ public class GtaskListActivity extends ListActivity {
 		}
 		Log.e(TAG, e.getMessage(), e);
 		if(!accountCollected){
-	    if(myProgressDialog!=null){
-	    	myProgressDialog.dismiss();
-		}
 		Toast.makeText(GtaskListActivity.this, getString(R.string.no_network_connnection), Toast.LENGTH_LONG).show();
 	    finish();
 		}

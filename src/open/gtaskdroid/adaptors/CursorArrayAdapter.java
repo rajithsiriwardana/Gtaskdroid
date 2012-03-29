@@ -58,7 +58,7 @@ public class CursorArrayAdapter extends ArrayAdapter<CursorAdapterData> {
 		ViewHolder holder = (ViewHolder) view.getTag();
 		
 		//if the row is to specify overdue or today or other
-		if(list.get(position).getRowId()<0){
+		if(list.get(position).getRowId()==-1){
 			view.setFocusable(true);			
 			view.setBackgroundColor(0xff36454F);
 			fillViews(position, holder);

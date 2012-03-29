@@ -76,7 +76,9 @@ public class ListCursorSorter {
 					date = dateTimeFormat.parse(dateString);
 					mEventDate.setTime(date);
 		            
-					if(mToday.get(Calendar.YEAR)>mEventDate.get(Calendar.YEAR)||mToday.get(Calendar.MONTH)>mEventDate.get(Calendar.MONTH)||mToday.get(Calendar.DAY_OF_MONTH)>mEventDate.get(Calendar.DAY_OF_MONTH)){
+					if(mToday.get(Calendar.YEAR)>mEventDate.get(Calendar.YEAR)||
+							(mToday.get(Calendar.YEAR)==mEventDate.get(Calendar.YEAR)&&mToday.get(Calendar.MONTH)>mEventDate.get(Calendar.MONTH))||
+							(mToday.get(Calendar.YEAR)==mEventDate.get(Calendar.YEAR)&&mToday.get(Calendar.MONTH)==mEventDate.get(Calendar.MONTH)&&mToday.get(Calendar.DAY_OF_MONTH)>mEventDate.get(Calendar.DAY_OF_MONTH))){
 						CursorAdapterData mCursorAdapterData=new CursorAdapterData(rowId,titleString, dateString);
 						mCursorAdapterData.setOverdue(true);
 						overDueList.add(mCursorAdapterData);
