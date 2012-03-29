@@ -250,9 +250,9 @@ public class EventListActivity extends ListActivity {
     /**
      * getting Gtask list
      */
-    private void syncAccount(){    	
+    private void syncAccount() {     	
     	Intent intent=new Intent(this, GtaskListActivity.class);
-    	startActivityForResult(intent, ACTIVITY_CREATE);
+    	startActivityForResult(intent, ACTIVITY_CREATE);    	
     }
     
     /**
