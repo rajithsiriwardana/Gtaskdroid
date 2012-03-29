@@ -820,6 +820,9 @@ public class EventEditActivity extends Activity {
 	 * @param e
 	 */
 	void handleException(Exception e) {
+		if(myProgressDialog!=null){
+			dismissProgressDialog();
+		}
 		boolean accountCollected=false;
 		e.printStackTrace();
 		if (e instanceof HttpResponseException) {
@@ -883,11 +886,23 @@ public class EventEditActivity extends Activity {
 			gotAccount(account);			
 			return;
 		}
-		if(myProgressDialog!=null){
-			myProgressDialog.dismiss();
-		}
+		dismissProgressDialog();
 		showDialog(DIALOG_ACCOUNTS);
 		
+	}
+
+
+	/**
+	 * 
+	 */
+	private void dismissProgressDialog() {
+		if(myProgressDialog!=null){			
+				EventEditActivity.this.runOnUiThread(new Runnable() {
+				    public void run() {				    	
+				    	myProgressDialog.dismiss();						
+				    }
+				});			
+		}
 	}
 	
 	
@@ -900,6 +915,9 @@ public class EventEditActivity extends Activity {
 	private final class Manager implements AccountManagerCallback<Bundle> {
 		
 		public void run(final AccountManagerFuture<Bundle> future) {
+			
+			dismissProgressDialog();	
+			
 			 myProgressDialog = null;
 			 myProgressDialog = ProgressDialog.show(EventEditActivity.this,
                    null , "Connecting Account Gtasks...", true);
@@ -947,7 +965,9 @@ public class EventEditActivity extends Activity {
 			} catch (final Exception e) {
 				EventEditActivity.this.runOnUiThread(new Runnable() {
 				    public void run() {
-				    	
+				    	if(myProgressDialog!=null){
+				    	myProgressDialog.dismiss();
+				    	}
 				    	handleException(e);
 						
 				    }

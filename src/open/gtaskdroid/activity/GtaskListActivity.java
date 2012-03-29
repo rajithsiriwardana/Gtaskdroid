@@ -188,8 +188,8 @@ public class GtaskListActivity extends ListActivity {
 			update();
 			return;
 		}
-		if(myProgressDialog!=null){
-		myProgressDialog.dismiss();
+		if(myProgressDialog!=null){			
+			dismissProgressDialog();
 		}
 		showDialog(DIALOG_ACCOUNTS);
 		
@@ -220,12 +220,24 @@ public class GtaskListActivity extends ListActivity {
 				gotAccount(false);				
 			} else {
 				if(myProgressDialog!=null){
-				myProgressDialog.dismiss();
+					dismissProgressDialog();
 				}
 				showDialog(DIALOG_ACCOUNTS);
 			}
 			break;
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private void dismissProgressDialog() {
+		GtaskListActivity.this.runOnUiThread(new Runnable() {
+		    public void run() {					    	
+		    	myProgressDialog.dismiss();
+				
+		    }
+		});
 	}
 
 	/**
@@ -261,6 +273,11 @@ public class GtaskListActivity extends ListActivity {
 	 * @param e
 	 */
 	void handleException(Exception e) {
+		
+		if(myProgressDialog!=null){
+			dismissProgressDialog();
+		}
+		
 		boolean accountCollected=false;
 		e.printStackTrace();
 		if (e instanceof HttpResponseException) {
@@ -385,6 +402,10 @@ public class GtaskListActivity extends ListActivity {
 	private final class Manager implements AccountManagerCallback<Bundle> {
 		
 		public void run(final AccountManagerFuture<Bundle> future) {
+			
+			if(myProgressDialog!=null){
+				dismissProgressDialog();
+			}
 			 myProgressDialog = null;
 			 myProgressDialog = ProgressDialog.show(GtaskListActivity.this,
                    null , "Connecting Account Gtasks...", true);
@@ -432,7 +453,9 @@ public class GtaskListActivity extends ListActivity {
 			} catch (final Exception e) {
 				GtaskListActivity.this.runOnUiThread(new Runnable() {
 				    public void run() {
-				    	
+				    	if(myProgressDialog!=null){
+				    	myProgressDialog.dismiss();
+				    	}
 				    	handleException(e);
 						
 				    }
@@ -445,8 +468,5 @@ public class GtaskListActivity extends ListActivity {
 		
 		}
 	
-	
-	
-
-	
+		
 }

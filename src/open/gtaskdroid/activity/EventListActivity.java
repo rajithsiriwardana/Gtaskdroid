@@ -49,7 +49,8 @@ public class EventListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_list);        
-        
+      
+       
         mDbHelper=new EventsDbAdapter(this);
         mDbHelper.open();
         removeOutDatedEvents();
